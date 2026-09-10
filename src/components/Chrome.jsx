@@ -1,9 +1,9 @@
 import React from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { useStore } from '../lib/store.jsx'
 import { DUCKS } from '../data/event.js'
-import { Duck, IconTrail, IconCards, IconCamera, IconTrophy, IconCrew } from './Icons.jsx'
+import { Duck, IconTrail, IconCards, IconTrophy, IconCrew } from './Icons.jsx'
 
 export function TopBar() {
   const { team, totals, stops, nextStop } = useStore()
@@ -29,41 +29,29 @@ export function TopBar() {
   )
 }
 
+/* Four tabs, nothing raised, nothing pulsing. The camera button that
+   used to sit in the middle promised a camera the app no longer has. */
 const TABS = [
   { to: '/stops', label: 'Stops', Icon: IconCards },
   { to: '/trail', label: 'Map', Icon: IconTrail },
-  { cta: true },
   { to: '/rank', label: 'Rank', Icon: IconTrophy },
   { to: '/crew', label: 'Crew', Icon: IconCrew }
 ]
 
 export function TabBar() {
-  const nav = useNavigate()
-  const { nextStop } = useStore()
   return (
     <nav className="tabbar" aria-label="Primary">
-      {TABS.map((t, i) =>
-        t.cta ? (
-          <button
-            key="cta"
-            className="tab tab-cta"
-            aria-label={nextStop ? `Log stop ${nextStop.order}` : 'All stops logged'}
-            onClick={() => nav(nextStop ? `/stop/${nextStop.id}?log=1` : '/stops')}
-          >
-            <span className={`cta-ring${nextStop ? ' pulse' : ''}`}><IconCamera size={26} /></span>
-          </button>
-        ) : (
-          <NavLink key={t.to} to={t.to} className="tab">
-            {({ isActive }) => (
-              <>
-                {isActive && <motion.span layoutId="tabdot" className="tab-dot" transition={{ type: 'spring', stiffness: 520, damping: 34 }} />}
-                <t.Icon />
-                <span>{t.label}</span>
-              </>
-            )}
-          </NavLink>
-        )
-      )}
+      {TABS.map((t) => (
+        <NavLink key={t.to} to={t.to} className="tab">
+          {({ isActive }) => (
+            <>
+              {isActive && <motion.span layoutId="tabdot" className="tab-dot" transition={{ type: 'spring', stiffness: 520, damping: 34 }} />}
+              <t.Icon />
+              <span>{t.label}</span>
+            </>
+          )}
+        </NavLink>
+      ))}
     </nav>
   )
 }

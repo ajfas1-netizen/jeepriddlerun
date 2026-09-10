@@ -92,23 +92,16 @@ img{display:block;max-width:100%}
 
 /* ---------- tab bar ---------- */
 .tabbar{
-  position:relative;z-index:8;display:grid;grid-template-columns:repeat(5,1fr);align-items:end;
-  padding:8px 10px calc(var(--sab) + 8px);
-  background:rgba(8,23,11,.86);backdrop-filter:blur(20px) saturate(1.2);
+  position:relative;z-index:8;display:grid;grid-template-columns:repeat(4,1fr);align-items:center;
+  padding:6px 10px calc(var(--sab) + 8px);
+  background:rgba(8,23,11,.88);backdrop-filter:blur(20px) saturate(1.2);
   border-top:1px solid var(--line);
 }
-.tab{display:flex;flex-direction:column;align-items:center;gap:4px;padding:8px 2px 6px;color:var(--steel);
+.tab{display:flex;flex-direction:column;align-items:center;gap:5px;padding:10px 2px 8px;color:var(--steel);
   transition:color .18s ease;position:relative}
 .tab[aria-current="page"]{color:var(--bone)}
 .tab span{font-family:var(--font-cond);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase}
 .tab-dot{position:absolute;top:0;width:22px;height:3px;border-radius:2px;background:var(--duck)}
-.tab-cta{align-self:center;transform:translateY(-16px)}
-.cta-ring{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;
-  background:linear-gradient(160deg,var(--rust),#B23C12);
-  box-shadow:0 12px 26px -8px rgba(226,87,31,.75), inset 0 0 0 3px rgba(8,23,11,.9);}
-.cta-ring.pulse{animation:pulse 2.4s var(--ease) infinite}
-@keyframes pulse{0%,100%{box-shadow:0 12px 26px -8px rgba(226,87,31,.75),inset 0 0 0 3px rgba(8,23,11,.9),0 0 0 0 rgba(226,87,31,.5)}
- 50%{box-shadow:0 12px 26px -8px rgba(226,87,31,.75),inset 0 0 0 3px rgba(8,23,11,.9),0 0 0 14px rgba(226,87,31,0)}}
 
 /* ---------- shared bits ---------- */
 .eyebrow{font-family:var(--font-cond);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--steel)}

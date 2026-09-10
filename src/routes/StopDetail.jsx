@@ -60,17 +60,9 @@ export default function StopDetail() {
   return (
     <Sheet onClose={() => nav(-1)} label={`Stop ${stop.order}`}
       title={stop.isRally ? 'Rally point' : `Stop ${stop.order} of ${stops.length}`} footer={
-      <>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-          <a className="btn btn-ghost" href={mapsUrl(stop)} target="_blank" rel="noreferrer"><IconNav size={16} /> Navigate</a>
-          <button className="btn btn-primary" disabled={busy} onClick={() => photoRef.current?.click()}>
-            <IconCamera size={18} /> {c.photo ? 'Change photo' : 'Add photo'}
-          </button>
-        </div>
-        <button className="btn btn-duck" onClick={copyCaption}>
-          <IconShare size={16} /> Copy the caption
-        </button>
-      </>
+      <button className="btn btn-duck" onClick={copyCaption}>
+        <IconShare size={16} /> Copy the caption
+      </button>
     }>
       <input ref={photoRef} type="file" accept="image/*" hidden onChange={(e) => shoot(e, 'photo')} />
       <input ref={receiptRef} type="file" accept="image/*" capture="environment" hidden onChange={(e) => shoot(e, 'receipt')} />
@@ -82,6 +74,9 @@ export default function StopDetail() {
           </h2>
           <div className="eyebrow" style={{ marginTop: 6 }}>{stop.address}</div>
           <div className="eyebrow">{stop.city}, {stop.state} {stop.zip}</div>
+          <a className="chip" style={{ marginTop: 11 }} href={mapsUrl(stop)} target="_blank" rel="noreferrer">
+            <IconNav size={13} /> Open in Maps
+          </a>
         </div>
         <div className="pts" style={{ textAlign: 'right' }}>{earned}<small>of {maxPerStop()}+</small></div>
       </div>
@@ -206,12 +201,12 @@ export default function StopDetail() {
       <div className="eyebrow" style={{ margin: '22px 0 8px' }}>Your caption, already written</div>
       <div className="card" style={{ padding: 16 }}>
         <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.55, color: 'rgba(244,240,228,.92)' }}>{caption}</pre>
-        <div style={{ display: 'grid', gap: 8, marginTop: 14 }}>
-          <button className="btn btn-duck" onClick={copyCaption}>Copy the caption</button>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-            <button className="btn btn-ghost" onClick={() => openApp('instagram')}>Instagram</button>
-            <button className="btn btn-ghost" onClick={() => openApp('facebook')}>Facebook</button>
-          </div>
+        <p style={{ margin: '12px 0 10px', fontSize: 13, lineHeight: 1.5, color: 'var(--steel)' }}>
+          Copy it below, then open one of these and paste.
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+          <button className="btn btn-ghost" onClick={() => openApp('instagram')}>Instagram</button>
+          <button className="btn btn-ghost" onClick={() => openApp('facebook')}>Facebook</button>
         </div>
       </div>
       <div style={{ height: 10 }} />
