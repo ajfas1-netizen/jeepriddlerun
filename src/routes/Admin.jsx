@@ -71,7 +71,7 @@ export default function Admin() {
             ))}
           </div>
 
-          <div style={{ position: 'relative', height: 320, borderRadius: 18, overflow: 'hidden', border: '1px solid var(--line-2)' }}>
+          <div style={{ position: 'relative', zIndex: 0, isolation: 'isolate', height: 320, borderRadius: 18, overflow: 'hidden', border: '1px solid var(--line-2)' }}>
             <MapView
               stops={stops}
               activeId={target?.id}
