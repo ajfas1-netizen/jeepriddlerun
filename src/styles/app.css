@@ -154,7 +154,12 @@ img{display:block;max-width:100%}
 
 /* ---------- map ---------- */
 .mapwrap{position:absolute;inset:0}
-.leaflet-container{width:100%;height:100%;background:#0B1410;font-family:var(--font-body)}
+.mapwrap.leaflet-container,.leaflet-container{width:100%;height:100%;font-family:var(--font-body);
+  background-color:#0B1410;
+  background-image:
+    radial-gradient(120% 90% at 50% 0%, rgba(10,82,32,.35), transparent 60%),
+    repeating-linear-gradient(0deg, rgba(244,240,228,.045) 0 1px, transparent 1px 46px),
+    repeating-linear-gradient(90deg, rgba(244,240,228,.045) 0 1px, transparent 1px 46px)}
 .leaflet-control-attribution{background:rgba(8,23,11,.7)!important;color:#8A9686!important;font-size:9px!important}
 .leaflet-control-attribution a{color:#B8C4B4!important}
 .pin{display:grid;place-items:center;width:38px;height:38px;border-radius:50% 50% 50% 6px;

@@ -32,6 +32,14 @@ export default function MapView({ stops, onPick, onMapTap, activeId }) {
     if (!m || !lg) return
     lg.clearLayers()
     const placed = stops.filter((s) => s.lat != null && s.lng != null)
+
+    // Suggested route drawn in stop order. It also means the map still
+    // reads as a trail if the tile server is slow or unreachable.
+    if (placed.length > 1) {
+      const path = [...placed].sort((a, b) => a.order - b.order).map((s) => [s.lat, s.lng])
+      L.polyline(path, { color: '#E2571F', weight: 3, opacity: 0.5, dashArray: '9 9' }).addTo(lg)
+    }
+
     placed.forEach((s) => {
       const state = s.checkin?.photo ? 'done' : s.isRally ? 'rally' : ''
       const icon = L.divIcon({
