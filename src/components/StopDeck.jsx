@@ -45,10 +45,10 @@ export default function StopDeck({ stops, bonus, initialIndex = 0 }) {
                     : <span className="chip">{bonus ? 'Clue ready' : <><IconLock size={13} /> Locked</>}</span>}
               </div>
               <div className="eyebrow" style={{ marginTop: 10 }}>{s.city}, {s.state}</div>
-              <div style={{ fontFamily: 'var(--font-cond)', fontWeight: 700, fontSize: 19, letterSpacing: '.02em', marginTop: 2, lineHeight: 1.1 }}>
+              <div style={{ fontFamily: 'var(--display)', fontWeight: 700, fontSize: 19, letterSpacing: '.02em', marginTop: 2, lineHeight: 1.1 }}>
                 {s.sponsor || s.address}
               </div>
-              <div style={{ fontSize: 12.5, color: 'var(--steel)', marginTop: 3 }}>{s.address}</div>
+              <div style={{ fontSize: 12.5, color: 'var(--muted)', marginTop: 3 }}>{s.address}</div>
               <div style={{ margin: '14px 0 12px' }}><Grille /></div>
               <p className="riddle" style={{ margin: 0, flex: 1, display: '-webkit-box', WebkitLineClamp: 6, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                 {s.riddle}

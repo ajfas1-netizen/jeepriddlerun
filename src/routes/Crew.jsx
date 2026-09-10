@@ -24,8 +24,8 @@ export default function Crew() {
               <Grille n={7} />
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginTop: 14 }}>
-              <div className="crew-duck" style={{ width: 56, height: 56, borderRadius: 16 }}>
-                <Duck body={duck.body} bill={duck.bill} size={36} />
+              <div className="crew-duck" style={{ width: 42, height: 42 }}>
+                <Duck body={duck.body} bill={duck.bill} size={26} />
               </div>
               <div style={{ minWidth: 0 }}>
                 <div className="crew-name" style={{ fontSize: 25 }}>{team?.name}</div>
@@ -34,7 +34,7 @@ export default function Crew() {
             </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10, marginTop: 18 }}>
               {[['Stops', `${totals.stops}/${stops.length}`], ['Spent', `$${totals.spend}`], ['Points', totals.total]].map(([k, val]) => (
-                <div key={k} style={{ padding: '12px 10px', borderRadius: 14, background: 'rgba(8,23,11,.45)', border: '1px solid var(--line)' }}>
+                <div key={k} style={{ padding: '12px 10px', borderRadius: 14, background: 'rgba(11,14,10,.45)', border: '1px solid var(--line)' }}>
                   <div className="lb-pts" style={{ fontSize: 22 }}>{val}</div>
                   <div className="eyebrow" style={{ fontSize: 10 }}>{k}</div>
                 </div>
@@ -43,7 +43,7 @@ export default function Crew() {
             {team?.code && (
               <div style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
                 <span className="chip warn">Team code {team.code}</span>
-                <span style={{ fontSize: 12.5, color: 'var(--steel)' }}>Second phone in the rig? Enter this at kickoff.</span>
+                <span style={{ fontSize: 12.5, color: 'var(--muted)' }}>Second phone in the rig? Enter this at kickoff.</span>
               </div>
             )}
           </div>
@@ -85,7 +85,7 @@ export default function Crew() {
             <div key={s.name} className="sponsor"><b>{s.name}</b><span>{s.tier}</span></div>
           ))}
         </div>
-        <p style={{ color: 'var(--steel)', fontSize: 13, lineHeight: 1.55, marginTop: 14 }}>
+        <p style={{ color: 'var(--muted)', fontSize: 13, lineHeight: 1.55, marginTop: 14 }}>
           Spend a dollar at every one of them. That is the whole point of the day.
         </p>
 
@@ -96,7 +96,7 @@ export default function Crew() {
             Leave rig
           </button>
         </div>
-        <p style={{ color: 'var(--steel)', fontSize: 11.5, textAlign: 'center', marginTop: 16 }}>
+        <p style={{ color: 'var(--muted)', fontSize: 11.5, textAlign: 'center', marginTop: 16 }}>
           {EVENT.org} · {EVENT.hashtag}
         </p>
       </div>

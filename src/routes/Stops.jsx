@@ -19,7 +19,7 @@ export default function Stops() {
           <button data-on={view === 'list'} onClick={() => setView('list')}>List</button>
         </div>
         <button className="seg" style={{ padding: '0 16px', alignItems: 'center' }} onClick={() => nav('/trail')}>
-          <span style={{ fontFamily: 'var(--font-cond)', fontSize: 11.5, letterSpacing: '.13em', textTransform: 'uppercase', color: 'var(--steel)' }}>
+          <span style={{ fontFamily: 'var(--display)', fontSize: 11.5, letterSpacing: '.13em', textTransform: 'uppercase', color: 'var(--muted)' }}>
             Map
           </span>
         </button>

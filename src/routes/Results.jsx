@@ -86,7 +86,7 @@ export default function Results() {
             .map(([k, l]) => <button key={k} data-on={tab === k} onClick={() => setTab(k)}>{l}</button>)}
         </div>
 
-        {loading && <p style={{ color: 'var(--steel)' }}>Loading…</p>}
+        {loading && <p style={{ color: 'var(--muted)' }}>Loading…</p>}
 
         {!loading && tab === 'standings' && (
           <table className="rc-table">
@@ -102,10 +102,10 @@ export default function Results() {
                 const duck = DUCKS.find((d) => d.id === r.duckId) || DUCKS[0]
                 return (
                   <tr key={r.id} className={i === 0 ? 'top' : ''}>
-                    <td><span className="rc-big" style={{ color: i === 0 ? 'var(--duck)' : 'var(--steel)' }}>{i + 1}</span></td>
+                    <td><span className="rc-big" style={{ color: i === 0 ? 'var(--brass)' : 'var(--muted)' }}>{i + 1}</span></td>
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                        <Duck body={duck.body} bill={duck.bill} size={30} />
+                        <Duck body={duck.body} bill={duck.bill} size={22} />
                         <span className="rc-team">{r.name}</span>
                       </div>
                     </td>
@@ -149,7 +149,7 @@ export default function Results() {
                 )
               })}
             </div>
-          ) : <p style={{ color: 'var(--steel)' }}>No photos submitted yet.</p>
+          ) : <p style={{ color: 'var(--muted)' }}>No photos submitted yet.</p>
         )}
 
         {!loading && tab === 'verify' && (
@@ -170,12 +170,12 @@ export default function Results() {
                 })}
               </tbody>
             </table>
-          ) : <p style={{ color: 'var(--steel)' }}>Every logged dollar has a receipt attached. Nothing to chase.</p>
+          ) : <p style={{ color: 'var(--muted)' }}>Every logged dollar has a receipt attached. Nothing to chase.</p>
         )}
 
         <footer style={{ marginTop: 46, paddingTop: 20, borderTop: '1px solid var(--line)' }}>
           <div className="eyebrow" style={{ marginBottom: 10 }}>{SPONSORS.length} sponsors made this possible</div>
-          <p style={{ color: 'var(--steel)', fontSize: 13.5, lineHeight: 1.6, margin: 0 }}>
+          <p style={{ color: 'var(--muted)', fontSize: 13.5, lineHeight: 1.6, margin: 0 }}>
             {SPONSORS.map((s) => s.name).join(' · ')}
           </p>
         </footer>

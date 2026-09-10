@@ -26,9 +26,9 @@ export default function Rank() {
       </div>
 
       <div className="page-body pad" style={{ paddingBottom: 18 }}>
-        <div className="card" style={{ padding: 14, marginBottom: 14, borderColor: 'rgba(255,198,39,.3)', background: 'rgba(255,198,39,.07)' }}>
-          <div className="eyebrow" style={{ color: 'var(--duck)' }}>This is not a race</div>
-          <p style={{ margin: '6px 0 0', fontSize: 13.5, lineHeight: 1.55, color: 'rgba(244,240,228,.86)' }}>
+        <div className="card" style={{ padding: 14, marginBottom: 14, borderColor: 'rgba(201,162,39,.3)', background: 'rgba(201,162,39,.07)' }}>
+          <div className="eyebrow" style={{ color: 'var(--brass)' }}>This is not a race</div>
+          <p style={{ margin: '6px 0 0', fontSize: 13.5, lineHeight: 1.55, color: 'rgba(236,234,226,.86)' }}>
             Nothing on this board rewards finishing early. Points come from your tags and the dollars you spend at our
             sponsors. Driving faster earns you exactly zero.
           </p>
@@ -42,7 +42,7 @@ export default function Rank() {
               transition={{ type: 'spring', stiffness: 400, damping: 38 }}>
               <div className="lb-rank">{i + 1}</div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, minWidth: 0 }}>
-                <Duck body={duck.body} bill={duck.bill} size={26} />
+                <Duck body={duck.body} bill={duck.bill} size={20} />
                 <div style={{ minWidth: 0 }}>
                   <div className="lb-name">{r.name}{mine ? ' · you' : ''}</div>
                   <div className="lb-meta">{r.stops} stops · ${r.spend} spent · {r.tags} tag points</div>

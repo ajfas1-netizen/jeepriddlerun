@@ -41,14 +41,14 @@ export const SCORE_ITEMS = [
 ]
 
 export const DUCKS = [
-  { id: 'classic',  name: 'Classic',   body: '#FFC627', bill: '#E2571F' },
-  { id: 'camo',     name: 'Camo',      body: '#7C8B5A', bill: '#3F4A2C' },
-  { id: 'rubicon',  name: 'Rubicon',   body: '#E2571F', bill: '#FFC627' },
-  { id: 'sarge',    name: 'Sarge',     body: '#5B7553', bill: '#D8C9A6' },
-  { id: 'hydro',    name: 'Hydro',     body: '#4FA8C7', bill: '#F4F0E4' },
-  { id: 'firecrkr', name: 'Firecracker', body: '#C7303A', bill: '#F4F0E4' },
-  { id: 'bikini',   name: 'Bikini',    body: '#5FC9B0', bill: '#FFC627' },
-  { id: 'nacho',    name: 'Nacho',     body: '#F4F0E4', bill: '#E2571F' }
+  { id: 'classic',  name: 'Classic',     body: '#C9A227', bill: '#8A6F1B' },
+  { id: 'camo',     name: 'Camo',        body: '#6E7A55', bill: '#3D452C' },
+  { id: 'rubicon',  name: 'Rubicon',     body: '#B4501E', bill: '#7A3413' },
+  { id: 'sarge',    name: 'Sarge',       body: '#54684E', bill: '#9A9384' },
+  { id: 'hydro',    name: 'Hydro',       body: '#3E7F98', bill: '#255264' },
+  { id: 'firecrkr', name: 'Firecracker', body: '#A03038', bill: '#6B1D22' },
+  { id: 'bikini',   name: 'Bikini',      body: '#4E9E8B', bill: '#2E6356' },
+  { id: 'nacho',    name: 'Bone',        body: '#D9D5C8', bill: '#9A9384' }
 ]
 
 export const RIG_COLORS = [

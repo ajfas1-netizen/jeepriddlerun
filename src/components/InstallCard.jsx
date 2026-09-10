@@ -90,7 +90,7 @@ export default function InstallCard({ compact = false }) {
       </div>
 
       {deferred ? (
-        <button className="btn btn-duck" style={{ marginTop: 13 }} onClick={install}>Add to home screen</button>
+        <button className="btn btn-primary" style={{ marginTop: 13 }} onClick={install}>Add to home screen</button>
       ) : (
         <ol className="install-steps">
           {steps.map(({ Icon, text }, i) => (

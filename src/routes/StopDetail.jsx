@@ -59,7 +59,7 @@ export default function StopDetail() {
   return (
     <Sheet onClose={() => nav(-1)} label={`Stop ${stop.order}`}
       title={stop.isRally ? 'Rally point' : `Stop ${stop.order} of ${stops.length}`} footer={
-      <button className="btn btn-duck" onClick={copyCaption}>
+      <button className="btn btn-primary" onClick={copyCaption}>
         <IconShare size={16} /> Copy the caption
       </button>
     }>
@@ -93,15 +93,15 @@ export default function StopDetail() {
         {!bonus ? (
           <div className="vault-locked">
             <IconLock size={26} />
-            <div style={{ fontFamily: 'var(--font-cond)', fontSize: 15, letterSpacing: '.06em', textTransform: 'uppercase' }}>
+            <div style={{ fontFamily: 'var(--display)', fontSize: 15, letterSpacing: '.06em', textTransform: 'uppercase' }}>
               Locked
             </div>
-            <p style={{ color: 'var(--steel)', fontSize: 13.5, margin: 0, maxWidth: 260, lineHeight: 1.5 }}>
+            <p style={{ color: 'var(--muted)', fontSize: 13.5, margin: 0, maxWidth: 260, lineHeight: 1.5 }}>
               Donors at the bonus tier get a code at kickoff. One code unlocks every clue for the whole day.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 8, width: '100%', maxWidth: 280 }}>
               <input className="field" placeholder="CODE" value={code} onChange={(e) => setCode(e.target.value.toUpperCase())} />
-              <button className="btn btn-duck" style={{ width: 'auto', padding: '0 20px' }}
+              <button className="btn btn-primary" style={{ width: 'auto', padding: '0 20px' }}
                 onClick={async () => { const ok = await tryBonusCode(code); if (!ok) say('That code is not right') }}>
                 Unlock
               </button>
@@ -114,7 +114,7 @@ export default function StopDetail() {
         ) : (
           <div className="vault-locked">
             <div className="chip warn">Clue art pending</div>
-            <p style={{ color: 'var(--steel)', fontSize: 13.5, margin: 0, maxWidth: 260, lineHeight: 1.5 }}>
+            <p style={{ color: 'var(--muted)', fontSize: 13.5, margin: 0, maxWidth: 260, lineHeight: 1.5 }}>
               This stop has no bonus image loaded yet. Drop it in public/clues and set the clue path on the stop.
             </p>
           </div>
@@ -161,8 +161,8 @@ export default function StopDetail() {
               style={{
                 display: 'grid', gridTemplateColumns: '24px 1fr auto', gap: 12, alignItems: 'center', textAlign: 'left',
                 padding: '12px 14px', borderRadius: 14,
-                background: on ? 'rgba(74,222,128,.12)' : 'rgba(244,240,228,.045)',
-                border: `1px solid ${on ? 'rgba(74,222,128,.36)' : 'var(--line)'}`
+                background: on ? 'rgba(94,162,113,.12)' : 'rgba(236,234,226,.045)',
+                border: `1px solid ${on ? 'rgba(94,162,113,.36)' : 'var(--line)'}`
               }}>
               <span style={{
                 width: 24, height: 24, borderRadius: 8, display: 'grid', placeItems: 'center',
@@ -170,8 +170,8 @@ export default function StopDetail() {
                 border: on ? 'none' : '1px solid var(--line-2)'
               }}>{on && <IconCheck size={14} />}</span>
               <span>
-                <span style={{ fontFamily: 'var(--font-cond)', fontWeight: 600, fontSize: 15.5, letterSpacing: '.02em', display: 'block' }}>{item.label}</span>
-                <span style={{ fontSize: 12.5, color: 'var(--steel)' }}>{item.hint}</span>
+                <span style={{ fontFamily: 'var(--display)', fontWeight: 600, fontSize: 15.5, letterSpacing: '.02em', display: 'block' }}>{item.label}</span>
+                <span style={{ fontSize: 12.5, color: 'var(--muted)' }}>{item.hint}</span>
               </span>
               <span className="lb-pts" style={{ fontSize: 16 }}>+{EVENT.scoring[item.key]}</span>
             </button>
@@ -182,7 +182,7 @@ export default function StopDetail() {
       {/* ---- spend ---- */}
       <div className="eyebrow" style={{ margin: '22px 0 8px' }}>Money spent here</div>
       <div className="card" style={{ padding: 16 }}>
-        <p style={{ color: 'var(--steel)', fontSize: 13.5, margin: '0 0 12px', lineHeight: 1.5 }}>
+        <p style={{ color: 'var(--muted)', fontSize: 13.5, margin: '0 0 12px', lineHeight: 1.5 }}>
           Every dollar you spend at this stop is a point. Snap the receipt so the closing ceremony check takes seconds.
         </p>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 8 }}>
@@ -205,7 +205,7 @@ export default function StopDetail() {
           <li><span>Paste it with the photo you took.</span></li>
         </ol>
         <div className="eyebrow" style={{ margin: '16px 0 8px' }}>Your caption, already written</div>
-        <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.55, color: 'rgba(244,240,228,.92)' }}>{caption}</pre>
+        <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontFamily: 'var(--ui)', fontSize: 14, lineHeight: 1.55, color: 'rgba(236,234,226,.92)' }}>{caption}</pre>
       </div>
       <div style={{ height: 10 }} />
       {sp.get('log') && <span className="sr">Logging mode</span>}

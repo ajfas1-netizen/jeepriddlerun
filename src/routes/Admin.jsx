@@ -44,7 +44,7 @@ export default function Admin() {
         <>
           <div className="card" style={{ padding: 14, marginBottom: 14 }}>
             <div className="eyebrow">{placed} of {stops.length} pinned</div>
-            <p style={{ margin: '6px 0 0', fontSize: 13.5, lineHeight: 1.55, color: 'var(--steel)' }}>
+            <p style={{ margin: '6px 0 0', fontSize: 13.5, lineHeight: 1.55, color: 'var(--muted)' }}>
               Pick a stop, then tap its real front door on the map. Navigation already works without pins, so this is
               about the map looking right, not about the route working.
             </p>
@@ -56,8 +56,8 @@ export default function Admin() {
                 style={{
                   display: 'grid', gridTemplateColumns: '28px 1fr auto', gap: 10, alignItems: 'center', textAlign: 'left',
                   padding: '10px 12px', borderRadius: 12,
-                  background: target?.id === s.id ? 'rgba(255,198,39,.14)' : 'rgba(244,240,228,.04)',
-                  border: `1px solid ${target?.id === s.id ? 'rgba(255,198,39,.45)' : 'var(--line)'}`
+                  background: target?.id === s.id ? 'rgba(201,162,39,.14)' : 'rgba(236,234,226,.04)',
+                  border: `1px solid ${target?.id === s.id ? 'rgba(201,162,39,.45)' : 'var(--line)'}`
                 }}>
                 <span className="lb-rank" style={{ fontSize: 15 }}>{s.order}</span>
                 <span style={{ minWidth: 0 }}>
@@ -78,13 +78,13 @@ export default function Admin() {
               onMapTap={(lat, lng) => { if (target) { dropPin(target.id, lat, lng); setTarget(null) } }}
             />
             {!target && (
-              <div style={{ position: 'absolute', inset: 0, display: 'grid', placeItems: 'center', zIndex: 500, background: 'rgba(8,23,11,.55)', pointerEvents: 'none' }}>
+              <div style={{ position: 'absolute', inset: 0, display: 'grid', placeItems: 'center', zIndex: 500, background: 'rgba(11,14,10,.55)', pointerEvents: 'none' }}>
                 <div className="chip"><IconTarget size={13} /> Pick a stop above, then tap the map</div>
               </div>
             )}
           </div>
           {target && (
-            <p style={{ color: 'var(--duck)', fontSize: 13, marginTop: 10 }}>
+            <p style={{ color: 'var(--brass)', fontSize: 13, marginTop: 10 }}>
               Tap the map to pin stop {target.order}. {fullAddress(target)}
             </p>
           )}
@@ -92,7 +92,7 @@ export default function Admin() {
       ) : tab === 'check' ? (
         <>
           <div className="card" style={{ padding: 14, marginBottom: 14 }}>
-            <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.55, color: 'var(--steel)' }}>
+            <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.55, color: 'var(--muted)' }}>
               Everything that still wants a human eye before anything is printed. Nothing here blocks the event.
             </p>
           </div>
@@ -104,7 +104,7 @@ export default function Admin() {
                 {s.lat == null && <span className="chip warn">No pin</span>}
               </div>
               {s.verify && (
-                <p style={{ margin: '10px 0 0', fontSize: 13, lineHeight: 1.5, color: 'rgba(244,240,228,.86)' }}>{s.verify}</p>
+                <p style={{ margin: '10px 0 0', fontSize: 13, lineHeight: 1.5, color: 'rgba(236,234,226,.86)' }}>{s.verify}</p>
               )}
             </div>
           ))}
@@ -112,7 +112,7 @@ export default function Admin() {
       ) : (
         <>
           <div className="card" style={{ padding: 14, marginBottom: 14 }}>
-            <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.55, color: 'var(--steel)' }}>
+            <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.55, color: 'var(--muted)' }}>
               Standings are fully automatic. Nothing here waits on a judge. Receipts are the only manual step, verified
               at the closing ceremony against the dollar amounts each team logged.
             </p>
