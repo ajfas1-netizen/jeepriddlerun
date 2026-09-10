@@ -149,9 +149,14 @@ export default function StopDetail() {
             <span>Found it</span>
             <small>Opens the camera. Duck in frame.</small>
           </button>
-          <button className="btn btn-ghost" style={{ marginTop: 8 }} disabled={busy} onClick={() => libraryRef.current?.click()}>
-            Already shot it? Pick from your photos
-          </button>
+          <div className="card" style={{ padding: 15, marginTop: 10 }}>
+            <p style={{ margin: '0 0 11px', fontSize: 13.5, lineHeight: 1.55, color: 'var(--steel)' }}>
+              Rather use your own Camera app? Shoot it there so it saves to your photos, then come back and add it.
+            </p>
+            <button className="btn btn-ghost" disabled={busy} onClick={() => libraryRef.current?.click()}>
+              Add it from my photos
+            </button>
+          </div>
         </>
       )}
 
