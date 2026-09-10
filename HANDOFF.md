@@ -49,14 +49,20 @@ which is the right way to develop.
 
 These are blank on purpose. Do not invent values for them.
 
+The app ships loaded with the full 2025 route, so it demos as a finished
+product. These are swaps, not builds.
+
 | Item | Where it goes | Why it matters |
 | --- | --- | --- |
-| 2026 stops, addresses, riddles | `src/data/stops.js` | The 2025 set is seeded so the app could be built |
-| Sponsor name per stop | `src/data/stops.js` → `sponsor` | Shown after arrival |
-| Instagram handle per stop | `src/data/stops.js` → `igHandle` | Without it the caption assist falls back to the street address, and the location tag points are the whole reason the feature exists |
-| Bonus clue art for stops 9 to 15 | `public/clues/` + `clue` field | Stops 1 to 8 were extracted from the 2025 PDF, 9 to 15 were blank placeholders in that file |
-| Event date, roll-out time, bonus code | `src/data/event.js` | Currently placeholder strings |
-| Stop coordinates | Crew → Organizer tools → Pin drop | Navigation already works without them |
+| 2026 stops, addresses, riddles | `src/data/stops.js` | The 2025 set is seeded so the app could be built and shown |
+| Three Instagram handles | `src/data/stops.js` → `igHandle` | Twinkles and Wallace had none found, Sunrise Surf Shop is ambiguous. The caption falls back to the street address without them |
+| Real photo clues for stops 9 to 15 | `public/clues/` | Those tiles were blank in the 2025 PDF, so they are drawn placeholders |
+| Event date, roll-out time, bonus code | `src/data/event.js` | Blank date makes the join screen show the rally point instead |
+| One pin, stop 3 | Crew → Organizer tools → Pin drop | O'Donnell has no published coordinate |
+
+Run **Organizer tools → Data check** in the app for the live version of
+this list. Do not invent an Instagram handle or a coordinate to clear an
+item off it.
 
 ## First things worth building next
 

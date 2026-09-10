@@ -35,8 +35,9 @@ export default function Admin() {
       <div className="eyebrow">Organizer tools</div>
       <h2 className="h1" style={{ fontSize: 28, marginTop: 4 }}>Run the day</h2>
 
-      <div className="seg" style={{ gridTemplateColumns: '1fr 1fr', margin: '18px 0 16px' }}>
+      <div className="seg" style={{ gridTemplateColumns: 'repeat(3,1fr)', margin: '18px 0 16px' }}>
         <button data-on={tab === 'pins'} onClick={() => setTab('pins')}>Pin drop</button>
+        <button data-on={tab === 'check'} onClick={() => setTab('check')}>Data check</button>
         <button data-on={tab === 'score'} onClick={() => setTab('score')}>Standings</button>
       </div>
 
@@ -88,6 +89,26 @@ export default function Admin() {
               Tap the map to pin stop {target.order}. {fullAddress(target)}
             </p>
           )}
+        </>
+      ) : tab === 'check' ? (
+        <>
+          <div className="card" style={{ padding: 14, marginBottom: 14 }}>
+            <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.55, color: 'var(--steel)' }}>
+              Everything that still wants a human eye before anything is printed. Nothing here blocks the event.
+            </p>
+          </div>
+          {stops.filter((s) => s.verify || !s.igHandle || s.lat == null).map((s) => (
+            <div key={s.id} className="card" style={{ padding: 14, marginBottom: 8 }}>
+              <div className="eyebrow">Stop {s.order} · {s.sponsor}</div>
+              <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', margin: '8px 0 0' }}>
+                {!s.igHandle && <span className="chip warn">No Instagram handle</span>}
+                {s.lat == null && <span className="chip warn">No pin</span>}
+              </div>
+              {s.verify && (
+                <p style={{ margin: '10px 0 0', fontSize: 13, lineHeight: 1.5, color: 'rgba(244,240,228,.86)' }}>{s.verify}</p>
+              )}
+            </div>
+          ))}
         </>
       ) : (
         <>

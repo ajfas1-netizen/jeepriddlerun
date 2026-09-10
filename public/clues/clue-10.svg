@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" width="1000" height="560" role="img" aria-label="Bonus clue 10: toys stacked from low to high">
+<rect width="1000" height="560" fill="#fff"/>
+<rect x="24" y="24" width="952" height="512" rx="30" fill="#efefec"/>
+<g transform="translate(70,80)"><g fill="#151515"><rect x="0" y="230" width="120" height="120" rx="14"/><rect x="136" y="230" width="120" height="120" rx="14"/><rect x="272" y="230" width="120" height="120" rx="14"/><rect x="68" y="98" width="120" height="120" rx="14" fill="#7a7a7a"/><rect x="204" y="98" width="120" height="120" rx="14" fill="#7a7a7a"/><rect x="136" y="-34" width="120" height="120" rx="14" fill="#c4c4c1"/></g><g fill="#fff" font-family="Anton, Impact, sans-serif" font-size="64" text-anchor="middle"><text x="60" y="312">A</text><text x="196" y="312">B</text><text x="332" y="312">C</text></g></g>
+<g transform="translate(640,150)" opacity=".9"><path d="M0 96h170v-40h56l54 62v42H0z" fill="#151515"/><circle cx="56" cy="168" r="30" fill="#7a7a7a"/><circle cx="56" cy="168" r="12" fill="#efefec"/><circle cx="222" cy="168" r="30" fill="#7a7a7a"/><circle cx="222" cy="168" r="12" fill="#efefec"/></g>
+<g fill="#151515" opacity=".9"><circle cx="86" cy="86" r="34"/><text x="86" y="99" font-family="Anton, Impact, sans-serif" font-size="38" fill="#fff" text-anchor="middle">10</text></g>
+</svg>

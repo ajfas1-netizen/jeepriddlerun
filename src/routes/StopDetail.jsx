@@ -73,8 +73,11 @@ export default function StopDetail() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div>
           <div className="eyebrow">{stop.isRally ? 'Rally point' : `Stop ${stop.order} of ${stops.length}`}</div>
-          <h2 className="h1" style={{ fontSize: 30, marginTop: 4 }}>{stop.address}</h2>
-          <div className="eyebrow" style={{ marginTop: 6 }}>{stop.city}, {stop.state} {stop.zip}</div>
+          <h2 className="h1" style={{ fontSize: (stop.sponsor || stop.address).length > 26 ? 21 : 27, marginTop: 4, lineHeight: 1 }}>
+            {stop.sponsor || stop.address}
+          </h2>
+          <div className="eyebrow" style={{ marginTop: 6 }}>{stop.address}</div>
+          <div className="eyebrow">{stop.city}, {stop.state} {stop.zip}</div>
         </div>
         <div className="pts" style={{ textAlign: 'right' }}>{earned}<small>of {maxPerStop()}+</small></div>
       </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useStore } from '../lib/store.jsx'
 import { EVENT, DUCKS, RIG_COLORS } from '../data/event.js'
+import { STOPS } from '../data/stops.js'
 import { provider } from '../lib/providers.js'
 import { Duck, Grille, IconBack } from '../components/Icons.jsx'
 
@@ -122,7 +123,9 @@ export default function Join() {
         <div style={{ marginTop: 'auto', paddingTop: 34 }}>
           <div className="tread" style={{ opacity: .5 }} />
           <p style={{ color: 'var(--steel)', fontSize: 12, textAlign: 'center', marginTop: 14, lineHeight: 1.6 }}>
-            {EVENT.dateLabel} · {EVENT.rallyTimeLabel}<br />
+            {EVENT.dateLabel && EVENT.rallyTimeLabel
+              ? <>{EVENT.dateLabel} · {EVENT.rallyTimeLabel}<br /></>
+              : <>Roll out from {STOPS[0].sponsor}, {STOPS[0].city}<br /></>}
             Every dollar raised stays with {EVENT.org}.
           </p>
         </div>

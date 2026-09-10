@@ -32,7 +32,7 @@ export default function Stops() {
               <div key={s.id} className="lb-row" style={{ gridTemplateColumns: '30px 1fr auto' }}>
                 <div className="lb-rank">{s.order}</div>
                 <button onClick={() => nav(`/stop/${s.id}`)} style={{ textAlign: 'left', minWidth: 0 }}>
-                  <div className="lb-name">{s.address}</div>
+                  <div className="lb-name">{s.sponsor || s.address}</div>
                   <div className="lb-meta">{s.city} · {done ? 'Logged' : s.isRally ? 'Rally point' : bonus ? 'Clue ready' : 'Clue locked'}</div>
                 </button>
                 <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>

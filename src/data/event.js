@@ -6,9 +6,10 @@ export const EVENT = {
   year: 2026,
   name: 'Jeep Riddle Run',
   org: 'Martin County PAL',
-  // TODO(AJ): confirm date + start time, then delete this comment.
-  dateLabel: 'DATE TBD',
-  rallyTimeLabel: 'ROLL OUT TBD',
+  // TODO(AJ): set these two and the copy appears automatically.
+  // Leave them empty and the app shows the rally point instead of a date.
+  dateLabel: '',
+  rallyTimeLabel: '',
   hashtag: '#jeepriddlerun2026',
   palHandle: '@martincountypal',
   palUrl: 'https://www.martincountypal.com',

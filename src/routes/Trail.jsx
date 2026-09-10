@@ -53,7 +53,8 @@ export default function Trail() {
                     ? <span className="chip ok"><IconCheck size={13} /> Logged</span>
                     : <span className="chip warn">{peek ? 'Selected' : 'Up next'}</span>}
                 </div>
-                <div style={{ fontFamily: 'var(--font-cond)', fontWeight: 700, fontSize: 19, marginTop: 4 }}>{card.address}</div>
+                <div style={{ fontFamily: 'var(--font-cond)', fontWeight: 700, fontSize: 20, marginTop: 4, lineHeight: 1.1 }}>{card.sponsor || card.address}</div>
+                <div style={{ fontSize: 12.5, color: 'var(--steel)', marginTop: 2 }}>{card.address}</div>
                 <p className="riddle" style={{ margin: '8px 0 14px', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                   {card.riddle}
                 </p>

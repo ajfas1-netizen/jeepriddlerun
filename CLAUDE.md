@@ -63,10 +63,19 @@ instant feedback on the phone; `public.tag_points` in
 
 ## Known open items
 
-- Sponsor name, Instagram handle and Facebook name per stop are empty.
-  The caption assist degrades to the street address until they are set.
-- Bonus clue art exists for stops 1 to 8 only. Stops 9 to 15 were blank
-  in the source PDF.
-- Stop coordinates are unset. Drop them in the app: Crew > Organizer
-  tools > Pin drop. Navigation works without them.
+The repo carries the complete 2025 route so the app demos as finished.
+
 - 2026 riddles and locations are still the 2025 set.
+- Sponsors, Instagram handles, Facebook pages and coordinates were
+  researched from each business's published address, not inferred from
+  the riddles. Per-stop caveats live in the `verify` field and surface
+  in the app at Organizer tools > Data check. Do not clear a `verify`
+  note without AJ confirming the underlying fact.
+- Two stops have no Instagram handle found (Twinkles, Wallace CJDR) and
+  one is ambiguous (Sunrise Surf Shop). The caption assist falls back to
+  the street address for those. Do not invent handles.
+- Stop 3 (O'Donnell) has no coordinate. Drop it at Organizer tools >
+  Pin drop. Navigation works without it.
+- Bonus clue art for stops 1 to 8 is the real 2025 photography. Stops 9
+  to 15 are drawn SVG placeholders because those tiles were blank in the
+  source PDF.

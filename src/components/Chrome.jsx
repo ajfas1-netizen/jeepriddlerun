@@ -72,8 +72,10 @@ export function Toast() {
   const { toast } = useStore()
   if (!toast) return null
   return (
-    <motion.div className="toast" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-      {toast}
-    </motion.div>
+    <div className="toast-wrap">
+      <motion.div className="toast" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+        {toast}
+      </motion.div>
+    </div>
   )
 }

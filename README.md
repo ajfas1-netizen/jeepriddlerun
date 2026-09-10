@@ -125,13 +125,33 @@ rewards speed either. Both are deliberate.
 
 ## Notes and open items
 
-- Sponsor names and social handles per stop are **blank on purpose**. The
-  source booklet never states which business sits at which address, and
-  guessing would send fifty teams to tag the wrong shop.
-- Bonus clue art is present for stops 1 to 8. Stops 9 to 15 were empty
-  placeholders in the 2025 PDF.
-- The riddles currently in the repo are the 2025 set, seeded so the app
-  could be built and tested. Replace them with the 2026 set.
+The app is loaded with the full 2025 route so it demos as a finished
+product. Everything below is a swap, not a build.
+
+- **Riddles and stops are the 2025 set.** Replace in `src/data/stops.js`.
+- **Sponsor names and handles were researched, not guessed.** Each
+  business was matched to its stop by looking up its published street
+  address. Open **Crew → Organizer tools → Data check** for the short
+  list that still wants a human eye:
+  - Twinkles Jewelry and Wallace CJDR: no Instagram account found
+  - Sunrise Surf Shop: the obvious handle belongs to the Jacksonville
+    Beach parent store, so get the Jensen Beach one from them
+  - Broward Motorsports: the handle found looks like the multi-store
+    group account rather than a Treasure Coast one
+  - O'Donnell: every listing shows 6402 SE Federal Hwy, the booklet says
+    6400, and it is the one stop with no pin
+  - The Hutch: two listings disagree by about half a mile, so check the
+    pin against the map
+  - Stop 10: the 2025 booklet paired a toy riddle with Ocean Republic
+    Brewing's address. The address is right, the riddle looks wrong.
+- **Stop 11 is PAL's own building**, not a sponsor. Ironman 4x4 sponsors
+  the event without hosting a stop.
+- **Bonus clue art:** stops 1 to 8 are the real 2025 photo clues pulled
+  from the booklet. Stops 9 to 15 were blank in that file, so those are
+  drawn placeholders in the same style. Replace them with real photos.
+- **Event date, roll-out time and bonus code** are unset in
+  `src/data/event.js`. With the date blank the join screen shows the
+  rally point instead, so nothing reads as unfinished.
 - No Jeep trademarks are used. The visual language is built from
   non-trademarked community cues. Anything official needs written
   permission through Wallace CJDR.
