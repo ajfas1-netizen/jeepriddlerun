@@ -9,7 +9,6 @@ import { buildCaption, copyText, mapsUrl } from '../lib/caption.js'
 import { compress } from '../lib/image.js'
 import { flagPoints, spendPoints, maxPerStop } from '../lib/scoring.js'
 import { IconNav, IconLock, IconCheck, IconCamera, IconReceipt, IconShare, Grille, Duck } from '../components/Icons.jsx'
-import { openApp } from '../lib/share.js'
 
 export default function StopDetail() {
   const { id } = useParams()
@@ -198,16 +197,15 @@ export default function StopDetail() {
       </div>
 
       {/* ---- caption ---- */}
-      <div className="eyebrow" style={{ margin: '22px 0 8px' }}>Your caption, already written</div>
+      <div className="eyebrow" style={{ margin: '22px 0 8px' }}>Do not forget to post</div>
       <div className="card" style={{ padding: 16 }}>
+        <ol className="post-steps">
+          <li>Tap <b>Copy the caption</b> at the bottom of this screen.</li>
+          <li>Open Instagram or Facebook yourself.</li>
+          <li>Paste it with the photo you took.</li>
+        </ol>
+        <div className="eyebrow" style={{ margin: '16px 0 8px' }}>Your caption, already written</div>
         <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.55, color: 'rgba(244,240,228,.92)' }}>{caption}</pre>
-        <p style={{ margin: '12px 0 10px', fontSize: 13, lineHeight: 1.5, color: 'var(--steel)' }}>
-          Copy it below, then open one of these and paste.
-        </p>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
-          <button className="btn btn-ghost" onClick={() => openApp('instagram')}>Instagram</button>
-          <button className="btn btn-ghost" onClick={() => openApp('facebook')}>Facebook</button>
-        </div>
       </div>
       <div style={{ height: 10 }} />
       {sp.get('log') && <span className="sr">Logging mode</span>}
