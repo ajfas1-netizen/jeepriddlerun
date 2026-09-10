@@ -340,6 +340,7 @@ img{display:block;max-width:100%}
 .post-steps{list-style:none;margin:0;padding:0;display:grid;gap:10px;counter-reset:ps}
 .post-steps li{display:grid;grid-template-columns:26px 1fr;gap:11px;align-items:start;
   font-size:14px;line-height:1.45;color:rgba(244,240,228,.92);counter-increment:ps}
+.post-steps li > span{padding-top:3px}
 .post-steps li::before{content:counter(ps);width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
   font-family:var(--font-display);font-size:13px;color:var(--duck);
   background:rgba(255,198,39,.14);border:1px solid rgba(255,198,39,.35)}

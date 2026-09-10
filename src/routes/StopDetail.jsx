@@ -200,9 +200,9 @@ export default function StopDetail() {
       <div className="eyebrow" style={{ margin: '22px 0 8px' }}>Do not forget to post</div>
       <div className="card" style={{ padding: 16 }}>
         <ol className="post-steps">
-          <li>Tap <b>Copy the caption</b> at the bottom of this screen.</li>
-          <li>Open Instagram or Facebook yourself.</li>
-          <li>Paste it with the photo you took.</li>
+          <li><span>Tap <b>Copy the caption</b> at the bottom of this screen.</span></li>
+          <li><span>Open Instagram or Facebook yourself.</span></li>
+          <li><span>Paste it with the photo you took.</span></li>
         </ol>
         <div className="eyebrow" style={{ margin: '16px 0 8px' }}>Your caption, already written</div>
         <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.55, color: 'rgba(244,240,228,.92)' }}>{caption}</pre>
