@@ -56,7 +56,8 @@ export default function StopDetail() {
   }
 
   return (
-    <Sheet onClose={() => nav(-1)} label={`Stop ${stop.order}`} footer={
+    <Sheet onClose={() => nav(-1)} label={`Stop ${stop.order}`}
+      title={stop.isRally ? 'Rally point' : `Stop ${stop.order} of ${stops.length}`} footer={
       <>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
           <a className="btn btn-ghost" href={mapsUrl(stop)} target="_blank" rel="noreferrer"><IconNav size={16} /> Navigate</a>
@@ -72,7 +73,6 @@ export default function StopDetail() {
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div>
-          <div className="eyebrow">{stop.isRally ? 'Rally point' : `Stop ${stop.order} of ${stops.length}`}</div>
           <h2 className="h1" style={{ fontSize: (stop.sponsor || stop.address).length > 26 ? 21 : 27, marginTop: 4, lineHeight: 1 }}>
             {stop.sponsor || stop.address}
           </h2>

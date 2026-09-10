@@ -19,7 +19,7 @@ const Results = lazy(() => import('./routes/Results.jsx'))
 const Loading = ({ label = 'Loading…' }) => <div className="empty" style={{ margin: 'auto' }}>{label}</div>
 import './styles/app.css'
 
-const ORDER = ['/trail', '/stops', '/rank', '/crew']
+const ORDER = ['/stops', '/trail', '/rank', '/crew']
 const isSheetPath = (p) => p.startsWith('/stop/') || p === '/admin'
 
 function Slide({ children, dir }) {
@@ -76,12 +76,12 @@ function Inner() {
       <div className="stage">
         <AnimatePresence mode="wait" initial={false}>
           <Routes location={base} key={base.pathname}>
-            <Route path="/" element={<Navigate to="/trail" replace />} />
+            <Route path="/" element={<Navigate to="/stops" replace />} />
             <Route path="/trail" element={<Slide dir={dir}><Suspense fallback={<Loading label="Loading map…" />}><Trail /></Suspense></Slide>} />
             <Route path="/stops" element={<Slide dir={dir}><Stops /></Slide>} />
             <Route path="/rank" element={<Slide dir={dir}><Rank /></Slide>} />
             <Route path="/crew" element={<Slide dir={dir}><Crew /></Slide>} />
-            <Route path="*" element={<Navigate to="/trail" replace />} />
+            <Route path="*" element={<Navigate to="/stops" replace />} />
           </Routes>
         </AnimatePresence>
       </div>

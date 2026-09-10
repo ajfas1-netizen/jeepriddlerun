@@ -13,11 +13,16 @@ export default function Stops() {
 
   return (
     <div className="page">
-      <div className="pad" style={{ paddingTop: 4, paddingBottom: 12 }}>
+      <div className="pad" style={{ paddingTop: 4, paddingBottom: 12, display: 'grid', gridTemplateColumns: '1fr auto', gap: 8 }}>
         <div className="seg" style={{ gridTemplateColumns: '1fr 1fr' }}>
           <button data-on={view === 'deck'} onClick={() => setView('deck')}>Deck</button>
           <button data-on={view === 'list'} onClick={() => setView('list')}>List</button>
         </div>
+        <button className="seg" style={{ padding: '0 16px', alignItems: 'center' }} onClick={() => nav('/trail')}>
+          <span style={{ fontFamily: 'var(--font-cond)', fontSize: 11.5, letterSpacing: '.13em', textTransform: 'uppercase', color: 'var(--steel)' }}>
+            Map
+          </span>
+        </button>
       </div>
 
       {view === 'deck' ? (

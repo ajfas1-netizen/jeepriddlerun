@@ -30,8 +30,8 @@ export function TopBar() {
 }
 
 const TABS = [
-  { to: '/trail', label: 'Trail', Icon: IconTrail },
   { to: '/stops', label: 'Stops', Icon: IconCards },
+  { to: '/trail', label: 'Map', Icon: IconTrail },
   { cta: true },
   { to: '/rank', label: 'Rank', Icon: IconTrophy },
   { to: '/crew', label: 'Crew', Icon: IconCrew }

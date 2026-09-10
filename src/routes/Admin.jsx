@@ -31,9 +31,8 @@ export default function Admin() {
   const placed = stops.filter((s) => s.lat != null).length
 
   return (
-    <Sheet onClose={() => nav(-1)} label="Organizer tools">
-      <div className="eyebrow">Organizer tools</div>
-      <h2 className="h1" style={{ fontSize: 28, marginTop: 4 }}>Run the day</h2>
+    <Sheet onClose={() => nav(-1)} label="Organizer tools" title="Organizer tools">
+      <h2 className="h1" style={{ fontSize: 28, marginTop: 2 }}>Run the day</h2>
 
       <div className="seg" style={{ gridTemplateColumns: 'repeat(3,1fr)', margin: '18px 0 16px' }}>
         <button data-on={tab === 'pins'} onClick={() => setTab('pins')}>Pin drop</button>

@@ -170,20 +170,29 @@ img{display:block;max-width:100%}
 .pin.done{background:linear-gradient(160deg,#4ADE80,#1FA75A);color:#04220F}
 .pin.rally{background:linear-gradient(160deg,var(--duck),#DE9F09)}
 .pin.pending{background:linear-gradient(160deg,#5C6A58,#3A463A);color:rgba(244,240,228,.75)}
-.map-overlay{position:absolute;left:0;right:0;bottom:0;z-index:500;padding:0 14px 14px;pointer-events:none}
+.map-overlay{position:absolute;left:0;right:0;bottom:0;z-index:700;padding:0 14px 14px;pointer-events:none}
 .map-overlay > *{pointer-events:auto}
-.map-fab{position:absolute;right:14px;z-index:500;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;
+.map-fab{position:absolute;right:14px;z-index:700;width:46px;height:46px;border-radius:14px;display:grid;place-items:center;
   background:rgba(8,23,11,.82);border:1px solid var(--line-2);backdrop-filter:blur(10px)}
 
 /* ---------- bottom sheet (stop detail) ---------- */
-.scrim{position:fixed;inset:0;z-index:40;background:rgba(3,10,5,.72);backdrop-filter:blur(3px)}
-.sheet{position:fixed;left:0;right:0;bottom:0;z-index:41;max-height:94dvh;display:flex;flex-direction:column;
-  border-radius:var(--r-xl) var(--r-xl) 0 0;background:linear-gradient(180deg,#12291A,#0A1A0F 42%);
-  border-top:1px solid var(--line-2);box-shadow:0 -24px 60px -20px rgba(0,0,0,.9);overflow:hidden}
-.grab{width:44px;height:5px;border-radius:3px;background:rgba(244,240,228,.28);margin:10px auto 4px;flex:none}
-.sheet-body{overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:6px 20px 18px}
-.sheet-foot{flex:none;padding:12px 18px calc(var(--sab) + 14px);border-top:1px solid var(--line);
-  background:rgba(8,23,11,.7);backdrop-filter:blur(12px);display:grid;gap:9px}
+/* Stop detail is a full screen of its own. It used to float over the
+   map, which read as a popup rather than a place you had gone. */
+.sheet{position:fixed;inset:0;z-index:41;display:flex;flex-direction:column;
+  background:linear-gradient(180deg,#12291A,#0A1A0F 38%);overflow:hidden}
+.sheet::before{content:'';position:absolute;inset:0;pointer-events:none;opacity:.05;
+  background-image:repeating-radial-gradient(circle at 78% 8%, transparent 0 26px, #F4F0E4 26px 27px);
+  mask-image:linear-gradient(180deg,#000,transparent 55%)}
+.sheet-head{position:relative;z-index:2;flex:none;display:flex;align-items:center;gap:10px;
+  padding:calc(var(--sat) + 10px) 14px 8px}
+.sheet-back{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;
+  background:rgba(244,240,228,.07);border:1px solid var(--line)}
+.sheet-back:active{transform:scale(.94)}
+.sheet-title{font-family:var(--font-cond);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--steel)}
+.sheet-body{position:relative;z-index:1;flex:1;min-height:0;overflow-y:auto;
+  -webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:2px 20px 18px}
+.sheet-foot{position:relative;z-index:2;flex:none;padding:12px 18px calc(var(--sab) + 14px);
+  border-top:1px solid var(--line);background:rgba(8,23,11,.82);backdrop-filter:blur(12px);display:grid;gap:9px}
 
 /* ---------- bonus clue vault ---------- */
 .vault{position:relative;border-radius:var(--r-l);overflow:hidden;border:1px dashed var(--line-2);
@@ -250,8 +259,7 @@ img{display:block;max-width:100%}
     border-radius:34px;overflow:hidden;border:1px solid var(--line-2);
     box-shadow:0 50px 120px -40px #000, 0 0 0 12px rgba(0,0,0,.5);
   }
-  .sheet{position:absolute;max-height:100%}
-  .scrim{position:absolute}
+  .sheet{position:absolute}
   body{background:
     radial-gradient(90% 60% at 50% 0%, rgba(10,82,32,.35), transparent 65%),
     linear-gradient(180deg,#060E08,#040705);}
