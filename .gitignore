@@ -5,3 +5,5 @@ dist
 .DS_Store
 dist-artifact
 t.mjs
+iconrender.mjs
+shot.mjs

@@ -5,6 +5,7 @@ import { EVENT, DUCKS, RIG_COLORS } from '../data/event.js'
 import { STOPS } from '../data/stops.js'
 import { provider } from '../lib/providers.js'
 import { Duck, Grille, IconBack } from '../components/Icons.jsx'
+import InstallCard from '../components/InstallCard.jsx'
 
 const step = { initial: { opacity: 0, x: 26 }, animate: { opacity: 1, x: 0 }, exit: { opacity: 0, x: -26 } }
 
@@ -48,6 +49,7 @@ export default function Join() {
         <AnimatePresence mode="wait">
           {i === 0 && (
             <motion.div key="a" {...step} transition={{ duration: 0.26 }}>
+              <div style={{ marginBottom: 22 }}><InstallCard /></div>
               <div className="eyebrow" style={{ marginBottom: 8 }}>Step 1 · Name your rig</div>
               <input
                 className="field" value={name} maxLength={28} autoComplete="off"

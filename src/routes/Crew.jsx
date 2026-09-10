@@ -4,6 +4,7 @@ import { useStore } from '../lib/store.jsx'
 import { EVENT, DUCKS, RIG_COLORS } from '../data/event.js'
 import { SPONSORS } from '../data/stops.js'
 import { Duck, Grille, IconTarget, IconCheck } from '../components/Icons.jsx'
+import InstallCard from '../components/InstallCard.jsx'
 
 export default function Crew() {
   const { team, stops, totals, leave, bonus, live } = useStore()
@@ -47,6 +48,8 @@ export default function Crew() {
             )}
           </div>
         </div>
+
+        <div style={{ marginTop: 18 }}><InstallCard compact /></div>
 
         {/* badges */}
         <div className="eyebrow" style={{ margin: '24px 0 10px' }}>Trail badges</div>
