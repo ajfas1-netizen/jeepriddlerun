@@ -1,79 +1,19 @@
 /* ------------------------------------------------------------------
-   Getting the photo out of the app and into a post.
+   Opening Instagram and Facebook.
 
-   The trap: on iOS, a photo captured through <input capture> never
-   touches the camera roll. It goes straight into the page. So a team
-   would shoot the find, then open Instagram and have nothing to post.
+   Note on photos: the app deliberately does NOT capture through the
+   camera. On iOS a photo taken inside a web page never reaches the
+   camera roll, and the camera roll is the only place Instagram and
+   Facebook can post from. So teams shoot with their own Camera app and
+   add the photo from their library. One path, no failure mode, no
+   volunteer explaining it fifteen times on event day.
 
-   The fix is the native share sheet. navigator.share() with a file
-   gives the phone's own sheet, which carries "Save Image" plus direct
-   targets for Instagram and Facebook. Where that is unsupported we
-   fall back to a save link on Android and a press-and-hold hint on
-   iOS, both of which do work.
+   Neither app accepts a caption passed in from outside, which is why
+   the caption goes to the clipboard first.
    ------------------------------------------------------------------ */
-
-const blobs = new Map()
-
-export const rememberBlob = (key, blob) => blobs.set(key, blob)
-
-export async function getBlob(key, url) {
-  if (blobs.has(key)) return blobs.get(key)
-  if (!url) return null
-  try {
-    const r = await fetch(url)
-    const b = await r.blob()
-    blobs.set(key, b)
-    return b
-  } catch {
-    return null
-  }
-}
-
-export const canShareFiles = () => {
-  try {
-    return Boolean(navigator.canShare && navigator.canShare({
-      files: [new File([new Blob(['x'], { type: 'image/jpeg' })], 'x.jpg', { type: 'image/jpeg' })]
-    }))
-  } catch {
-    return false
-  }
-}
-
-/* Returns 'shared' | 'cancelled' | 'unsupported' | 'failed' */
-export async function sharePhoto({ blob, filename, text }) {
-  if (!blob) return 'failed'
-  const file = new File([blob], filename, { type: 'image/jpeg' })
-  if (!canShareFiles()) return 'unsupported'
-  try {
-    await navigator.share({ files: [file], text })
-    return 'shared'
-  } catch (e) {
-    return e && e.name === 'AbortError' ? 'cancelled' : 'failed'
-  }
-}
-
-/* Android and desktop can save straight to disk. iOS Safari ignores
-   the download attribute, which is why the hint exists. */
-export function saveToDisk(blob, filename) {
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = filename
-  document.body.appendChild(a)
-  a.click()
-  a.remove()
-  setTimeout(() => URL.revokeObjectURL(url), 4000)
-}
-
-export const isIOS = () =>
-  /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-  (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1)
-
-/* Opening the apps. Neither accepts a caption through a URL, which is
-   why the caption goes to the clipboard first. */
-export const APPS = {
-  instagram: { label: 'Instagram', app: 'instagram://app', web: 'https://www.instagram.com/' },
-  facebook: { label: 'Facebook', app: 'fb://', web: 'https://www.facebook.com/' }
+const APPS = {
+  instagram: { app: 'instagram://app', web: 'https://www.instagram.com/' },
+  facebook: { app: 'fb://', web: 'https://www.facebook.com/' }
 }
 
 export function openApp(which) {

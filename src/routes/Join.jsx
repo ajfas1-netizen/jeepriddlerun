@@ -115,6 +115,13 @@ export default function Join() {
                   <div className="crew-sub">{RIG_COLORS.find((c) => c.id === rigId)?.name} · 0 of 15 stops</div>
                 </div>
               </div>
+              <div className="card" style={{ padding: 15, marginBottom: 14, borderColor: 'rgba(255,198,39,.32)' }}>
+                <div className="eyebrow" style={{ color: 'var(--duck)', marginBottom: 7 }}>One rule about photos</div>
+                <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.55, color: 'rgba(244,240,228,.88)' }}>
+                  Take every photo with your normal Camera app so it saves to your phone. Then add it here and post it.
+                  Your duck has to be in every shot.
+                </p>
+              </div>
               <button className="btn btn-duck" disabled={busy} onClick={go}>{busy ? 'Starting…' : 'Roll out'}</button>
             </motion.div>
           )}

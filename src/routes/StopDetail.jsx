@@ -9,7 +9,7 @@ import { buildCaption, copyText, mapsUrl } from '../lib/caption.js'
 import { compress } from '../lib/image.js'
 import { flagPoints, spendPoints, maxPerStop } from '../lib/scoring.js'
 import { IconNav, IconLock, IconCheck, IconCamera, IconReceipt, IconShare, Grille, Duck } from '../components/Icons.jsx'
-import { rememberBlob, getBlob, sharePhoto, saveToDisk, isIOS } from '../lib/share.js'
+import { openApp } from '../lib/share.js'
 
 export default function StopDetail() {
   const { id } = useParams()
@@ -22,7 +22,6 @@ export default function StopDetail() {
   const [code, setCode] = useState('')
   const [busy, setBusy] = useState(false)
   const [spend, setSpend] = useState(String(stop?.checkin?.spend ?? ''))
-  const [saveHint, setSaveHint] = useState(false)
   const libraryRef = useRef(null)
   const caption = useMemo(() => (stop ? buildCaption(stop, team, stops.length) : ''), [stop, team, stops.length])
 
@@ -37,7 +36,6 @@ export default function StopDetail() {
     setBusy(true)
     try {
       const img = await compress(file, kind === 'receipt' ? { max: 1100, quality: 0.72 } : {})
-      if (kind === 'photo') rememberBlob(stop.id, img.blob)
       const url = await upload(stop.id, kind, img)
       if (kind === 'receipt') await patchCheckin(stop.id, { receipt: url, flags: { ...c.flags, receipt: true } })
       else await patchCheckin(stop.id, { photo: url })
@@ -54,20 +52,9 @@ export default function StopDetail() {
     say(v ? `$${v} logged` : 'Spend cleared')
   }
 
-  const filename = `riddle-run-stop-${String(stop.order).padStart(2, '0')}.jpg`
-
-  /* One tap: the caption goes to the clipboard and the photo goes to the
-     phone's own share sheet, which is where Save Image lives. Without
-     that save, an iPhone has nothing in the camera roll to post. */
-  const saveAndPost = async () => {
+  const copyCaption = async () => {
     const ok = await copyText(caption)
-    const blob = await getBlob(stop.id, c.photo)
-    if (!blob) { say(ok ? 'Caption copied. Shoot the find next.' : 'Shoot the find first'); return }
-    const result = await sharePhoto({ blob, filename, text: caption })
-    if (result === 'shared') { say('Saved. Caption is copied, paste it in your post.'); return }
-    if (result === 'cancelled') return
-    if (isIOS()) { setSaveHint(true); say('Press and hold the photo to save it') }
-    else { saveToDisk(blob, filename); say('Photo saved. Caption is copied.') }
+    say(ok ? 'Caption copied. Paste it in your post.' : 'Copy failed, select the text')
   }
 
   return (
@@ -77,17 +64,16 @@ export default function StopDetail() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
           <a className="btn btn-ghost" href={mapsUrl(stop)} target="_blank" rel="noreferrer"><IconNav size={16} /> Navigate</a>
           <button className="btn btn-primary" disabled={busy} onClick={() => photoRef.current?.click()}>
-            <IconCamera size={18} /> {c.photo ? 'Retake' : 'Found it'}
+            <IconCamera size={18} /> {c.photo ? 'Change photo' : 'Add photo'}
           </button>
         </div>
-        <button className="btn btn-duck" disabled={!c.photo} onClick={saveAndPost}>
-          <IconShare size={16} /> Save photo and copy caption
+        <button className="btn btn-duck" onClick={copyCaption}>
+          <IconShare size={16} /> Copy the caption
         </button>
       </>
     }>
-      <input ref={photoRef} type="file" accept="image/*" capture="environment" hidden onChange={(e) => shoot(e, 'photo')} />
+      <input ref={photoRef} type="file" accept="image/*" hidden onChange={(e) => shoot(e, 'photo')} />
       <input ref={receiptRef} type="file" accept="image/*" capture="environment" hidden onChange={(e) => shoot(e, 'receipt')} />
-      <input ref={libraryRef} type="file" accept="image/*" hidden onChange={(e) => shoot(e, 'photo')} />
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div>
@@ -143,21 +129,19 @@ export default function StopDetail() {
 
       {/* ---- the moment ---- */}
       {!c.photo && (
-        <>
-          <button className="found" disabled={busy} onClick={() => photoRef.current?.click()}>
-            <Duck size={34} body="#241B09" bill="#7A5E12" />
+        <div className="found">
+          <div className="found-top">
+            <Duck size={32} body="#241B09" bill="#7A5E12" />
             <span>Found it</span>
-            <small>Opens the camera. Duck in frame.</small>
-          </button>
-          <div className="card" style={{ padding: 15, marginTop: 10 }}>
-            <p style={{ margin: '0 0 11px', fontSize: 13.5, lineHeight: 1.55, color: 'var(--steel)' }}>
-              Rather use your own Camera app? Shoot it there so it saves to your photos, then come back and add it.
-            </p>
-            <button className="btn btn-ghost" disabled={busy} onClick={() => libraryRef.current?.click()}>
-              Add it from my photos
-            </button>
           </div>
-        </>
+          <ol className="found-steps">
+            <li>Take the photo with your <b>Camera app</b>, duck in frame.</li>
+            <li>Come back here and add it.</li>
+          </ol>
+          <button className="btn found-btn" disabled={busy} onClick={() => photoRef.current?.click()}>
+            <IconCamera size={18} /> Add the photo
+          </button>
+        </div>
       )}
 
       {/* ---- proof ---- */}
@@ -166,13 +150,8 @@ export default function StopDetail() {
           <div className="eyebrow" style={{ margin: '22px 0 8px' }}>Your proof</div>
           <div className="card" style={{ padding: 14 }}>
             <img src={c.photo} alt="Your find at this stop" style={{ width: '100%', borderRadius: 14 }} />
-            {saveHint && (
-              <p style={{ margin: '11px 0 0', fontSize: 13, lineHeight: 1.55, color: 'var(--duck)' }}>
-                Press and hold the photo, then Save Image. It lands in your camera roll and you can post it from there.
-              </p>
-            )}
             <button className="btn btn-ghost" style={{ marginTop: 11 }} disabled={busy} onClick={() => photoRef.current?.click()}>
-              Retake
+              Use a different photo
             </button>
           </div>
         </>
@@ -227,9 +206,13 @@ export default function StopDetail() {
       <div className="eyebrow" style={{ margin: '22px 0 8px' }}>Your caption, already written</div>
       <div className="card" style={{ padding: 16 }}>
         <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.55, color: 'rgba(244,240,228,.92)' }}>{caption}</pre>
-        {!stop.igHandle && (
-          <div className="chip warn" style={{ marginTop: 12 }}>Add this stop’s handle so the tag is exact</div>
-        )}
+        <div style={{ display: 'grid', gap: 8, marginTop: 14 }}>
+          <button className="btn btn-duck" onClick={copyCaption}>Copy the caption</button>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+            <button className="btn btn-ghost" onClick={() => openApp('instagram')}>Instagram</button>
+            <button className="btn btn-ghost" onClick={() => openApp('facebook')}>Facebook</button>
+          </div>
+        </div>
       </div>
       <div style={{ height: 10 }} />
       {sp.get('log') && <span className="sr">Logging mode</span>}
