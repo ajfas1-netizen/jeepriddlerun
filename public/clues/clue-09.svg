@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 560" width="1000" height="560" role="img" aria-label="Bonus clue 9: a golden rubber duck in the tub">
-<rect width="1000" height="560" fill="#fff"/>
-<rect x="24" y="24" width="952" height="512" rx="30" fill="#efefec"/>
-<g transform="translate(70,80)"><g transform="scale(6.4)"><path d="M20 46c-6 0-11-5-11-11.5S14 23 20.5 23c2 0 4 .5 5.6 1.4C27.5 17.6 33.4 12.5 40.6 12.5c1.6 0 3 .2 4.4.7l-2 6.6c4.6 2.6 7.6 7.4 7.6 13 0 4.9-2.3 9.3-6 12.2z" fill="#151515"/><path d="M45 19.8 57 16l-7.8 9.6z" fill="#7a7a7a"/><circle cx="41.6" cy="22.4" r="2.2" fill="#fff"/><path d="M15 47h30c-2 3.6-6.6 6-12.6 6S17 50.6 15 47z" fill="#7a7a7a"/></g></g>
-<g transform="translate(640,150)" opacity=".9"><path d="M0 60h250q0 0 0 0v66q0 54-54 54H54q-54 0-54-54z" fill="#c4c4c1"/><rect x="14" y="182" width="26" height="44" rx="10" fill="#7a7a7a"/><rect x="210" y="182" width="26" height="44" rx="10" fill="#7a7a7a"/><path d="M96 30q0-30 34-30t34 26" stroke="#7a7a7a" stroke-width="16" fill="none" stroke-linecap="round"/></g>
-<g fill="#151515" opacity=".9"><circle cx="86" cy="86" r="34"/><text x="86" y="99" font-family="Anton, Impact, sans-serif" font-size="38" fill="#fff" text-anchor="middle">9</text></g>
-</svg>
