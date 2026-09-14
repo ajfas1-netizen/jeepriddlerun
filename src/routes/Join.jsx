@@ -114,14 +114,18 @@ export default function Join() {
                 </div>
                 <div>
                   <div className="crew-name" style={{ fontSize: 21 }}>{name || 'Your rig'}</div>
-                  <div className="crew-sub">{RIG_COLORS.find((c) => c.id === rigId)?.name} · 0 of 15 stops</div>
+                  <div className="crew-sub">{RIG_COLORS.find((c) => c.id === rigId)?.name} · 0 of {STOPS.length} stops</div>
                 </div>
               </div>
               <div className="card" style={{ padding: 15, marginBottom: 14, borderColor: 'rgba(201,162,39,.32)' }}>
-                <div className="eyebrow" style={{ color: 'var(--brass)', marginBottom: 7 }}>One rule about photos</div>
+                <div className="eyebrow" style={{ color: 'var(--brass)', marginBottom: 7 }}>Two rules</div>
                 <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.55, color: 'rgba(236,234,226,.88)' }}>
                   Take every photo with your normal Camera app so it saves to your phone, then add it here and post it.
                   Both ducks have to be in the shot: the one you find and the one riding with you.
+                </p>
+                <p style={{ margin: '10px 0 0', fontSize: 13.5, lineHeight: 1.55, color: 'var(--brass)' }}>
+                  Leave the duck you find. Photograph him and put him right back. Every rig behind you still has to
+                  find him.
                 </p>
               </div>
               <button className="btn btn-primary" disabled={busy} onClick={go}>{busy ? 'Starting…' : 'Roll out'}</button>

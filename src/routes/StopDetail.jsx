@@ -126,11 +126,12 @@ export default function StopDetail() {
       {!c.photo && (
         <div className="found">
           <div className="found-top">
-            <Duck size={32} body="#241B09" bill="#7A5E12" />
+            <Duck size={30} body="#C9A227" bill="#8A6F1B" />
             <span>Found it</span>
           </div>
           <ol className="found-steps">
             <li>Take the photo with your <b>Camera app</b>. Both ducks in frame, the one you found and the one you brought.</li>
+            <li><b>Put him back exactly where you found him.</b> Every rig behind you still has to find him.</li>
             <li>Come back here and add it.</li>
           </ol>
           <button className="btn found-btn" disabled={busy} onClick={() => photoRef.current?.click()}>
