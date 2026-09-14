@@ -21,11 +21,11 @@ export const teamLabel = (name) => {
 }
 
 const OPENERS = [
-  (t) => `${t} found it. 🦆`,
+  (t) => `${t} found the duck. 🦆`,
   (t) => `${t} tracked this one down. 🦆`,
-  (t) => `Another one down for ${t}. 🦆`,
+  (t) => `Another duck down for ${t}. 🦆`,
   (t) => `${t} is back on the board. 🦆`,
-  (t) => `Found it. ${t} keeps rolling. 🦆`
+  (t) => `Found him. ${t} keeps rolling. 🦆`
 ]
 
 const THANKS = [
@@ -35,11 +35,11 @@ const THANKS = [
   (w) => `${w} showed up for our kids today. Thank you for hosting us.`
 ]
 
-const CAUSE = [
+const CAUSE = (total) => [
   'Every stop on this run is a local business that shows up for our kids.',
   'Go spend a dollar with them. They supported Martin County PAL first.',
   'These are the businesses that back our kids. Worth your business.',
-  'Fifteen local businesses put this day together for Martin County PAL.',
+  `Nine local businesses put this day together for Martin County PAL.`,
   'Support the people who support our community.'
 ]
 
@@ -52,7 +52,7 @@ export function buildCaption(stop, team, total = 15) {
 
   const opener =
     stop.order === 1 ? `${t} is rolling out. 🦆`
-    : stop.order === total ? `${t} just finished all ${total}. 🦆`
+    : stop.isFinish || stop.order === total ? `${t} just finished all ${total}. 🦆`
     : OPENERS[i % OPENERS.length](t)
 
   const progress =
@@ -71,7 +71,7 @@ export function buildCaption(stop, team, total = 15) {
     '',
     isHost
       ? 'Every dollar raised today goes to the kids who walk through these doors.'
-      : CAUSE[i % CAUSE.length],
+      : CAUSE(total)[i % CAUSE(total).length],
     '',
     `${EVENT.palHandle} ${EVENT.hashtag}`,
     '#duckduckjeep #jeeplife #martincounty'

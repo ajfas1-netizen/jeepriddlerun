@@ -58,7 +58,7 @@ export default function StopDetail() {
 
   return (
     <Sheet onClose={() => nav(-1)} label={`Stop ${stop.order}`}
-      title={stop.isRally ? 'Rally point' : `Stop ${stop.order} of ${stops.length}`} footer={
+      title={stop.isRally ? 'Rally point' : stop.isFinish ? `Finish · stop ${stop.order}` : `Stop ${stop.order} of ${stops.length}`} footer={
       <button className="btn btn-primary" onClick={copyCaption}>
         <IconShare size={16} /> Copy the caption
       </button>
@@ -83,7 +83,7 @@ export default function StopDetail() {
       <div style={{ margin: '16px 0' }}><Grille /></div>
 
       <div className="card" style={{ padding: 18 }}>
-        <div className="eyebrow" style={{ marginBottom: 8 }}>The riddle</div>
+        <div className="eyebrow" style={{ marginBottom: 8 }}>{stop.isFinish ? 'Last stop' : 'Find the duck'}</div>
         <p className="riddle" style={{ margin: 0 }}>{stop.riddle}</p>
       </div>
 
@@ -97,7 +97,7 @@ export default function StopDetail() {
               Locked
             </div>
             <p style={{ color: 'var(--muted)', fontSize: 13.5, margin: 0, maxWidth: 260, lineHeight: 1.5 }}>
-              Donors at the bonus tier get a code at kickoff. One code unlocks every clue for the whole day.
+              Donors at the bonus tier get a code at kickoff. One code unlocks every hint for the whole day.
             </p>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 8, width: '100%', maxWidth: 280 }}>
               <input className="field" placeholder="CODE" value={code} onChange={(e) => setCode(e.target.value.toUpperCase())} />
@@ -107,15 +107,16 @@ export default function StopDetail() {
               </button>
             </div>
           </div>
-        ) : stop.clue ? (
-          <motion.div className="vault-art" initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.35 }}>
-            <img src={stop.clue} alt={`Bonus clue for stop ${stop.order}`} loading="lazy" />
+        ) : stop.hint ? (
+          <motion.div className="vault-hint" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.3 }}>
+            <div className="eyebrow" style={{ color: 'var(--brass)', marginBottom: 8 }}>Unlocked</div>
+            <p>{stop.hint}</p>
           </motion.div>
         ) : (
           <div className="vault-locked">
-            <div className="chip warn">Clue art pending</div>
+            <div className="chip warn">Hint pending</div>
             <p style={{ color: 'var(--muted)', fontSize: 13.5, margin: 0, maxWidth: 260, lineHeight: 1.5 }}>
-              This stop has no bonus image loaded yet. Drop it in public/clues and set the clue path on the stop.
+              This stop has no bonus hint written yet.
             </p>
           </div>
         )}
@@ -129,7 +130,7 @@ export default function StopDetail() {
             <span>Found it</span>
           </div>
           <ol className="found-steps">
-            <li>Take the photo with your <b>Camera app</b>, duck in frame.</li>
+            <li>Take the photo with your <b>Camera app</b>. Both ducks in frame, the one you found and the one you brought.</li>
             <li>Come back here and add it.</li>
           </ol>
           <button className="btn found-btn" disabled={busy} onClick={() => photoRef.current?.click()}>

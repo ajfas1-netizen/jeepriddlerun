@@ -125,33 +125,33 @@ rewards speed either. Both are deliberate.
 
 ## Notes and open items
 
-The app is loaded with the full 2025 route so it demos as a finished
-product. Everything below is a swap, not a build.
+The nine 2026 stops are loaded with riddles, written bonus hints,
+verified coordinates and social handles. Last year's fifteen-stop route
+and its photo clues have been removed.
 
-- **Riddles and stops are the 2025 set.** Replace in `src/data/stops.js`.
-- **Sponsor names and handles were researched, not guessed.** Each
-  business was matched to its stop by looking up its published street
-  address. Open **Crew → Organizer tools → Data check** for the short
-  list that still wants a human eye:
-  - Twinkles Jewelry and Wallace CJDR: no Instagram account found
-  - Sunrise Surf Shop: the obvious handle belongs to the Jacksonville
-    Beach parent store, so get the Jensen Beach one from them
-  - Broward Motorsports: the handle found looks like the multi-store
-    group account rather than a Treasure Coast one
-  - O'Donnell: every listing shows 6402 SE Federal Hwy, the booklet says
-    6400, and it is the one stop with no pin
-  - The Hutch: two listings disagree by about half a mile, so check the
-    pin against the map
-  - Stop 10: the 2025 booklet paired a toy riddle with Ocean Republic
-    Brewing's address. The address is right, the riddle looks wrong.
-- **Stop 11 is PAL's own building**, not a sponsor. Ironman 4x4 sponsors
-  the event without hosting a stop.
-- **Bonus clue art:** stops 1 to 8 are the real 2025 photo clues pulled
-  from the booklet. Stops 9 to 15 were blank in that file, so those are
-  drawn placeholders in the same style. Replace them with real photos.
-- **Event date, roll-out time and bonus code** are unset in
-  `src/data/event.js`. With the date blank the join screen shows the
-  rally point instead, so nothing reads as unfinished.
+**Still needed from AJ**
+
+- Event date and roll-out time. Set them in `src/data/event.js` and the
+  join screen shows them; leave them blank and it shows the rally point
+  instead, so nothing reads as unfinished.
+- The bonus code donors get at kickoff. Currently `DUCKDROP`.
+- Instagram handles for **Wallace CJDR** (none found, their site links
+  Facebook only) and **Sunrise Surf Shop** (the obvious handle belongs
+  to the Jacksonville Beach parent store). Without them the caption
+  falls back to the business name, which still tags nothing.
+
+**Worth knowing**
+
+- PAL's address is 1284 SW 34th St, **Palm City** 34990. AJ wrote
+  Stuart; Palm City is the postal city and what maps will match.
+- Wallace is the rally point, Ocean Republic is the finish, the seven in
+  between run in any order. The order in `stops.js` is a sensible loop,
+  not a rule, and the app says so.
+- There are two ducks now. PAL hides one at each stop and teams carry
+  their own. Both have to be in the photo, and the scoring line says so.
+- Proof of purchase was dropped from per-stop scoring. Spend still earns
+  a point per dollar and receipts are still checked at the closing
+  ceremony.
 - No Jeep trademarks are used. The visual language is built from
   non-trademarked community cues. Anything official needs written
   permission through Wallace CJDR.

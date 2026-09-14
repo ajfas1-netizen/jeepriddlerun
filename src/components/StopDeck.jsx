@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { IconCheck, IconLock, Grille } from './Icons.jsx'
 import { fullAddress } from '../data/stops.js'
 
-/* Horizontal snap deck. Fifteen stops, one screen, thumb-driven. */
+/* Horizontal snap deck. The whole route on one screen, thumb driven. */
 export default function StopDeck({ stops, bonus, initialIndex = 0 }) {
   const nav = useNavigate()
   const ref = useRef(null)
@@ -42,7 +42,9 @@ export default function StopDeck({ stops, bonus, initialIndex = 0 }) {
                   ? <span className="chip ok"><IconCheck size={14} /> Logged</span>
                   : s.isRally
                     ? <span className="chip warn">Rally point</span>
-                    : <span className="chip">{bonus ? 'Clue ready' : <><IconLock size={13} /> Locked</>}</span>}
+                    : s.isFinish
+                      ? <span className="chip warn">Finish</span>
+                      : <span className="chip">{bonus ? 'Hint ready' : <><IconLock size={13} /> Locked</>}</span>}
               </div>
               <div className="eyebrow" style={{ marginTop: 10 }}>{s.city}, {s.state}</div>
               <div style={{ fontFamily: 'var(--display)', fontWeight: 700, fontSize: 19, letterSpacing: '.02em', marginTop: 2, lineHeight: 1.1 }}>

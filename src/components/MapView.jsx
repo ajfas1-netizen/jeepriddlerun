@@ -47,7 +47,7 @@ export default function MapView({ stops, onPick, onMapTap, activeId }) {
     }
 
     placed.forEach((s) => {
-      const state = s.checkin?.photo ? 'done' : s.isRally ? 'rally' : ''
+      const state = s.checkin?.photo ? 'done' : (s.isRally || s.isFinish) ? 'rally' : ''
       const icon = L.divIcon({
         className: '',
         html: `<div class="pin ${state}${activeId === s.id ? ' active' : ''}"><span>${s.order}</span></div>`,

@@ -38,7 +38,7 @@ export default function Stops() {
                 <div className="lb-rank">{s.order}</div>
                 <button onClick={() => nav(`/stop/${s.id}`)} style={{ textAlign: 'left', minWidth: 0 }}>
                   <div className="lb-name">{s.sponsor || s.address}</div>
-                  <div className="lb-meta">{s.city} · {done ? 'Logged' : s.isRally ? 'Rally point' : bonus ? 'Clue ready' : 'Clue locked'}</div>
+                  <div className="lb-meta">{s.city} · {done ? 'Logged' : s.isRally ? 'Rally point' : s.isFinish ? 'Finish' : bonus ? 'Hint ready' : 'Hint locked'}</div>
                 </button>
                 <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
                   <a className="chip" href={mapsUrl(s)} target="_blank" rel="noreferrer" aria-label={`Navigate to stop ${s.order}`}><IconNav size={13} /></a>

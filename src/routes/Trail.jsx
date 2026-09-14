@@ -50,7 +50,7 @@ export default function Trail() {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 10 }}>
                 <div className="eyebrow">
-                  {stop.isRally ? 'Rally point' : `Stop ${stop.order}`} · {stop.city}
+                  {stop.isRally ? 'Rally point' : stop.isFinish ? 'Finish' : `Stop ${stop.order}`} · {stop.city}
                 </div>
                 {stop.checkin?.photo
                   ? <span className="chip ok"><IconCheck size={13} /> Logged</span>

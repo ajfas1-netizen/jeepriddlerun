@@ -348,3 +348,5 @@ a{color:inherit}
 .rc-award .card{padding:26px 24px 26px 0;border:0;border-right:1px solid var(--line);
   border-bottom:1px solid var(--line);border-radius:0;background:transparent}
 .rc-award .card:last-child{border-right:0}
+.vault-hint{padding:20px;background:var(--surface)}
+.vault-hint p{margin:0;font-size:15px;line-height:1.55;color:var(--bone)}

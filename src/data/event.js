@@ -22,22 +22,20 @@ export const EVENT = {
   mapCenter: [27.1965, -80.2533],
   mapZoom: 11,
   scoring: {
-    duck: 3,          // rubber duck visible in the photo
+    duck: 3,          // both ducks visible: the one they found and the one they carry
     posted: 3,        // photo posted to Facebook or Instagram
     tagLocation: 3,   // location / business tagged
     tagPal: 3,        // martincountypal tagged
-    hashtag: 3,       // event hashtag used
-    receipt: 3        // proof of purchase at the stop
+    hashtag: 3        // event hashtag used
   }
 }
 
 export const SCORE_ITEMS = [
-  { key: 'duck',        label: 'Duck in the photo',   hint: 'No duck, no points. Every single stop.' },
-  { key: 'posted',      label: 'Posted to FB or IG',  hint: 'Public post so the judges can find it.' },
-  { key: 'tagLocation', label: 'Location tagged',     hint: 'Tag the business that hosted you.' },
-  { key: 'tagPal',      label: 'PAL tagged',          hint: EVENT.palHandle },
-  { key: 'hashtag',     label: 'Hashtag used',        hint: EVENT.hashtag },
-  { key: 'receipt',     label: 'Proof of purchase',   hint: 'Buy something, keep the receipt.' }
+  { key: 'duck',        label: 'Both ducks in the photo', hint: 'The one you found and the one you brought.' },
+  { key: 'posted',      label: 'Posted to FB or IG',      hint: 'Public post so the judges can find it.' },
+  { key: 'tagLocation', label: 'Location tagged',         hint: 'Tag the business that hosted you.' },
+  { key: 'tagPal',      label: 'PAL tagged',              hint: EVENT.palHandle },
+  { key: 'hashtag',     label: 'Hashtag used',            hint: EVENT.hashtag }
 ]
 
 export const DUCKS = [

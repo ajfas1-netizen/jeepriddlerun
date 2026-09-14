@@ -1,11 +1,15 @@
 # MC PAL Jeep Riddle Run
 
 Event web app for the Martin County PAL Jeep Riddle Run fundraiser.
-Roughly 50 Jeeps, 15 sponsor stops around Martin County, one Saturday.
-Teams find a hidden item at each stop, photograph it with their rubber
-duck, and post it with the right tags. Points come from tags and
-dollar-for-dollar on money spent at the sponsors. There is no judged
-creativity score, so standings are fully automatic.
+Roughly 50 Jeeps, 9 sponsor stops around Martin County, one Saturday.
+PAL hides a duck at each stop and a riddle says where it is. Teams also
+carry their own duck, and both have to appear in the photo they post
+with the right tags. Points come from tags and dollar-for-dollar on
+money spent at the sponsors. Nothing is judged, so standings are fully
+automatic.
+
+Wallace Chrysler Jeep Dodge Ram is the rally point and Ocean Republic
+Brewing is the finish. The seven stops between them run in any order.
 
 ## Ground rules for this repo
 
@@ -63,19 +67,13 @@ instant feedback on the phone; `public.tag_points` in
 
 ## Known open items
 
-The repo carries the complete 2025 route so the app demos as finished.
-
-- 2026 riddles and locations are still the 2025 set.
-- Sponsors, Instagram handles, Facebook pages and coordinates were
-  researched from each business's published address, not inferred from
-  the riddles. Per-stop caveats live in the `verify` field and surface
-  in the app at Organizer tools > Data check. Do not clear a `verify`
-  note without AJ confirming the underlying fact.
-- Two stops have no Instagram handle found (Twinkles, Wallace CJDR) and
-  one is ambiguous (Sunrise Surf Shop). The caption assist falls back to
-  the street address for those. Do not invent handles.
-- Stop 3 (O'Donnell) has no coordinate. Drop it at Organizer tools >
-  Pin drop. Navigation works without it.
-- Bonus clue art for stops 1 to 8 is the real 2025 photography. Stops 9
-  to 15 are drawn SVG placeholders because those tiles were blank in the
-  source PDF.
+- Event date, roll-out time and the bonus code are unset in
+  `src/data/event.js`.
+- No Instagram handle found for Wallace CJDR; Sunrise Surf Shop's is
+  ambiguous. Do not invent either. The caption falls back to the
+  business name.
+- Per-stop caveats live in the `verify` field and surface in the app at
+  Organizer tools > Data check. Do not clear a `verify` note without AJ
+  confirming the underlying fact.
+- Bonus clues are written hints this year, in the `hint` field, not
+  photographs. There is no `public/clues` directory any more.

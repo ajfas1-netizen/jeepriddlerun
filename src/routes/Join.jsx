@@ -43,7 +43,7 @@ export default function Join() {
         </div>
         <h1 className="h1" style={{ marginTop: 8 }}>Jeep<br />Riddle Run</h1>
         <p style={{ color: 'var(--muted)', margin: '10px 0 22px', fontSize: 15, lineHeight: 1.5 }}>
-          Fifteen stops. Fifteen riddles. One duck in every photo. This is not a race, so take the whole day.
+          Nine stops. Nine riddles. A hidden duck at every one. This is not a race, so take the whole day.
         </p>
 
         <AnimatePresence mode="wait">
@@ -120,8 +120,8 @@ export default function Join() {
               <div className="card" style={{ padding: 15, marginBottom: 14, borderColor: 'rgba(201,162,39,.32)' }}>
                 <div className="eyebrow" style={{ color: 'var(--brass)', marginBottom: 7 }}>One rule about photos</div>
                 <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.55, color: 'rgba(236,234,226,.88)' }}>
-                  Take every photo with your normal Camera app so it saves to your phone. Then add it here and post it.
-                  Your duck has to be in every shot.
+                  Take every photo with your normal Camera app so it saves to your phone, then add it here and post it.
+                  Both ducks have to be in the shot: the one you find and the one riding with you.
                 </p>
               </div>
               <button className="btn btn-primary" disabled={busy} onClick={go}>{busy ? 'Starting…' : 'Roll out'}</button>
