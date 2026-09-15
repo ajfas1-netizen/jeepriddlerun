@@ -37,10 +37,11 @@ const localProvider = {
   async getCheckins() { return read(LS.checkins, {}) },
   async saveCheckin(stopId, patch) {
     const all = read(LS.checkins, {})
-    all[stopId] = { ...(all[stopId] || { flags: {}, spend: 0 }), ...patch, at: Date.now() }
+    all[stopId] = { ...(all[stopId] || { flags: {}, spend: 0 }), ...patch, at: Date.now(), synced: true }
     write(LS.checkins, all)
     return all
   },
+  async flush() { return { pending: 0 } },
   async uploadPhoto(_stopId, _kind, { dataUrl }) { return dataUrl },
   async getBonus() { return read(LS.bonus, false) },
   async setBonus(v) { write(LS.bonus, v); return v },
@@ -63,6 +64,16 @@ const localProvider = {
 }
 
 /* ------------------------------------------------------------- supabase */
+const pushCheckin = (teamId, stopId, row) =>
+  sb.from('checkins').upsert(
+    {
+      team_id: teamId, stop_id: stopId,
+      flags: row.flags, spend: row.spend,
+      photo_url: row.photo || null, receipt_url: row.receipt || null
+    },
+    { onConflict: 'team_id,stop_id' }
+  )
+
 const sb = IS_LIVE ? createClient(URL, KEY, { auth: { persistSession: true, autoRefreshToken: true } }) : null
 
 /* Anonymous auth gives every phone a stable uid with no sign-up screen.
@@ -116,11 +127,18 @@ const supaProvider = {
   async leaveTeam() { [LS.team, LS.checkins, LS.bonus].forEach((k) => localStorage.removeItem(k)) },
   async getCheckins() {
     const t = read(LS.team, null); if (!t) return {}
-    const { data } = await sb.from('checkins').select('*').eq('team_id', t.id)
-    const out = {}
-    ;(data || []).forEach((r) => {
-      out[r.stop_id] = { flags: r.flags || {}, spend: r.spend || 0, photo: r.photo_url, receipt: r.receipt_url, at: r.created_at }
+    const local = read(LS.checkins, {})
+    const { data, error } = await sb.from('checkins').select('*').eq('team_id', t.id)
+    // A dead spot must never look like an empty scorecard. If the read
+    // fails, the phone's own copy stands.
+    if (error || !data) return local
+    const out = { ...local }
+    data.forEach((r) => {
+      out[r.stop_id] = { flags: r.flags || {}, spend: r.spend || 0, photo: r.photo_url, receipt: r.receipt_url, at: r.created_at, synced: true }
     })
+    // Rows the phone has that the server has not accepted yet stay put,
+    // still flagged unsynced so flush() keeps trying.
+    Object.keys(local).forEach((k) => { if (local[k] && local[k].synced === false) out[k] = local[k] })
     write(LS.checkins, out)
     return out
   },
@@ -129,12 +147,29 @@ const supaProvider = {
     const all = read(LS.checkins, {})
     all[stopId] = { ...(all[stopId] || { flags: {}, spend: 0 }), ...patch, at: Date.now() }
     write(LS.checkins, all)
-    const row = all[stopId]
-    await sb.from('checkins').upsert(
-      { team_id: t.id, stop_id: stopId, flags: row.flags, spend: row.spend, photo_url: row.photo || null, receipt_url: row.receipt || null },
-      { onConflict: 'team_id,stop_id' }
-    )
+    const { error } = await pushCheckin(t.id, stopId, all[stopId])
+    // The phone keeps the truth either way. `synced` records whether the
+    // leaderboard has it yet, so a dead spot never loses a find.
+    all[stopId].synced = !error
+    write(LS.checkins, all)
+    if (error) console.warn('check-in not synced yet:', error.message)
     return all
+  },
+
+  /* Re-push anything that never landed. Four hours of driving around
+     Martin County is not four hours of continuous signal. */
+  async flush() {
+    const t = read(LS.team, null); if (!t) return { pending: 0 }
+    const all = read(LS.checkins, {})
+    let pending = 0
+    for (const [stopId, row] of Object.entries(all)) {
+      if (row.synced) continue
+      const { error } = await pushCheckin(t.id, stopId, row)
+      all[stopId].synced = !error
+      if (error) pending++
+    }
+    write(LS.checkins, all)
+    return { pending }
   },
   async uploadPhoto(stopId, kind, { blob }) {
     const t = read(LS.team, null); if (!t) throw new Error('No team')

@@ -98,16 +98,22 @@ drop policy if exists teams_insert    on public.teams;
 drop policy if exists teams_update    on public.teams;
 create policy teams_read   on public.teams for select using (true);
 create policy teams_insert on public.teams for insert with check (owner_id = auth.uid() or owner_id is null);
-create policy teams_update on public.teams for update using (owner_id = auth.uid()) with check (owner_id = auth.uid());
+-- Same reason as checkins_update below: a rejoined phone has a new uid.
+create policy teams_update on public.teams for update
+  using (auth.uid() is not null) with check (auth.uid() is not null);
 
 drop policy if exists checkins_read   on public.checkins;
 drop policy if exists checkins_write  on public.checkins;
 drop policy if exists checkins_update on public.checkins;
 create policy checkins_read on public.checkins for select using (true);
+-- Any signed-in phone may log a stop. Tying writes to the team's original
+-- owner_id looked tighter, but it broke the two cases that actually happen:
+-- a second phone in the same Jeep joining by code, and a phone that lost its
+-- storage and came back with a new anonymous uid. Both got a silent denial.
 create policy checkins_write on public.checkins for insert
-  with check (exists (select 1 from public.teams t where t.id = team_id and (t.owner_id = auth.uid() or t.owner_id is null)));
+  with check (auth.uid() is not null);
 create policy checkins_update on public.checkins for update
-  using (exists (select 1 from public.teams t where t.id = team_id and (t.owner_id = auth.uid() or t.owner_id is null)));
+  using (auth.uid() is not null) with check (auth.uid() is not null);
 
 drop policy if exists pins_read  on public.stop_pins;
 drop policy if exists pins_write on public.stop_pins;

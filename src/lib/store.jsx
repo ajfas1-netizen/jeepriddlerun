@@ -15,6 +15,7 @@ export function StoreProvider({ children }) {
   const [pins, setPins] = useState({})
   const [board, setBoard] = useState([])
   const [toast, setToast] = useState(null)
+  const [pending, setPending] = useState(0)
 
   const say = useCallback((msg) => {
     setToast(msg)
@@ -26,7 +27,11 @@ export function StoreProvider({ children }) {
     (async () => {
       const t = await provider.getTeam().catch(() => null)
       setTeam(t)
-      if (t) setCheckins(await provider.getCheckins().catch(() => ({})))
+      if (t) {
+        const rows = await provider.getCheckins().catch(() => ({}))
+        setCheckins(rows)
+        setPending(Object.values(rows).filter((r) => r && r.synced === false).length)
+      }
       setBonus(await provider.getBonus().catch(() => false))
       setPins(await provider.getPins().catch(() => ({})))
       setReady(true)
@@ -52,11 +57,39 @@ export function StoreProvider({ children }) {
     await provider.leaveTeam(); setTeam(null); setCheckins({}); setBonus(false)
   }, [])
 
+  /* Count the stops the phone has but the leaderboard does not. */
+  const countPending = useCallback((rows) =>
+    Object.values(rows || {}).filter((r) => r && r.synced === false).length, [])
+
   const patchCheckin = useCallback(async (stopId, patch) => {
     const next = await provider.saveCheckin(stopId, patch)
     setCheckins({ ...next })
+    setPending(countPending(next))
     return next
-  }, [])
+  }, [countPending])
+
+  /* Four hours around Martin County is not four hours of signal. Anything
+     that did not land gets pushed again the moment the phone comes back,
+     or the moment someone returns to the app from Instagram. */
+  const flush = useCallback(async () => {
+    const res = await provider.flush().catch(() => null)
+    if (!res) return
+    const rows = await provider.getCheckins().catch(() => null)
+    if (rows) { setCheckins({ ...rows }); setPending(countPending(rows)) }
+    else setPending(res.pending || 0)
+  }, [countPending])
+
+  useEffect(() => {
+    if (!ready || !team) return
+    const wake = () => { if (document.visibilityState === 'visible') flush() }
+    window.addEventListener('online', flush)
+    document.addEventListener('visibilitychange', wake)
+    flush()
+    return () => {
+      window.removeEventListener('online', flush)
+      document.removeEventListener('visibilitychange', wake)
+    }
+  }, [ready, team, flush])
 
   const upload = useCallback((stopId, kind, img) => provider.uploadPhoto(stopId, kind, img), [])
 
@@ -83,8 +116,8 @@ export function StoreProvider({ children }) {
   const nextStop = useMemo(() => stops.find((s) => !s.checkin?.photo) || null, [stops])
 
   const value = {
-    ready, live: IS_LIVE, team, checkins, bonus, pins, board, stops, totals, nextStop, toast,
-    join, leave, patchCheckin, upload, tryBonusCode, dropPin, refreshBoard, say
+    ready, live: IS_LIVE, team, checkins, bonus, pins, board, stops, totals, nextStop, toast, pending,
+    join, leave, patchCheckin, upload, tryBonusCode, dropPin, refreshBoard, say, flush
   }
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>
 }

@@ -61,7 +61,7 @@ export default function Join() {
               <div style={{ marginTop: 26 }}><InstallCard /></div>
               <div style={{ height: 26 }} />
               <div className="tread" />
-              <div className="eyebrow" style={{ margin: '18px 0 8px' }}>Riding with a rig that already checked in?</div>
+              <div className="eyebrow" style={{ margin: '18px 0 8px' }}>Already started, or riding with a rig that has?</div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 8 }}>
                 <input className="field" placeholder="TEAM CODE" value={code} maxLength={5}
                   onChange={(e) => setCode(e.target.value.toUpperCase())} />

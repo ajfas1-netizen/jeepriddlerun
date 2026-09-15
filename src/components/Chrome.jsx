@@ -6,7 +6,7 @@ import { DUCKS } from '../data/event.js'
 import { Duck, IconTrail, IconCards, IconTrophy, IconCrew } from './Icons.jsx'
 
 export function TopBar() {
-  const { team, totals, stops, nextStop } = useStore()
+  const { team, totals, stops, nextStop, pending } = useStore()
   const duck = DUCKS.find((d) => d.id === team?.duckId) || DUCKS[0]
   return (
     <header className="topbar">
@@ -15,7 +15,10 @@ export function TopBar() {
           <div className="crew-duck"><Duck body={duck.body} bill={duck.bill} size={26} /></div>
           <div style={{ minWidth: 0 }}>
             <div className="crew-name">{team?.name || 'No rig yet'}</div>
-            <div className="crew-sub">{totals.stops} of {stops.length} stops{team?.code ? ` · ${team.code}` : ''}</div>
+            <div className="crew-sub">
+              {totals.stops} of {stops.length} stops{team?.code ? ` · ${team.code}` : ''}
+              {pending > 0 ? <span className="offline-dot"> · saved on this phone, sending</span> : null}
+            </div>
           </div>
         </div>
         <div className="pts">{totals.total}<small>points</small></div>

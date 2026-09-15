@@ -50,7 +50,17 @@ export default function Results() {
     ]
   }, [board])
 
-  const needsReceipt = rows.filter((r) => Number(r.spend) > 0 && !r.receipt_url)
+  /* Per-stop rollup. Receipts were dropped from the app, so the useful
+     closing number is what each sponsor actually saw come through the door. */
+  const byStop = useMemo(() => STOPS.map((stop) => {
+    const mine = rows.filter((r) => r.stop_id === stop.id)
+    return {
+      stop,
+      rigs: new Set(mine.map((r) => r.team)).size,
+      photos: mine.filter((r) => r.photo_url).length,
+      spend: mine.reduce((s, r) => s + (Number(r.spend) || 0), 0)
+    }
+  }), [rows])
 
   const csv = () => {
     const head = ['rank', 'team', 'stops', 'spend_dollars', 'tag_points', 'spend_points', 'total_points']
@@ -82,7 +92,7 @@ export default function Results() {
         </div>
 
         <div className="rc-tabs">
-          {[['standings', 'Standings'], ['awards', 'Awards'], ['wall', 'Photo wall'], ['verify', `Receipts to verify (${needsReceipt.length})`]]
+          {[['standings', 'Standings'], ['awards', 'Awards'], ['wall', 'Photo wall'], ['stops', 'By stop']]
             .map(([k, l]) => <button key={k} data-on={tab === k} onClick={() => setTab(k)}>{l}</button>)}
         </div>
 
@@ -152,25 +162,20 @@ export default function Results() {
           ) : <p style={{ color: 'var(--muted)' }}>No photos submitted yet.</p>
         )}
 
-        {!loading && tab === 'verify' && (
-          needsReceipt.length ? (
-            <table className="rc-table">
-              <thead><tr><th>Rig</th><th>Stop</th><th className="num">Claimed</th><th>Receipt</th></tr></thead>
-              <tbody>
-                {needsReceipt.map((r, i) => {
-                  const stop = STOPS.find((s) => s.id === r.stop_id)
-                  return (
-                    <tr key={i}>
-                      <td><span className="rc-team">{r.team}</span></td>
-                      <td>{stop?.order} · {stop?.address}</td>
-                      <td className="num"><span className="rc-big">${r.spend}</span></td>
-                      <td><span className="chip warn">Check at closing</span></td>
-                    </tr>
-                  )
-                })}
-              </tbody>
-            </table>
-          ) : <p style={{ color: 'var(--muted)' }}>Every logged dollar has a receipt attached. Nothing to chase.</p>
+        {!loading && tab === 'stops' && (
+          <table className="rc-table">
+            <thead><tr><th>Stop</th><th className="num">Rigs</th><th className="num">Photos</th><th className="num">Spent</th></tr></thead>
+            <tbody>
+              {byStop.map(({ stop, rigs, photos, spend }) => (
+                <tr key={stop.id}>
+                  <td><span className="rc-team">{stop.order} · {stop.sponsor}</span></td>
+                  <td className="num">{rigs}</td>
+                  <td className="num">{photos}</td>
+                  <td className="num"><span className="rc-big">${spend}</span></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )}
 
         <footer style={{ marginTop: 46, paddingTop: 20, borderTop: '1px solid var(--line)' }}>
