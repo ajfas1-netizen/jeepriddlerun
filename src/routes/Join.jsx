@@ -49,16 +49,16 @@ export default function Join() {
         <AnimatePresence mode="wait">
           {i === 0 && (
             <motion.div key="a" {...step} transition={{ duration: 0.26 }}>
-              <div style={{ marginBottom: 22 }}><InstallCard /></div>
-              <div className="eyebrow" style={{ marginBottom: 8 }}>Step 1 · Name your rig</div>
+              <div className="step-label">Step 1 · Name your rig</div>
               <input
-                className="field" value={name} maxLength={28} autoComplete="off"
+                className="field field-lead" value={name} maxLength={28} autoComplete="off"
                 placeholder="Sandy Slots" onChange={(e) => setName(e.target.value)}
               />
               <p style={{ color: 'var(--muted)', fontSize: 13, margin: '10px 0 18px' }}>
                 This is what shows on the leaderboard and in your posts. Make it good.
               </p>
               <button className="btn btn-primary" disabled={name.trim().length < 2} onClick={() => setI(1)}>Next</button>
+              <div style={{ marginTop: 26 }}><InstallCard /></div>
               <div style={{ height: 26 }} />
               <div className="tread" />
               <div className="eyebrow" style={{ margin: '18px 0 8px' }}>Riding with a rig that already checked in?</div>
@@ -118,14 +118,14 @@ export default function Join() {
                 </div>
               </div>
               <div className="card" style={{ padding: 15, marginBottom: 14, borderColor: 'rgba(201,162,39,.32)' }}>
-                <div className="eyebrow" style={{ color: 'var(--brass)', marginBottom: 7 }}>Two rules</div>
+                <div className="eyebrow" style={{ color: 'var(--brass)', marginBottom: 7 }}>How it works</div>
                 <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.55, color: 'rgba(236,234,226,.88)' }}>
-                  Take every photo with your normal Camera app so it saves to your phone, then add it here and post it.
-                  Both ducks have to be in the shot: the one you find and the one riding with you.
+                  Take your photos with your normal Camera app so they save to your phone, then add them here and post
+                  them. Get both ducks in the shot, yours and the one you found. Some of them are out of reach, so a
+                  selfie with him in the background counts.
                 </p>
-                <p style={{ margin: '10px 0 0', fontSize: 13.5, lineHeight: 1.55, color: 'var(--brass)' }}>
-                  Leave the duck you find. Photograph him and put him right back. Every rig behind you still has to
-                  find him.
+                <p style={{ margin: '10px 0 0', fontSize: 13.5, lineHeight: 1.55, color: 'var(--muted)' }}>
+                  Leave the ducks where they are so the rigs behind you can find them.
                 </p>
               </div>
               <button className="btn btn-primary" disabled={busy} onClick={go}>{busy ? 'Starting…' : 'Roll out'}</button>
