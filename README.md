@@ -100,6 +100,12 @@ the certificate itself and an orange cloud breaks that handshake.
 - Hand the bonus code to donors at the bonus tier. One code unlocks
   every clue for the whole day.
 
+**The morning of, or the night before**
+
+Run `supabase/reset.sql` in the Supabase SQL editor to clear out test
+rigs, test check-ins and test photos. Phones used for testing clear
+themselves on next launch, so nobody has to do anything on their end.
+
 **At the closing ceremony**
 
 - Open `/#/results` on a laptop and put it on the screen.
