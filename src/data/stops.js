@@ -38,8 +38,8 @@ export const STOPS = [
     id: 's3', order: 3,
     sponsor: 'The Driver’s Seat',
     address: '1932 SE Federal Hwy', city: 'Stuart', state: 'FL', zip: '34994',
-    riddle: 'Everything in here is for the person behind the wheel. He is not on a shelf and he is not in a box. He climbed something soft and he liked the view. You will pass him on the way out.',
-    hint: 'At the register. He is sitting on top of the stack of hats.',
+    riddle: 'Everything in here is for the person behind the wheel. What you want is not up front, so keep walking, all the way to the back. He found something soft to perch on and he is sitting a little above eye level.',
+    hint: 'At the register, which is at the back of the store. He is up on the hat shelf.',
     igHandle: 'thedriversseatstuart', fbName: 'thedriversseat',
     lat: 27.181052, lng: -80.240633
   },
