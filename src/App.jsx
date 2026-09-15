@@ -9,12 +9,29 @@ import Rank from './routes/Rank.jsx'
 import Crew from './routes/Crew.jsx'
 import StopDetail from './routes/StopDetail.jsx'
 
+/* A phone that loaded the app before a deploy is holding an index.html
+   that names the old chunk files. Those files are gone the moment the
+   new build lands, so the next lazy screen it opens dies with "failed
+   to fetch dynamically imported module" and shows a black page. One
+   reload picks up the current index. The sessionStorage flag means a
+   chunk that is genuinely broken surfaces as an error instead of
+   looping the phone forever. */
+const chunk = (load) => lazy(() => load().then((mod) => {
+  sessionStorage.removeItem('jrr.chunkReload')
+  return mod
+}).catch((err) => {
+  if (sessionStorage.getItem('jrr.chunkReload')) throw err
+  sessionStorage.setItem('jrr.chunkReload', '1')
+  window.location.reload()
+  return new Promise(() => {})   // hold the render until the reload takes over
+}))
+
 /* Split the heavy screens out of the first paint. Leaflet only loads
    when the trail map is opened, and the desktop results console never
    ships to a participant's phone at all. */
-const Trail = lazy(() => import('./routes/Trail.jsx'))
-const Admin = lazy(() => import('./routes/Admin.jsx'))
-const Results = lazy(() => import('./routes/Results.jsx'))
+const Trail = chunk(() => import('./routes/Trail.jsx'))
+const Admin = chunk(() => import('./routes/Admin.jsx'))
+const Results = chunk(() => import('./routes/Results.jsx'))
 
 const Loading = ({ label = 'Loading…' }) => <div className="empty" style={{ margin: 'auto' }}>{label}</div>
 import './styles/app.css'
