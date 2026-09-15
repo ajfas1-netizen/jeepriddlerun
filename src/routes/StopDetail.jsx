@@ -24,6 +24,15 @@ export default function StopDetail() {
   const libraryRef = useRef(null)
   const caption = useMemo(() => (stop ? buildCaption(stop, team, stops.length) : ''), [stop, team, stops.length])
 
+  /* The run should pull you forward rather than dead end. Prefer the next
+     unlogged stop after this one, wrap back to the earliest unlogged one,
+     and when everything is done send them to the board instead. */
+  const onward = useMemo(() => {
+    if (!stop) return null
+    const left = stops.filter((s) => s.id !== stop.id && !s.checkin?.photo)
+    return left.find((s) => s.order > stop.order) || left[0] || null
+  }, [stops, stop])
+
   if (!stop) return null
   const c = stop.checkin || { flags: {}, spend: 0 }
   const earned = flagPoints(c.flags) + spendPoints(c.spend)
@@ -59,9 +68,17 @@ export default function StopDetail() {
   return (
     <Sheet onClose={() => nav(-1)} label={`Stop ${stop.order}`}
       title={stop.isRally ? 'Rally point' : stop.isFinish ? `Finish · stop ${stop.order}` : `Stop ${stop.order} of ${stops.length}`} footer={
-      <button className="btn btn-primary" onClick={copyCaption}>
-        <IconShare size={16} /> Copy the caption
-      </button>
+      <>
+        <button className="btn btn-primary" onClick={copyCaption}>
+          <IconShare size={16} /> Copy the caption
+        </button>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+          <button className="btn btn-ghost" onClick={() => nav('/stops')}>All stops</button>
+          {onward
+            ? <button className="btn btn-ghost" onClick={() => nav(`/stop/${onward.id}`)}>Next stop ›</button>
+            : <button className="btn btn-ghost" onClick={() => nav('/rank')}>The board ›</button>}
+        </div>
+      </>
     }>
       <input ref={photoRef} type="file" accept="image/*" hidden onChange={(e) => shoot(e, 'photo')} />
       <input ref={receiptRef} type="file" accept="image/*" capture="environment" hidden onChange={(e) => shoot(e, 'receipt')} />
@@ -207,6 +224,23 @@ export default function StopDetail() {
         <div className="eyebrow" style={{ margin: '16px 0 8px' }}>Your caption, already written</div>
         <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontFamily: 'var(--ui)', fontSize: 14, lineHeight: 1.55, color: 'rgba(236,234,226,.92)' }}>{caption}</pre>
       </div>
+      {onward ? (
+        <button className="onward" onClick={() => nav(`/stop/${onward.id}`)}>
+          <span className="eyebrow">Up next</span>
+          <span className="onward-name">{onward.sponsor}</span>
+          <span className="onward-meta">
+            {onward.isFinish ? 'Finish' : `Stop ${onward.order}`} · {onward.city}
+          </span>
+          <span className="onward-go">Take me there ›</span>
+        </button>
+      ) : (
+        <button className="onward" onClick={() => nav('/rank')}>
+          <span className="eyebrow">That is all {stops.length}</span>
+          <span className="onward-name">Nice work</span>
+          <span className="onward-meta">Head back and see where you landed</span>
+          <span className="onward-go">Open the board ›</span>
+        </button>
+      )}
       <div style={{ height: 10 }} />
       {sp.get('log') && <span className="sr">Logging mode</span>}
     </Sheet>

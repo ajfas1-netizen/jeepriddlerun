@@ -17,12 +17,14 @@ export default function MapView({ stops, onPick, onMapTap, activeId }) {
     if (map.current || !el.current) return
     const m = L.map(el.current, { zoomControl: false, attributionControl: true, tap: true })
       .setView(EVENT.mapCenter, EVENT.mapZoom)
-    const tiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      maxZoom: 19, subdomains: 'abcd',
-      attribution: '&copy; OpenStreetMap &copy; CARTO'
+    // OpenStreetMap's own tiles: no API key, no account, no billing page
+    // to get surprised by on event morning. CARTO started demanding a key
+    // and served "API key needed" tiles instead of a map. The dark look
+    // comes from a CSS filter on the tile pane, see .leaflet-tile-pane.
+    const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
     }).addTo(m)
-    // A shared preview link blocks outside images, so streets will not
-    // draw there. Say so rather than letting it look broken.
     let misses = 0
     tiles.on('tileerror', () => { if (++misses > 2) setTilesBlocked(true) })
     tiles.on('tileload', () => setTilesBlocked(false))
@@ -63,7 +65,7 @@ export default function MapView({ stops, onPick, onMapTap, activeId }) {
   return (
     <>
       <div ref={el} className="mapwrap" role="application" aria-label="Riddle Run trail map" />
-      {tilesBlocked && <div className="map-note">Street map loads on the live site</div>}
+      {tilesBlocked && <div className="map-note">Map tiles offline · pins still work</div>}
     </>
   )
 }
