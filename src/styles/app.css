@@ -233,10 +233,8 @@ a{color:inherit}
 .found-top{display:flex;align-items:center;gap:10px}
 .found-top span{font-family:var(--display);font-weight:600;font-size:21px;line-height:1;
   text-transform:uppercase;letter-spacing:.02em;color:var(--bone)}
-.found-steps{margin:14px 0 18px;padding-left:18px;display:grid;gap:8px}
-.found-steps li{font-size:14px;line-height:1.5;color:var(--muted)}
-.found-steps li::marker{color:var(--faint);font-variant-numeric:tabular-nums}
-.found-steps b{font-weight:600;color:var(--bone)}
+.found-copy{margin:12px 0 18px;color:var(--muted);font-size:14px;line-height:1.55}
+.found-copy b{color:var(--bone);font-weight:600}
 .found-btn{background:var(--bone);color:#0D110C}
 .found-btn:disabled{opacity:.32}
 

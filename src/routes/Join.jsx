@@ -119,13 +119,12 @@ export default function Join() {
               </div>
               <div className="card" style={{ padding: 15, marginBottom: 14, borderColor: 'rgba(201,162,39,.32)' }}>
                 <div className="eyebrow" style={{ color: 'var(--brass)', marginBottom: 7 }}>How it works</div>
-                <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.55, color: 'rgba(236,234,226,.88)' }}>
-                  Take your photos with your normal Camera app so they save to your phone, then add them here and post
-                  them. Get both ducks in the shot, yours and the one you found. Some of them are out of reach, so a
-                  selfie with him in the background counts.
+                <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: 'rgba(236,234,226,.9)' }}>
+                  Drive to the stop. The riddle tells you where to look. The duck is how you know you found it. Take
+                  the photo, post it, and spend a couple of dollars while you are there.
                 </p>
                 <p style={{ margin: '10px 0 0', fontSize: 13.5, lineHeight: 1.55, color: 'var(--muted)' }}>
-                  Leave the ducks where they are so the rigs behind you can find them.
+                  Use your normal Camera app so the photo saves to your phone, then add it here.
                 </p>
               </div>
               <button className="btn btn-primary" disabled={busy} onClick={go}>{busy ? 'Starting…' : 'Roll out'}</button>

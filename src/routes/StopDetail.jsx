@@ -129,11 +129,9 @@ export default function StopDetail() {
             <Duck size={30} body="#C9A227" bill="#8A6F1B" />
             <span>Found it</span>
           </div>
-          <ol className="found-steps">
-            <li>Get a photo with your <b>Camera app</b>. Both ducks in the shot. A selfie works fine if he is out of reach.</li>
-            <li>Leave him where he is for the next rig.</li>
-            <li>Come back here and add the photo.</li>
-          </ol>
+          <p className="found-copy">
+            Take the photo with your <b>Camera app</b> so it saves to your phone, then add it here.
+          </p>
           <button className="btn found-btn" disabled={busy} onClick={() => photoRef.current?.click()}>
             <IconCamera size={18} /> Add the photo
           </button>

@@ -29,7 +29,7 @@ export const EVENT = {
 }
 
 export const SCORE_ITEMS = [
-  { key: 'duck',        label: 'Both ducks in the photo', hint: 'Yours and the one you found. A selfie counts.' },
+  { key: 'duck',        label: 'Duck in the photo',       hint: 'How we know you found the spot.' },
   { key: 'posted',      label: 'Posted to FB or IG',      hint: 'Public post so the judges can find it.' },
   { key: 'tagLocation', label: 'Location tagged',         hint: 'Tag the business that hosted you.' },
   { key: 'tagPal',      label: 'PAL tagged',              hint: EVENT.palHandle },
