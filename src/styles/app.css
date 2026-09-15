@@ -377,3 +377,48 @@ a{color:inherit}
 /* Shown only when a find is on the phone but not yet on the leaderboard.
    Quiet on purpose: nothing is lost, it is just waiting for signal. */
 .offline-dot { color: var(--brass); }
+
+/* ------------------------------------------------------------------
+   RIG CHECK. Used standing up at Ocean Republic with a line forming,
+   so it is built for a phone first and the laptop just gets more room.
+   ------------------------------------------------------------------ */
+.desk-lede{color:var(--muted);font-size:13.5px;line-height:1.6;margin:0 0 18px;max-width:52ch}
+.desk-search{margin:0 0 18px}
+.desk-rig{border-bottom:1px solid var(--line)}
+.desk-row{display:flex;align-items:center;gap:14px;width:100%;padding:16px 0;
+  background:none;border:0;color:var(--bone);text-align:left;cursor:pointer}
+.desk-row:hover{background:linear-gradient(90deg,rgba(236,234,226,.04),transparent 70%)}
+.desk-name{flex:1;min-width:0;display:block}
+.desk-name small{display:block;color:var(--muted);font-size:12px;margin-top:3px;letter-spacing:.02em}
+.desk-spend{font-family:var(--display);font-weight:600;font-size:22px;color:var(--brass);
+  text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.desk-spend small{display:block;font-family:var(--ui);font-weight:500;font-size:10px;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:2px}
+.desk-body{padding:0 0 18px}
+.desk-stop{padding:14px 0;border-top:1px solid var(--line)}
+.desk-stop-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.desk-flags{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 12px}
+/* A claimed tag reads bright, an unclaimed one recedes. The checker is
+   looking for what is missing, not reading every label. */
+.desk-flags .chip[data-off="true"]{opacity:.35}
+.desk-shots{display:flex;gap:10px;flex-wrap:wrap}
+.desk-shots a{display:block;width:104px;text-decoration:none}
+.desk-shots img{width:104px;height:104px;object-fit:cover;border-radius:var(--r-s);
+  background:#0A0D09;border:1px solid var(--line-2);display:block}
+.desk-shots small{display:block;color:var(--muted);font-size:11px;margin-top:5px;
+  letter-spacing:.1em;text-transform:uppercase}
+.desk-missing{color:var(--muted);font-size:12.5px;align-self:center}
+.desk-note{color:var(--muted);font-size:12px;line-height:1.55;margin:14px 0 0;max-width:56ch}
+
+/* The results console is a laptop page every other day of the year, but on
+   Saturday it is held in one hand at the finish line. */
+@media (max-width:640px){
+  .rc-inner{padding:26px 16px 60px}
+  .rc-head{gap:14px}
+  .rc-kpis{grid-template-columns:1fr 1fr}
+  .rc-tabs{gap:16px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .rc-tabs button{white-space:nowrap}
+  .rc-table{display:block;overflow-x:auto}
+  .rc-wall{grid-template-columns:1fr 1fr}
+  .desk-spend{font-size:19px}
+}

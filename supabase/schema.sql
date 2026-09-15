@@ -81,7 +81,10 @@ group by t.id;
 
 create or replace view public.submissions as
 select c.stop_id, t.name as team, t.duck_id, c.flags, c.spend,
-       c.photo_url, c.receipt_url, c.created_at
+       c.photo_url, c.receipt_url, c.created_at,
+       -- join_code so the person checking receipts at the finish can look a
+       -- rig up by the code on its phone instead of guessing at the name
+       t.join_code
 from public.checkins c join public.teams t on t.id = c.team_id;
 
 -- ============================================================

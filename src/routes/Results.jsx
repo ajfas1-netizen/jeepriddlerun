@@ -1,16 +1,24 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { provider, IS_LIVE } from '../lib/providers.js'
-import { EVENT, DUCKS } from '../data/event.js'
+import { EVENT, DUCKS, SCORE_ITEMS } from '../data/event.js'
 import { STOPS, SPONSORS } from '../data/stops.js'
 import { Duck, Grille } from '../components/Icons.jsx'
 
 /* Desktop results console for the PAL team. Lives at #/results so it is
    a link you can paste into a laptop at the closing ceremony and put on
    a projector. Nothing here is phone-shaped. */
+const order = (stopId) => (STOPS.find((s) => s.id === stopId)?.order ?? 99)
+const stopName = (stopId) => {
+  const s = STOPS.find((x) => x.id === stopId)
+  return s ? `${s.order} · ${s.sponsor}` : stopId
+}
+
 export default function Results() {
   const [board, setBoard] = useState([])
   const [rows, setRows] = useState([])
   const [tab, setTab] = useState('standings')
+  const [q, setQ] = useState('')
+  const [openRig, setOpenRig] = useState(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -62,6 +70,31 @@ export default function Results() {
     }
   }), [rows])
 
+  /* One entry per rig, with every stop it logged. This is what the person
+     checking receipts at Ocean Republic actually needs: the rig in front of
+     them, what it claimed, and nothing else on screen. */
+  const rigs = useMemo(() => {
+    const by = new Map()
+    rows.forEach((r) => {
+      const key = r.team
+      if (!by.has(key)) by.set(key, { team: r.team, code: r.join_code, duckId: r.duck_id, stops: [], spend: 0, receipts: 0 })
+      const rig = by.get(key)
+      rig.stops.push(r)
+      rig.spend += Number(r.spend) || 0
+      if (r.receipt_url) rig.receipts += 1
+    })
+    return [...by.values()]
+      .map((rig) => ({ ...rig, stops: rig.stops.slice().sort((a, b) => order(a.stop_id) - order(b.stop_id)) }))
+      .sort((a, b) => a.team.localeCompare(b.team))
+  }, [rows])
+
+  const found = useMemo(() => {
+    const needle = q.trim().toLowerCase()
+    if (!needle) return rigs
+    return rigs.filter((r) =>
+      r.team.toLowerCase().includes(needle) || String(r.code || '').toLowerCase().includes(needle))
+  }, [rigs, q])
+
   const csv = () => {
     const head = ['rank', 'team', 'stops', 'spend_dollars', 'tag_points', 'spend_points', 'total_points']
     const data = board.map((r, i) => [i + 1, r.name, r.stops, r.spend, r.tags, r.money ?? r.spend, r.total])
@@ -92,7 +125,7 @@ export default function Results() {
         </div>
 
         <div className="rc-tabs">
-          {[['standings', 'Standings'], ['awards', 'Awards'], ['wall', 'Photo wall'], ['stops', 'By stop']]
+          {[['standings', 'Standings'], ['awards', 'Awards'], ['wall', 'Photo wall'], ['stops', 'By stop'], ['desk', 'Rig check']]
             .map(([k, l]) => <button key={k} data-on={tab === k} onClick={() => setTab(k)}>{l}</button>)}
         </div>
 
@@ -176,6 +209,74 @@ export default function Results() {
               ))}
             </tbody>
           </table>
+        )}
+
+        {!loading && tab === 'desk' && (
+          <div className="desk">
+            <p className="desk-lede">
+              For the table at the finish. Find the rig, check what it claimed against the
+              receipts in their hand, and spot check a couple of posts on their phone.
+            </p>
+
+            <input
+              className="field desk-search"
+              placeholder="Rig name or code"
+              value={q}
+              onChange={(e) => { setQ(e.target.value); setOpenRig(null) }}
+            />
+
+            {!found.length && <p style={{ color: 'var(--muted)' }}>{rigs.length ? 'No rig by that name or code.' : 'No rigs have logged a stop yet.'}</p>}
+
+            {found.map((rig) => {
+              const duck = DUCKS.find((d) => d.id === rig.duckId) || DUCKS[0]
+              const open = openRig === rig.team
+              return (
+                <div className="desk-rig" key={rig.team}>
+                  <button className="desk-row" onClick={() => setOpenRig(open ? null : rig.team)}>
+                    <Duck body={duck.body} bill={duck.bill} size={24} />
+                    <span className="desk-name">
+                      <span className="rc-team">{rig.team}</span>
+                      <small>{rig.code ? rig.code + ' · ' : ''}{rig.stops.length} stops · {rig.receipts} receipts uploaded</small>
+                    </span>
+                    <span className="desk-spend">${rig.spend}<small>claimed</small></span>
+                  </button>
+
+                  {open && (
+                    <div className="desk-body">
+                      {rig.stops.map((r) => (
+                        <div className="desk-stop" key={r.stop_id}>
+                          <div className="desk-stop-head">
+                            <span className="rc-team" style={{ fontSize: 14 }}>{stopName(r.stop_id)}</span>
+                            <span className="rc-big">${Number(r.spend) || 0}</span>
+                          </div>
+                          <div className="desk-flags">
+                            {SCORE_ITEMS.map((item) => (
+                              <span key={item.key} className={`chip ${r.flags && r.flags[item.key] ? 'ok' : ''}`}
+                                    data-off={!(r.flags && r.flags[item.key])}>
+                                {item.label}
+                              </span>
+                            ))}
+                          </div>
+                          <div className="desk-shots">
+                            {r.photo_url
+                              ? <a href={r.photo_url} target="_blank" rel="noreferrer"><img src={r.photo_url} alt="Their find" /><small>Find</small></a>
+                              : <span className="desk-missing">No photo</span>}
+                            {r.receipt_url
+                              ? <a href={r.receipt_url} target="_blank" rel="noreferrer"><img src={r.receipt_url} alt="Their receipt" /><small>Receipt</small></a>
+                              : <span className="desk-missing">No receipt uploaded</span>}
+                          </div>
+                        </div>
+                      ))}
+                      <p className="desk-note">
+                        Tags above are what the rig ticked itself. The app never checked Instagram,
+                        so a post is only confirmed by looking at their phone.
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
         )}
 
         <footer style={{ marginTop: 46, paddingTop: 20, borderTop: '1px solid var(--line)' }}>
