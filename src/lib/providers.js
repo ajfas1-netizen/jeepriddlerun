@@ -64,6 +64,8 @@ const localProvider = {
 }
 
 /* ------------------------------------------------------------- supabase */
+let channelSeq = 0
+
 const pushCheckin = (teamId, stopId, row) =>
   sb.from('checkins').upsert(
     {
@@ -211,8 +213,13 @@ const supaProvider = {
       spend: r.spend, tags: r.tag_points, money: r.spend_points, total: r.total_points
     })).sort((a, b) => b.total - a.total)
   },
+  /* Every caller gets its own channel. sb.channel(name) hands back the
+     EXISTING channel when the name is already taken, and adding a
+     listener to a channel that has already subscribed throws. The
+     results console subscribes while the store is also subscribed, so a
+     fixed name crashed that page every time. */
   subscribe(cb) {
-    const ch = sb.channel('rr')
+    const ch = sb.channel(`rr-${++channelSeq}`)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'checkins' }, cb)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'teams' }, cb)
       .subscribe()
