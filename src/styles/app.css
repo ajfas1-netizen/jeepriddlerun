@@ -383,7 +383,11 @@ a{color:inherit}
    so it is built for a phone first and the laptop just gets more room.
    ------------------------------------------------------------------ */
 .desk-lede{color:var(--muted);font-size:13.5px;line-height:1.6;margin:0 0 18px;max-width:52ch}
-.desk-search{margin:0 0 18px}
+.desk-tools{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap;margin:0 0 10px}
+.desk-search{margin:0;flex:1 1 260px;max-width:420px}
+.desk-export{width:auto;padding:0 22px;white-space:nowrap;flex:0 0 auto}
+.desk-export:disabled{opacity:.4;cursor:default}
+.desk-backup{color:var(--muted);font-size:12px;line-height:1.55;margin:0 0 20px;max-width:56ch}
 .desk-rig{border-bottom:1px solid var(--line)}
 .desk-row{display:flex;align-items:center;gap:14px;width:100%;padding:16px 0;
   background:none;border:0;color:var(--bone);text-align:left;cursor:pointer}
@@ -394,8 +398,13 @@ a{color:inherit}
   text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .desk-spend small{display:block;font-family:var(--ui);font-weight:500;font-size:10px;
   letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:2px}
-.desk-body{padding:0 0 18px}
-.desk-stop{padding:14px 0;border-top:1px solid var(--line)}
+/* On a laptop or tablet all nine stops sit side by side, so the person
+   checking a stack of receipts sees the whole rig at once instead of
+   scrolling a column while someone waits. */
+.desk-body{padding:4px 0 20px;display:grid;gap:12px;
+  grid-template-columns:repeat(auto-fill,minmax(310px,1fr))}
+.desk-stop{padding:14px 16px;border:1px solid var(--line);border-radius:var(--r-m);
+  background:var(--surface)}
 .desk-stop-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
 .desk-flags{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 12px}
 /* A claimed tag reads bright, an unclaimed one recedes. The checker is
@@ -408,7 +417,8 @@ a{color:inherit}
 .desk-shots small{display:block;color:var(--muted);font-size:11px;margin-top:5px;
   letter-spacing:.1em;text-transform:uppercase}
 .desk-missing{color:var(--muted);font-size:12.5px;align-self:center}
-.desk-note{color:var(--muted);font-size:12px;line-height:1.55;margin:14px 0 0;max-width:56ch}
+.desk-note{color:var(--muted);font-size:12px;line-height:1.55;margin:2px 0 0;max-width:56ch;
+  grid-column:1/-1}
 
 /* The results console is a laptop page every other day of the year, but on
    Saturday it is held in one hand at the finish line. */
@@ -421,4 +431,6 @@ a{color:inherit}
   .rc-table{display:block;overflow-x:auto}
   .rc-wall{grid-template-columns:1fr 1fr}
   .desk-spend{font-size:19px}
+  .desk-body{grid-template-columns:1fr}
+  .desk-stop{padding:14px 0;border:0;border-top:1px solid var(--line);border-radius:0;background:none}
 }

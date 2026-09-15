@@ -95,14 +95,43 @@ export default function Results() {
       r.team.toLowerCase().includes(needle) || String(r.code || '').toLowerCase().includes(needle))
   }, [rigs, q])
 
+  const download = (name, text) => {
+    const a = document.createElement('a')
+    a.href = URL.createObjectURL(new Blob([text], { type: 'text/csv;charset=utf-8' }))
+    a.download = name
+    a.click(); URL.revokeObjectURL(a.href)
+  }
+
+  const toCsv = (head, data) =>
+    [head, ...data].map((r) => r.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n')
+
+  /* The offline copy of this screen. Hit it once when the rigs are in and
+     the finish table can keep working through a dead patch of wifi. */
+  const csvDesk = () => {
+    // Headers read as English, because a spreadsheet nobody can parse at a
+    // noisy finish line is not a backup.
+    const slug = (label) => label.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '')
+    const head = ['rig', 'code', 'total_claimed', 'stop', 'sponsor', 'spent_here',
+      ...SCORE_ITEMS.map((i) => slug(i.label)), 'photo', 'receipt']
+    const data = []
+    rigs.forEach((rig) => {
+      rig.stops.forEach((r) => {
+        const stop = STOPS.find((x) => x.id === r.stop_id)
+        data.push([
+          rig.team, rig.code || '', rig.spend,
+          stop?.order ?? '', stop?.sponsor ?? r.stop_id, Number(r.spend) || 0,
+          ...SCORE_ITEMS.map((i) => (r.flags && r.flags[i.key] ? 'yes' : 'no')),
+          r.photo_url ? 'yes' : 'no', r.receipt_url ? 'yes' : 'no'
+        ])
+      })
+    })
+    download(`riddle-run-${EVENT.year}-rig-check.csv`, toCsv(head, data))
+  }
+
   const csv = () => {
     const head = ['rank', 'team', 'stops', 'spend_dollars', 'tag_points', 'spend_points', 'total_points']
     const data = board.map((r, i) => [i + 1, r.name, r.stops, r.spend, r.tags, r.money ?? r.spend, r.total])
-    const text = [head, ...data].map((r) => r.map((v) => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n')
-    const a = document.createElement('a')
-    a.href = URL.createObjectURL(new Blob([text], { type: 'text/csv;charset=utf-8' }))
-    a.download = `riddle-run-${EVENT.year}-results.csv`
-    a.click(); URL.revokeObjectURL(a.href)
+    download(`riddle-run-${EVENT.year}-results.csv`, toCsv(head, data))
   }
 
   return (
@@ -218,12 +247,21 @@ export default function Results() {
               receipts in their hand, and spot check a couple of posts on their phone.
             </p>
 
-            <input
-              className="field desk-search"
-              placeholder="Rig name or code"
-              value={q}
-              onChange={(e) => { setQ(e.target.value); setOpenRig(null) }}
-            />
+            <div className="desk-tools">
+              <input
+                className="field desk-search"
+                placeholder="Rig name or code"
+                value={q}
+                onChange={(e) => { setQ(e.target.value); setOpenRig(null) }}
+              />
+              <button className="btn btn-ghost desk-export" onClick={csvDesk} disabled={!rigs.length}>
+                Download this list
+              </button>
+            </div>
+            <p className="desk-backup">
+              Hit that once the rigs are in. It saves every rig and everything they
+              claimed as a spreadsheet, so the table keeps working if the wifi does not.
+            </p>
 
             {!found.length && <p style={{ color: 'var(--muted)' }}>{rigs.length ? 'No rig by that name or code.' : 'No rigs have logged a stop yet.'}</p>}
 
