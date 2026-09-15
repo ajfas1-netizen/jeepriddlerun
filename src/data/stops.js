@@ -22,7 +22,7 @@ export const STOPS = [
     riddle: 'Four hundred horses sit waiting in rows, but the one you are after has feathers, not chrome. He is not parked and he is not on a shelf. He is riding along with a man named Houston.',
     hint: 'Houston works the floor. Walk in, ask for him by name, and he is holding the duck.',
     igHandle: '', fbName: 'WallaceCJDR',
-    verify: 'No Instagram account found. Their site links Facebook only.',
+    noInstagram: true, // confirmed by AJ: Facebook only
     lat: 27.171389, lng: -80.232575
   },
   {
@@ -86,8 +86,7 @@ export const STOPS = [
     address: '11013 S Ocean Dr', city: 'Jensen Beach', state: 'FL', zip: '34957',
     riddle: 'A whole wall of them, waxed and standing and waiting for a swell. Only one of them wears the name over the door. He picked that one, and he did not stop at the bottom.',
     hint: 'Find the board with the Sunrise logo on it. He is riding the top of it.',
-    igHandle: '', fbName: 'Sunrise Surf Shop',
-    verify: 'The obvious handle belongs to the Jacksonville Beach parent store. Get the Jensen Beach one from them.',
+    igHandle: 'sunrisejb', fbName: 'Sunrise Surf Shop',
     lat: 27.263649, lng: -80.202302
   },
   {

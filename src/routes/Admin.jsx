@@ -96,11 +96,11 @@ export default function Admin() {
               Everything that still wants a human eye before anything is printed. Nothing here blocks the event.
             </p>
           </div>
-          {stops.filter((s) => s.verify || !s.igHandle || s.lat == null).map((s) => (
+          {stops.filter((s) => s.verify || (!s.igHandle && !s.noInstagram) || s.lat == null).map((s) => (
             <div key={s.id} className="card" style={{ padding: 14, marginBottom: 8 }}>
               <div className="eyebrow">Stop {s.order} · {s.sponsor}</div>
               <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', margin: '8px 0 0' }}>
-                {!s.igHandle && <span className="chip warn">No Instagram handle</span>}
+                {!s.igHandle && !s.noInstagram && <span className="chip warn">No Instagram handle</span>}
                 {s.lat == null && <span className="chip warn">No pin</span>}
               </div>
               {s.verify && (

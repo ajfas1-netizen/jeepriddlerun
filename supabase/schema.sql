@@ -51,6 +51,10 @@ create table if not exists public.stop_pins (
 -- edited from a phone. Change the numbers here and in
 -- src/data/event.js together.
 -- ============================================================
+-- Five scoring flags at three points each. Receipt is recorded on the
+-- checkin but deliberately NOT scored: per-stop proof of purchase was
+-- dropped for 2026. These five must match EVENT.scoring in
+-- src/data/event.js or the leaderboard will disagree with the phone.
 create or replace function public.tag_points(f jsonb) returns integer
 language sql immutable as $$
   select coalesce((f->>'duck')::boolean::int,0)*3
@@ -58,7 +62,6 @@ language sql immutable as $$
        + coalesce((f->>'tagLocation')::boolean::int,0)*3
        + coalesce((f->>'tagPal')::boolean::int,0)*3
        + coalesce((f->>'hashtag')::boolean::int,0)*3
-       + coalesce((f->>'receipt')::boolean::int,0)*3
 $$;
 
 create or replace view public.leaderboard as
