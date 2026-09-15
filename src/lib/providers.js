@@ -100,8 +100,16 @@ const supaProvider = {
     await ensureAuth()
     const t = read(LS.team, null)
     if (!t) return null
-    const { data } = await sb.from('teams').select('*').eq('id', t.id).maybeSingle()
-    if (!data) { localStorage.removeItem(LS.team); return null }
+    const { data, error } = await sb.from('teams').select('*').eq('id', t.id).maybeSingle()
+    // A failed read is not proof the rig is gone. Only a clean answer of
+    // "no such row" clears the phone, which is what happens after the
+    // pre-event reset. Anything else and the phone keeps what it has, so a
+    // dead spot at stop 4 never throws a team back to the sign-up screen.
+    if (error) return t
+    if (!data) {
+      [LS.team, LS.checkins, LS.bonus].forEach((k) => localStorage.removeItem(k))
+      return null
+    }
     const merged = { ...t, ...data, duckId: data.duck_id, rigId: data.rig_id }
     write(LS.team, merged)
     return merged
