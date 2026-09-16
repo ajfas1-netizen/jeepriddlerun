@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { StoreProvider, useStore } from './lib/store.jsx'
 import { TopBar, TabBar, Toast } from './components/Chrome.jsx'
 import Join from './routes/Join.jsx'
+import StartLine from './routes/StartLine.jsx'
 import Stops from './routes/Stops.jsx'
 import Rank from './routes/Rank.jsx'
 import Crew from './routes/Crew.jsx'
@@ -53,9 +54,17 @@ function Slide({ children, dir }) {
   )
 }
 
+/* Shown once per rig, between naming it and the first stop. Keyed by team
+   id so rejoining on a second phone does not nag the same rig twice, and
+   wrapped because storage throws in private windows. */
+const askedKey = (id) => `jrr.asked.${id}`
+const wasAsked = (id) => { try { return Boolean(localStorage.getItem(askedKey(id))) } catch { return true } }
+const markAsked = (id) => { try { localStorage.setItem(askedKey(id), '1') } catch {} }
+
 function Inner() {
   const { ready, team, live } = useStore()
   const location = useLocation()
+  const [asked, setAsked] = React.useState(false)
 
   if (location.pathname === '/results') {
     return <Suspense fallback={<div className="rc"><div className="rc-inner"><Loading label="Loading results…" /></div></div>}><Results /></Suspense>
@@ -82,6 +91,17 @@ function Inner() {
       <div className="shell">
         {!live && <div className="demo-flag">Demo mode · data stays on this phone</div>}
         <div className="stage"><Join /></div>
+      </div>
+    )
+  }
+
+  if (!asked && !wasAsked(team.id)) {
+    return (
+      <div className="shell">
+        {!live && <div className="demo-flag">Demo mode · data stays on this phone</div>}
+        <div className="stage">
+          <StartLine onDone={() => { markAsked(team.id); setAsked(true) }} />
+        </div>
       </div>
     )
   }

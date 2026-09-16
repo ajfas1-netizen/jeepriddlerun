@@ -1,7 +1,7 @@
 # MC PAL Jeep Riddle Run
 
 Event web app for the Martin County PAL Jeep Riddle Run fundraiser.
-Roughly 50 Jeeps, 11 sponsor stops around Martin County, one Saturday.
+Roughly 50 Jeeps, 12 sponsor stops around Martin County, one Saturday.
 PAL hides a duck at each stop and a riddle says where it is. Teams also
 carry their own duck, and both have to appear in the photo they post
 with the right tags. Points come from tags, dollar-for-dollar on money spent at the
@@ -9,7 +9,7 @@ sponsors, and two points a dollar on anything pledged to PAL. Nothing is judged,
 automatic.
 
 Wallace Chrysler Jeep Dodge Ram is the rally point and Ocean Republic
-Brewing is the finish. The seven stops between them run in any order.
+Brewing is the finish. The ten stops between them run in any order.
 
 ## Ground rules for this repo
 
@@ -42,7 +42,7 @@ on every push to `main`. Custom domain `www.jeepriddlerun.com` via
 ```
 src/
   data/event.js      EVENT config, scoring table, ducks, rig colors  <- edit yearly
-  data/stops.js      the 11 stops, riddles, sponsor wall             <- edit yearly
+  data/stops.js      the 12 stops, riddles, sponsor wall             <- edit yearly
   lib/providers.js   localProvider (demo) | supaProvider (live)
   lib/store.jsx      React context: team, checkins, pins, leaderboard
   lib/scoring.js     point math, mirrored in supabase/schema.sql
@@ -68,7 +68,7 @@ instant feedback on the phone; `public.tag_points` in
 ## Known open items
 
 - `id` and `order` in `src/data/stops.js` deliberately disagree: Old Havana
-  (`s10`) and CRAFTED (`s11`) were added mid-route. `stop_pins` rows are
+  (`s10`), CRAFTED (`s11`) and Stuart Scuba (`s12`) were added mid-route. `stop_pins` rows are
   keyed by id, so renaming an id moves a dropped pin to the wrong business.
   Array order is route order.
 - No Instagram handle found for Wallace CJDR; Sunrise Surf Shop's is

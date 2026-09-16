@@ -16,14 +16,11 @@ export default function Join() {
   const [duckId, setDuck] = useState(DUCKS[0].id)
   const [rigId, setRig] = useState(RIG_COLORS[0].id)
   const [code, setCode] = useState('')
-  const [pledge, setPledge] = useState('')
   const [busy, setBusy] = useState(false)
-
-  const pledgeValue = Math.max(0, Math.round(Number(pledge) || 0))
 
   const go = async () => {
     setBusy(true)
-    try { await join({ name: name.trim(), duckId, rigId, donation: pledgeValue }) }
+    try { await join({ name: name.trim(), duckId, rigId }) }
     catch (e) { say('Could not start the rig'); console.error(e) }
     finally { setBusy(false) }
   }
@@ -130,72 +127,17 @@ export default function Join() {
                   Use your normal Camera app so the photo saves to your phone, then add it here.
                 </p>
               </div>
-              <button className="btn btn-primary" onClick={() => setI(3)}>Next</button>
+              <button className="btn btn-primary" disabled={busy} onClick={go}>{busy ? 'Starting…' : 'Roll out'}</button>
             </motion.div>
           )}
 
-          {i === 3 && (
-            <motion.div key="d" {...step} transition={{ duration: 0.26 }}>
-              <button className="chip" onClick={() => setI(2)}><IconBack size={13} /> Back</button>
-              <div className="eyebrow" style={{ margin: '16px 0 10px' }}>Step 4 · Back the kids</div>
-
-              <h2 className="pledge-head">Boost your rig at the starting line</h2>
-              <p className="pledge-rule">
-                Pledge to PAL and take <b>2 points for every dollar</b>. There is no ceiling on it.
-              </p>
-
-              <div className="card pledge-why">
-                <p>
-                  This year we will serve {EVENT.youthServed} youth in Martin County, and it costs about
-                  {' '}{EVENT.costPerChild} a year per child.
-                </p>
-                <p>
-                  This is a perfect way for the community to back us in developing healthy, productive
-                  leaders of the future in Martin County.
-                </p>
-              </div>
-
-              <div className="eyebrow" style={{ margin: '20px 0 9px' }}>Your pledge</div>
-              <div className="pledge-chips">
-                {[25, 50, 100, 250].map((v) => (
-                  <button key={v} className="chip pledge-chip" data-on={pledgeValue === v}
-                    onClick={() => setPledge(String(v))}>${v}</button>
-                ))}
-              </div>
-              <div className="pledge-row">
-                <span className="pledge-dollar">$</span>
-                <input className="field pledge-field" inputMode="decimal" placeholder="0"
-                  value={pledge} onChange={(e) => setPledge(e.target.value.replace(/[^\d.]/g, ''))} />
-              </div>
-              {pledgeValue > 0 && (
-                <div className="chip ok pledge-points">
-                  +{pledgeValue * EVENT.donatePointsPerDollar} points for your rig
-                </div>
-              )}
-
-              <p className="pledge-pay">
-                Give now at the link below, or hand cash or a check to any PAL volunteer at the finish.
-                You can raise it later from the Crew tab.
-              </p>
-              <a className="btn btn-ghost pledge-link" href={EVENT.donateUrl} target="_blank" rel="noreferrer">
-                Give to PAL now
-              </a>
-
-              <button className="btn btn-primary" style={{ marginTop: 12 }} disabled={busy} onClick={go}>
-                {busy ? 'Starting…' : pledgeValue > 0 ? `Roll out with $${pledgeValue} pledged` : 'Roll out'}
-              </button>
-              <button className="pledge-skip" disabled={busy} onClick={() => { setPledge(''); go() }}>
-                Not right now
-              </button>
-            </motion.div>
-          )}
         </AnimatePresence>
 
         <div style={{ marginTop: 'auto', paddingTop: 34 }}>
           <div className="tread" style={{ opacity: .5 }} />
           <p style={{ color: 'var(--muted)', fontSize: 12, textAlign: 'center', marginTop: 14, lineHeight: 1.6 }}>
             {EVENT.dateLabel && EVENT.rallyTimeLabel
-              ? <>{EVENT.dateLabel} · {EVENT.rallyTimeLabel}<br /></>
+              ? <>{EVENT.dateLabel} · {EVENT.rallyTimeLabel}<br />{EVENT.finishTimeLabel}<br /></>
               : <>Roll out from {STOPS[0].sponsor}, {STOPS[0].city}<br /></>}
             Every dollar raised stays with {EVENT.org}.
           </p>

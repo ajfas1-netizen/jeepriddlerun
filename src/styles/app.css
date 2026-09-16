@@ -461,3 +461,33 @@ a{color:inherit}
 .pledge-skip{display:block;width:100%;margin-top:12px;padding:12px;background:none;border:0;
   color:var(--muted);font-family:var(--ui);font-size:13px;letter-spacing:.02em;cursor:pointer}
 .pledge-skip:hover{color:var(--bone)}
+
+/* ------------------------------------------------------------------
+   THE STARTING LINE. One screen, one ask, and the reason for the ask
+   stated before the mechanic. The number comes first because "700 kids"
+   lands and "pledge to PAL" does not.
+   ------------------------------------------------------------------ */
+.sl{background:var(--ink)}
+.sl-body{padding-top:calc(env(safe-area-inset-top,0px) + 26px);padding-bottom:34px;
+  display:flex;flex-direction:column;overflow-y:auto}
+.sl-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}
+.sl-num{font-family:var(--display);font-weight:700;font-size:clamp(46px,17vw,74px);line-height:.88;
+  color:var(--brass);letter-spacing:-.005em}
+.sl-head{font-family:var(--display);font-weight:600;text-transform:uppercase;letter-spacing:.01em;
+  font-size:clamp(20px,6.2vw,27px);line-height:1.08;margin:6px 0 16px}
+.sl-lede{margin:0 0 12px;font-size:15px;line-height:1.6;color:rgba(236,234,226,.9)}
+.sl-lede b{color:var(--brass);font-weight:600}
+.sl-mission{color:var(--muted);font-size:14px}
+.sl .tread{margin:20px 0 22px}
+.sl-ask{color:var(--brass);margin-bottom:8px}
+.sl-sub{font-family:var(--display);font-weight:600;text-transform:uppercase;letter-spacing:.01em;
+  font-size:19px;line-height:1.18;margin:0 0 8px}
+.sl-fine{margin:0 0 16px;font-size:13.5px;line-height:1.55;color:var(--muted)}
+.sl-actions{display:grid;gap:10px;margin-top:20px}
+.sl-actions .btn{width:100%}
+.sl-foot{margin:16px 0 0;font-size:12.5px;line-height:1.55;color:var(--muted)}
+
+/* The aim point, on the finish card and under the pledge. */
+.finish-when{margin:14px 0 0;padding-top:13px;border-top:1px solid var(--line);
+  font-size:13px;line-height:1.55;color:var(--brass)}
+.sl-when{color:var(--brass);margin-top:6px}

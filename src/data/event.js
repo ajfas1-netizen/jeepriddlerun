@@ -8,6 +8,11 @@ export const EVENT = {
   org: 'Martin County PAL',
   dateLabel: 'Saturday, September 19',
   rallyTimeLabel: 'Gather 9:00, roll out 9:30',
+  // The one time that matters. Nothing scores on speed, so this is an
+  // aim point, not a deadline: it is what gets the rigs rolling into
+  // Ocean Republic together instead of trickling in over two hours.
+  finishTimeLabel: 'Finish at Ocean Republic by 1:00',
+  finishShort: 'by 1:00',
   hashtag: '#jeepriddlerun2026',
   palHandle: '@martincountypal',
   palUrl: 'https://www.martincountypal.com',

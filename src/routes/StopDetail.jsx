@@ -102,6 +102,12 @@ export default function StopDetail() {
       <div className="card" style={{ padding: 18 }}>
         <div className="eyebrow" style={{ marginBottom: 8 }}>{stop.isFinish ? 'Last stop' : 'Find the duck'}</div>
         <p className="riddle" style={{ margin: 0 }}>{stop.riddle}</p>
+        {/* Said on the finish card, where it is an aim point rather than
+            pressure applied at every stop along the way. */}
+        {stop.isFinish && EVENT.finishTimeLabel && (
+          <p className="finish-when">{EVENT.finishTimeLabel}. Nothing scores on speed, it is just
+            better when the Jeeps roll in together.</p>
+        )}
       </div>
 
       {/* ---- bonus clue vault ---- */}
