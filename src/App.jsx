@@ -1,5 +1,5 @@
 import React, { useRef, useMemo, lazy, Suspense } from 'react'
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { StoreProvider, useStore } from './lib/store.jsx'
 import { TopBar, TabBar, Toast } from './components/Chrome.jsx'
@@ -64,6 +64,7 @@ const markAsked = (id) => { try { localStorage.setItem(askedKey(id), '1') } catc
 function Inner() {
   const { ready, team, live } = useStore()
   const location = useLocation()
+  const navigate = useNavigate()
   const [asked, setAsked] = React.useState(false)
 
   if (location.pathname === '/results') {
@@ -100,7 +101,10 @@ function Inner() {
       <div className="shell">
         {!live && <div className="demo-flag">Demo mode · data stays on this phone</div>}
         <div className="stage">
-          <StartLine onDone={() => { markAsked(team.id); setAsked(true) }} />
+          {/* Always land on the stops. Without the navigate the app drops
+              you back on whatever hash was open before the rig existed,
+              which is rarely the stops and never what the button said. */}
+          <StartLine onDone={() => { markAsked(team.id); setAsked(true); navigate('/stops', { replace: true }) }} />
         </div>
       </div>
     )
