@@ -15,6 +15,7 @@ create table if not exists public.teams (
   duck_id           text not null default 'classic',
   rig_id            text not null default 'granite',
   join_code         text unique not null,       -- lets a second phone in the same Jeep join
+  donation          numeric(10,2) not null default 0 check (donation >= 0 and donation <= 1000000),
   created_at        timestamptz not null default now()
 );
 
@@ -64,6 +65,10 @@ language sql immutable as $$
        + coalesce((f->>'hashtag')::boolean::int,0)*3
 $$;
 
+-- Scoring, and it must agree line for line with src/lib/scoring.js.
+--   tag_points    three points per ticked flag
+--   spend_points  a dollar spent at a sponsor is a point
+--   give_points   a dollar pledged to PAL is TWO points, no ceiling
 create or replace view public.leaderboard as
 select
   t.id                                            as team_id,
@@ -71,20 +76,24 @@ select
   t.duck_id,
   count(c.stop_id) filter (where c.photo_url is not null)::int as stops,
   coalesce(sum(c.spend),0)::int                   as spend,
+  coalesce(t.donation,0)::int                     as donation,
   coalesce(sum(public.tag_points(c.flags)),0)::int as tag_points,
-  coalesce(sum(c.spend),0)::int                   as spend_points,   -- dollar for dollar
-  coalesce(sum(public.tag_points(c.flags)),0)::int
-    + coalesce(sum(c.spend),0)::int                as total_points
+  coalesce(sum(c.spend),0)::int                   as spend_points,
+  (coalesce(t.donation,0) * 2)::int               as give_points,
+  (coalesce(sum(public.tag_points(c.flags)),0)
+    + coalesce(sum(c.spend),0)
+    + coalesce(t.donation,0) * 2)::int            as total_points
 from public.teams t
 left join public.checkins c on c.team_id = t.id
-group by t.id;
+group by t.id, t.donation;
 
 create or replace view public.submissions as
 select c.stop_id, t.name as team, t.duck_id, c.flags, c.spend,
        c.photo_url, c.receipt_url, c.created_at,
        -- join_code so the person checking receipts at the finish can look a
        -- rig up by the code on its phone instead of guessing at the name
-       t.join_code
+       t.join_code,
+       coalesce(t.donation,0)::int as donation
 from public.checkins c join public.teams t on t.id = c.team_id;
 
 -- ============================================================

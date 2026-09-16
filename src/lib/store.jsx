@@ -93,6 +93,13 @@ export function StoreProvider({ children }) {
 
   const upload = useCallback((stopId, kind, img) => provider.uploadPhoto(stopId, kind, img), [])
 
+  const pledge = useCallback(async (amount) => {
+    const next = await provider.setDonation(amount)
+    setTeam({ ...next })
+    say(Number(amount) > 0 ? `Pledged $${Math.round(Number(amount))} to PAL` : 'Pledge cleared')
+    return next
+  }, [say])
+
   const tryBonusCode = useCallback(async (input) => {
     const ok = String(input || '').trim().toUpperCase() === EVENT.bonusCode.toUpperCase()
     if (ok) { await provider.setBonus(true); setBonus(true); say('Bonus clues unlocked') }
@@ -112,12 +119,12 @@ export function StoreProvider({ children }) {
     [pins, checkins]
   )
 
-  const totals = useMemo(() => tallyTeam(checkins), [checkins])
+  const totals = useMemo(() => tallyTeam(checkins, team?.donation), [checkins, team])
   const nextStop = useMemo(() => stops.find((s) => !s.checkin?.photo) || null, [stops])
 
   const value = {
     ready, live: IS_LIVE, team, checkins, bonus, pins, board, stops, totals, nextStop, toast, pending,
-    join, leave, patchCheckin, upload, tryBonusCode, dropPin, refreshBoard, say, flush
+    join, leave, patchCheckin, upload, tryBonusCode, dropPin, refreshBoard, say, flush, pledge
   }
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>
 }

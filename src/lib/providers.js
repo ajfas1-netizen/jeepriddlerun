@@ -21,17 +21,23 @@ const DEMO_TEAMS = [
   { id: 'd1', name: 'Palm City Pirates', duckId: 'camo', stops: 9, spend: 142, tags: 156 },
   { id: 'd2', name: 'Duck Duck Boom', duckId: 'rubicon', stops: 11, spend: 96, tags: 189 },
   { id: 'd3', name: 'Trail Mix', duckId: 'sarge', stops: 7, spend: 210, tags: 120 },
-  { id: 'd4', name: 'Rubber Ducky Rubicon', duckId: 'classic', stops: 12, spend: 64, tags: 198 },
+  { id: 'd4', name: 'Rubber Ducky Rubicon', duckId: 'classic', stops: 10, spend: 64, tags: 198 },
   { id: 'd5', name: 'Hobe Sound Hooligans', duckId: 'hydro', stops: 6, spend: 175, tags: 102 }
 ]
 
 const localProvider = {
   live: false,
   async getTeam() { return read(LS.team, null) },
-  async joinTeam({ name, duckId, rigId }) {
-    const team = { id: 'local-' + code(), name, duckId, rigId, code: code(), createdAt: Date.now() }
+  async joinTeam({ name, duckId, rigId, donation = 0 }) {
+    const team = { id: 'local-' + code(), name, duckId, rigId, donation: Number(donation) || 0, code: code(), createdAt: Date.now() }
     write(LS.team, team)
     return team
+  },
+  async setDonation(amount) {
+    const t = read(LS.team, null); if (!t) throw new Error('No team')
+    const next = { ...t, donation: Math.max(0, Number(amount) || 0) }
+    write(LS.team, next)
+    return next
   },
   async leaveTeam() { [LS.team, LS.checkins, LS.bonus].forEach((k) => localStorage.removeItem(k)) },
   async getCheckins() { return read(LS.checkins, {}) },
@@ -51,12 +57,13 @@ const localProvider = {
     const t = read(LS.team, null)
     const mine = Object.entries(read(LS.checkins, {})).map(([stop_id, c]) => ({
       stop_id, team: t?.name || 'You', duck_id: t?.duckId, flags: c.flags, spend: c.spend,
-      photo_url: c.photo, receipt_url: c.receipt, created_at: c.at
+      photo_url: c.photo, receipt_url: c.receipt, created_at: c.at,
+      join_code: t?.code, donation: Number(t?.donation) || 0
     }))
     return mine
   },
   async getLeaderboard(me, checkins) {
-    const mine = me ? [{ id: me.id, name: me.name, duckId: me.duckId, ...tallyTeam(checkins) }] : []
+    const mine = me ? [{ id: me.id, name: me.name, duckId: me.duckId, ...tallyTeam(checkins, me.donation) }] : []
     const demo = read(LS.demo, DEMO_TEAMS).map((t) => ({ ...t, money: t.spend, total: t.tags + t.spend }))
     return [...mine, ...demo].sort((a, b) => b.total - a.total)
   },
@@ -112,25 +119,41 @@ const supaProvider = {
       [LS.team, LS.checkins, LS.bonus].forEach((k) => localStorage.removeItem(k))
       return null
     }
-    const merged = { ...t, ...data, duckId: data.duck_id, rigId: data.rig_id }
+    const merged = { ...t, ...data, duckId: data.duck_id, rigId: data.rig_id, donation: Number(data.donation) || 0 }
     write(LS.team, merged)
     return merged
   },
-  async joinTeam({ name, duckId, rigId }) {
+  async joinTeam({ name, duckId, rigId, donation = 0 }) {
     const session = await ensureAuth()
     const join = code()
     const { data, error } = await sb.from('teams')
-      .insert({ name, duck_id: duckId, rig_id: rigId, join_code: join, owner_id: session?.user?.id ?? null })
+      .insert({ name, duck_id: duckId, rig_id: rigId, join_code: join,
+                donation: Math.max(0, Number(donation) || 0),
+                owner_id: session?.user?.id ?? null })
       .select().single()
     if (error) throw error
-    const team = { id: data.id, name: data.name, duckId, rigId, code: data.join_code, createdAt: Date.now() }
+    const team = { id: data.id, name: data.name, duckId, rigId, code: data.join_code,
+                   donation: Number(data.donation) || 0, createdAt: Date.now() }
     write(LS.team, team)
     return team
+  },
+  /* The pledge can be raised any time, from the starting line or from Crew
+     after somebody in the back seat gets generous. */
+  async setDonation(amount) {
+    const t = read(LS.team, null); if (!t) throw new Error('No team')
+    const value = Math.max(0, Number(amount) || 0)
+    const next = { ...t, donation: value }
+    write(LS.team, next)
+    const { error } = await sb.from('teams').update({ donation: value }).eq('id', t.id)
+    if (error) { console.warn('pledge not synced yet:', error.message); next.donationSynced = false }
+    else next.donationSynced = true
+    write(LS.team, next)
+    return next
   },
   async joinByCode(joinCode) {
     const { data, error } = await sb.from('teams').select('*').eq('join_code', joinCode.toUpperCase()).maybeSingle()
     if (error || !data) throw new Error('That team code did not match anything.')
-    const team = { id: data.id, name: data.name, duckId: data.duck_id, rigId: data.rig_id, code: data.join_code }
+    const team = { id: data.id, name: data.name, duckId: data.duck_id, rigId: data.rig_id, code: data.join_code, donation: Number(data.donation) || 0 }
     write(LS.team, team)
     return team
   },
@@ -210,7 +233,8 @@ const supaProvider = {
     const { data } = await sb.from('leaderboard').select('*')
     return (data || []).map((r) => ({
       id: r.team_id, name: r.name, duckId: r.duck_id, stops: r.stops,
-      spend: r.spend, tags: r.tag_points, money: r.spend_points, total: r.total_points
+      spend: r.spend, tags: r.tag_points, money: r.spend_points,
+      donation: r.donation || 0, given: r.give_points || 0, total: r.total_points
     })).sort((a, b) => b.total - a.total)
   },
   /* Every caller gets its own channel. sb.channel(name) hands back the

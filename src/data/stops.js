@@ -1,13 +1,19 @@
 /* ------------------------------------------------------------------
    STOPS - 2026 Martin County PAL Jeep Riddle Run.
 
-   Nine stops. PAL hides a duck at each one and the riddle describes
+   Eleven stops. PAL hides a duck at each one and the riddle describes
    where it is sitting. Teams also carry their own duck, so both ducks
    have to appear in the photo.
 
    Wallace is the rally point and Ocean Republic is the finish. The
-   seven in between can be run in any order; the sequence below is a
+   nine in between can be run in any order; the sequence below is a
    sensible loop, not a rule.
+
+   `id` is a stable key, `order` is the route position. They stopped
+   matching when Old Havana and Crafted were added mid-route. Do not
+   renumber the ids to tidy this up: stop_pins rows are keyed by id,
+   so renaming an id silently moves somebody's dropped pin to the
+   wrong business. The array order is the route order.
 
    Addresses, hiding places and the Houston detail came from AJ.
    Coordinates and social handles were verified against each business's
@@ -26,7 +32,16 @@ export const STOPS = [
     lat: 27.171389, lng: -80.232575
   },
   {
-    id: 's2', order: 2,
+    id: 's10', order: 2,
+    sponsor: 'Old Havana Cafe',
+    address: '2225 SE Ocean Blvd', city: 'Stuart', state: 'FL', zip: '34996',
+    riddle: 'Cuba plays a game with what the old men call bones. They are slapped down, never set down, and the table takes the punishment. Find where the next hand is waiting and he is sitting right on top of it.',
+    hint: 'On the domino board.',
+    igHandle: 'theoldhavanacafe', fbName: 'Old Havana Cafe',
+    lat: 27.197220, lng: -80.222905
+  },
+  {
+    id: 's2', order: 3,
     sponsor: '4EverYoung Anti Aging Solutions',
     address: '2640 SE Federal Hwy', city: 'Stuart', state: 'FL', zip: '34994',
     riddle: 'They sell the years back to you in this building. Ours is not at the front desk and not in the hall. Look for the room where nobody is in a hurry and everybody is sitting down.',
@@ -35,7 +50,7 @@ export const STOPS = [
     lat: 27.172312, lng: -80.232155
   },
   {
-    id: 's3', order: 3,
+    id: 's3', order: 4,
     sponsor: 'The Driver’s Seat',
     address: '1932 SE Federal Hwy', city: 'Stuart', state: 'FL', zip: '34994',
     riddle: 'Everything in here is for the person behind the wheel. What you want is not up front, so keep walking, all the way to the back. He found something soft to perch on and he is sitting a little above eye level.',
@@ -44,7 +59,7 @@ export const STOPS = [
     lat: 27.181052, lng: -80.240633
   },
   {
-    id: 's4', order: 4,
+    id: 's4', order: 5,
     sponsor: 'Atlantic Tire',
     address: '705 SE Monterey Rd', city: 'Stuart', state: 'FL', zip: '34994',
     riddle: 'This one never asked you in and does not have to now. He has been watching Monterey Road go by all morning. Look before you reach for a door.',
@@ -53,7 +68,7 @@ export const STOPS = [
     lat: 27.180110, lng: -80.236894
   },
   {
-    id: 's5', order: 5,
+    id: 's5', order: 6,
     sponsor: 'Frazier Creek Brewing & Distilling Co',
     address: '973 SE Federal Hwy', city: 'Stuart', state: 'FL', zip: '34994',
     riddle: 'Somebody on this wall got caught. Somebody on this wall is green. The two of them have been hanging together a while, and our guy makes three.',
@@ -62,7 +77,7 @@ export const STOPS = [
     lat: 27.189486, lng: -80.249971
   },
   {
-    id: 's6', order: 6, isHost: true,
+    id: 's6', order: 7, isHost: true,
     sponsor: 'Martin County PAL',
     address: '1284 SW 34th St', city: 'Palm City', state: 'FL', zip: '34990',
     riddle: 'You are standing in the reason for all of this. Three letters are painted up on one wall, and every fighter who walks in here learns them first. He is waiting right by them.',
@@ -72,7 +87,17 @@ export const STOPS = [
     lat: 27.163692, lng: -80.270565
   },
   {
-    id: 's7', order: 7,
+    id: 's11', order: 8,
+    sponsor: 'CRAFTED The Store',
+    address: '3766 SE Ocean Blvd', city: 'Stuart', state: 'FL', zip: '34996',
+    riddle: 'Everything in here was made by somebody\u2019s hands. One sign pays you a compliment before you have done a thing to earn it. Stand where it can see you and look for the tall glass holding a bunch of small things that were never meant to be a bouquet.',
+    hint: 'By the sign that says Come in, we are awesome. He is down in the vase of drink stirrers.',
+    igHandle: 'craftedthestore', fbName: 'craftedthestore',
+    verify: 'City is Stuart per AJ, which is also the postal city for 34996; the storefront itself sits in the Town of Sewall\u2019s Point, and directory listings use that name. OpenStreetMap has no record of 3766, so the pin is the 3700 block rather than the storefront. Drop the exact one in Organizer tools > Pin drop.',
+    lat: 27.202095, lng: -80.201452
+  },
+  {
+    id: 's7', order: 9,
     sponsor: "Conchy Joe's Seafood",
     address: '3945 NE Indian River Dr', city: 'Jensen Beach', state: 'FL', zip: '34957',
     riddle: 'Old Florida, the river out back, and something overhead that used to bite. Everybody comes here and looks at the water. Look the other way.',
@@ -81,7 +106,7 @@ export const STOPS = [
     lat: 27.252690, lng: -80.228490
   },
   {
-    id: 's8', order: 8,
+    id: 's8', order: 10,
     sponsor: 'Sunrise Surf Shop',
     address: '11013 S Ocean Dr', city: 'Jensen Beach', state: 'FL', zip: '34957',
     riddle: 'A whole wall of them, waxed and standing and waiting for a swell. Only one of them wears the name over the door. He picked that one, and he did not stop at the bottom.',
@@ -90,7 +115,7 @@ export const STOPS = [
     lat: 27.263649, lng: -80.202302
   },
   {
-    id: 's9', order: 9, isFinish: true,
+    id: 's9', order: 11, isFinish: true,
     sponsor: 'Ocean Republic Brewing',
     address: '1630 SE Federal Hwy', city: 'Stuart', state: 'FL', zip: '34994',
     riddle: 'Last one. The bar is not where the work gets done. Find the room where the water gets serious and you will find him standing guard.',

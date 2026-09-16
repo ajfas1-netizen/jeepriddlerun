@@ -7,11 +7,20 @@ export const spendPoints = (spend = 0) => Math.round((Number(spend) || 0) * EVEN
 
 export const maxPerStop = () => Object.values(EVENT.scoring).reduce((s, v) => s + v, 0)
 
-export function tallyTeam(checkins = {}) {
+/* Two points a dollar, no ceiling. */
+export const donatePoints = (donation = 0) =>
+  Math.round((Number(donation) || 0) * EVENT.donatePointsPerDollar)
+
+export function tallyTeam(checkins = {}, donation = 0) {
   const rows = Object.values(checkins)
   const tags = rows.reduce((s, c) => s + flagPoints(c.flags), 0)
-  const money = rows.reduce((s, c) => s + spendPoints(c.spend), 0)
   const stops = rows.filter((c) => c.photo).length
   const spend = rows.reduce((s, c) => s + (Number(c.spend) || 0), 0)
-  return { stops, spend, tags, money, total: tags + money }
+  const money = spendPoints(spend)
+  const given = donatePoints(donation)
+  return {
+    stops, spend, tags, money,
+    donation: Number(donation) || 0, given,
+    total: tags + money + given
+  }
 }

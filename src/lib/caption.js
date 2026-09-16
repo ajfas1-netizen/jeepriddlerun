@@ -1,5 +1,5 @@
 import { EVENT } from '../data/event.js'
-import { fullAddress } from '../data/stops.js'
+import { fullAddress, STOPS } from '../data/stops.js'
 
 /* ------------------------------------------------------------------
    The caption the app writes for them.
@@ -39,7 +39,7 @@ const CAUSE = (total) => [
   'Every stop on this run is a local business that shows up for our kids.',
   'Go spend a dollar with them. They supported Martin County PAL first.',
   'These are the businesses that back our kids. Worth your business.',
-  `Nine local businesses put this day together for Martin County PAL.`,
+  `${STOPS.length} local businesses put this day together for Martin County PAL.`,
   'Support the people who support our community.'
 ]
 

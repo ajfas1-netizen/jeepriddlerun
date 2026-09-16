@@ -434,3 +434,30 @@ a{color:inherit}
   .desk-body{grid-template-columns:1fr}
   .desk-stop{padding:14px 0;border:0;border-top:1px solid var(--line);border-radius:0;background:none}
 }
+
+/* ------------------------------------------------------------------
+   THE PLEDGE. Step 4 at the starting line, and the same card on Crew.
+   The ask carries its reason with it, because "give money" is not an
+   argument and "$1,200 a year per child" is.
+   ------------------------------------------------------------------ */
+.pledge-head{font-family:var(--display);font-weight:600;text-transform:uppercase;letter-spacing:.01em;
+  font-size:26px;line-height:1.05;margin:0 0 10px}
+.pledge-rule{margin:0 0 16px;font-size:15px;line-height:1.55;color:rgba(236,234,226,.92)}
+.pledge-rule b{color:var(--brass);font-weight:600}
+.pledge-why{padding:16px;border-color:rgba(201,162,39,.32)}
+.pledge-why p{margin:0;font-size:13.5px;line-height:1.6;color:var(--muted)}
+.pledge-why p + p{margin-top:10px}
+.pledge-chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.pledge-chip{cursor:pointer;font-variant-numeric:tabular-nums}
+.pledge-chip[data-on="true"]{border-color:var(--brass);color:var(--brass);
+  background:rgba(201,162,39,.14)}
+.pledge-row{display:flex;align-items:center;gap:10px}
+.pledge-dollar{font-family:var(--display);font-weight:600;font-size:26px;color:var(--muted)}
+.pledge-field{flex:1;font-family:var(--display);font-size:24px;letter-spacing:.01em}
+.pledge-points{margin-top:12px;display:inline-block}
+.pledge-pay{margin:16px 0 10px;font-size:13px;line-height:1.55;color:var(--muted)}
+.pledge-link{display:grid;place-items:center;text-decoration:none}
+/* A quiet way past the ask. Nobody should feel cornered at a charity run. */
+.pledge-skip{display:block;width:100%;margin-top:12px;padding:12px;background:none;border:0;
+  color:var(--muted);font-family:var(--ui);font-size:13px;letter-spacing:.02em;cursor:pointer}
+.pledge-skip:hover{color:var(--bone)}

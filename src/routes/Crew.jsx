@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useStore } from '../lib/store.jsx'
 import { EVENT, DUCKS, RIG_COLORS } from '../data/event.js'
@@ -7,7 +7,11 @@ import { Duck, Grille, IconTarget, IconCheck } from '../components/Icons.jsx'
 import InstallCard from '../components/InstallCard.jsx'
 
 export default function Crew() {
-  const { team, stops, totals, leave, bonus, live } = useStore()
+  const { team, stops, totals, leave, bonus, live, pledge } = useStore()
+  const [amount, setAmount] = useState('')
+  const [saving, setSaving] = useState(false)
+  const given = Number(team?.donation) || 0
+  const typed = Math.max(0, Math.round(Number(amount) || 0))
   const nav = useNavigate()
   const duck = DUCKS.find((d) => d.id === team?.duckId) || DUCKS[0]
   const rig = RIG_COLORS.find((c) => c.id === team?.rigId) || RIG_COLORS[0]
@@ -32,8 +36,8 @@ export default function Crew() {
                 <div className="crew-sub">{rig.name} · {duck.name} duck</div>
               </div>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 10, marginTop: 18 }}>
-              {[['Stops', `${totals.stops}/${stops.length}`], ['Spent', `$${totals.spend}`], ['Points', totals.total]].map(([k, val]) => (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 8, marginTop: 18 }}>
+              {[['Stops', `${totals.stops}/${stops.length}`], ['Spent', `$${totals.spend}`], ['To PAL', `$${given}`], ['Points', totals.total]].map(([k, val]) => (
                 <div key={k} style={{ padding: '12px 10px', borderRadius: 14, background: 'rgba(11,14,10,.45)', border: '1px solid var(--line)' }}>
                   <div className="lb-pts" style={{ fontSize: 22 }}>{val}</div>
                   <div className="eyebrow" style={{ fontSize: 10 }}>{k}</div>
@@ -50,6 +54,40 @@ export default function Crew() {
         </div>
 
         <div style={{ marginTop: 18 }}><InstallCard compact /></div>
+
+        {/* Raise the pledge any time. Somebody in the back seat always
+            gets generous around stop 7. */}
+        <div className="eyebrow" style={{ margin: '24px 0 10px' }}>Back the kids</div>
+        <div className="card pledge-card">
+          <p className="pledge-rule" style={{ marginBottom: 12 }}>
+            {given > 0
+              ? <>Your rig has pledged <b>${given}</b> to PAL. That is {given * EVENT.donatePointsPerDollar} points.</>
+              : <>Pledge to PAL and take <b>2 points for every dollar</b>. No ceiling.</>}
+          </p>
+          <p style={{ margin: '0 0 14px', fontSize: 13, lineHeight: 1.6, color: 'var(--muted)' }}>
+            {EVENT.org} will serve {EVENT.youthServed} youth this year, at about {EVENT.costPerChild} a year
+            per child.
+          </p>
+          <div className="pledge-row">
+            <span className="pledge-dollar">$</span>
+            <input className="field pledge-field" inputMode="decimal"
+              placeholder={given > 0 ? String(given) : '0'} value={amount}
+              onChange={(e) => setAmount(e.target.value.replace(/[^\d.]/g, ''))} />
+            <button className="btn btn-ghost" style={{ width: 'auto', padding: '0 18px' }}
+              disabled={saving || !amount || typed === given}
+              onClick={async () => { setSaving(true); try { await pledge(typed); setAmount('') } finally { setSaving(false) } }}>
+              {given > 0 ? 'Update' : 'Pledge'}
+            </button>
+          </div>
+          {typed > 0 && typed !== given && (
+            <div className="chip ok pledge-points">+{typed * EVENT.donatePointsPerDollar} points</div>
+          )}
+          <a className="btn btn-ghost pledge-link" style={{ marginTop: 14 }}
+             href={EVENT.donateUrl} target="_blank" rel="noreferrer">Give to PAL now</a>
+          <p style={{ margin: '10px 0 0', fontSize: 12.5, lineHeight: 1.55, color: 'var(--muted)' }}>
+            Or hand cash or a check to any PAL volunteer at the finish.
+          </p>
+        </div>
 
         {/* badges */}
         <div className="eyebrow" style={{ margin: '24px 0 10px' }}>Trail badges</div>

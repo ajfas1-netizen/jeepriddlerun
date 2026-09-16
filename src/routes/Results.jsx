@@ -37,11 +37,12 @@ export default function Results() {
   const kpis = useMemo(() => {
     const spend = board.reduce((s, r) => s + (Number(r.spend) || 0), 0)
     const stops = board.reduce((s, r) => s + (Number(r.stops) || 0), 0)
+    const given = board.reduce((s, r) => s + (Number(r.donation) || 0), 0)
     return [
       ['Rigs running', board.length],
       ['Stops logged', stops],
       ['Spent at sponsors', `$${spend.toLocaleString()}`],
-      ['Photos captured', rows.filter((r) => r.photo_url).length]
+      ['Pledged to PAL', `$${given.toLocaleString()}`]
     ]
   }, [board, rows])
 
@@ -53,6 +54,7 @@ export default function Results() {
     return [
       best((r) => r.total, 'Overall'),
       best((r) => r.spend, 'Biggest supporter'),
+      best((r) => Number(r.donation) || 0, 'Biggest gift to PAL'),
       best((r) => r.tags, 'Best tagger'),
       best((r) => r.stops, 'Most stops')
     ]
@@ -77,7 +79,7 @@ export default function Results() {
     const by = new Map()
     rows.forEach((r) => {
       const key = r.team
-      if (!by.has(key)) by.set(key, { team: r.team, code: r.join_code, duckId: r.duck_id, stops: [], spend: 0, receipts: 0 })
+      if (!by.has(key)) by.set(key, { team: r.team, code: r.join_code, duckId: r.duck_id, donation: Number(r.donation) || 0, stops: [], spend: 0, receipts: 0 })
       const rig = by.get(key)
       rig.stops.push(r)
       rig.spend += Number(r.spend) || 0
@@ -111,14 +113,14 @@ export default function Results() {
     // Headers read as English, because a spreadsheet nobody can parse at a
     // noisy finish line is not a backup.
     const slug = (label) => label.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_|_$/g, '')
-    const head = ['rig', 'code', 'total_claimed', 'stop', 'sponsor', 'spent_here',
+    const head = ['rig', 'code', 'total_claimed', 'pledged_to_pal', 'stop', 'sponsor', 'spent_here',
       ...SCORE_ITEMS.map((i) => slug(i.label)), 'photo', 'receipt']
     const data = []
     rigs.forEach((rig) => {
       rig.stops.forEach((r) => {
         const stop = STOPS.find((x) => x.id === r.stop_id)
         data.push([
-          rig.team, rig.code || '', rig.spend,
+          rig.team, rig.code || '', rig.spend, rig.donation || 0,
           stop?.order ?? '', stop?.sponsor ?? r.stop_id, Number(r.spend) || 0,
           ...SCORE_ITEMS.map((i) => (r.flags && r.flags[i.key] ? 'yes' : 'no')),
           r.photo_url ? 'yes' : 'no', r.receipt_url ? 'yes' : 'no'
@@ -129,8 +131,8 @@ export default function Results() {
   }
 
   const csv = () => {
-    const head = ['rank', 'team', 'stops', 'spend_dollars', 'tag_points', 'spend_points', 'total_points']
-    const data = board.map((r, i) => [i + 1, r.name, r.stops, r.spend, r.tags, r.money ?? r.spend, r.total])
+    const head = ['rank', 'team', 'stops', 'spend_dollars', 'pledged_to_pal', 'tag_points', 'spend_points', 'pledge_points', 'total_points']
+    const data = board.map((r, i) => [i + 1, r.name, r.stops, r.spend, r.donation ?? 0, r.tags, r.money ?? r.spend, r.given ?? 0, r.total])
     download(`riddle-run-${EVENT.year}-results.csv`, toCsv(head, data))
   }
 
@@ -141,7 +143,7 @@ export default function Results() {
           <div>
             <div className="eyebrow">{EVENT.org} · {EVENT.year} · Results console</div>
             <h1 className="rc-title">{EVENT.name}</h1>
-            <div style={{ marginTop: 12 }}><Grille n={9} /></div>
+            <div style={{ marginTop: 12 }}><Grille n={STOPS.length} /></div>
           </div>
           <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
             <span className={`chip ${IS_LIVE ? 'ok' : 'warn'}`}>{IS_LIVE ? 'Live database' : 'Demo data'}</span>
@@ -165,8 +167,8 @@ export default function Results() {
             <thead>
               <tr>
                 <th style={{ width: 60 }}>#</th><th>Rig</th>
-                <th className="num">Stops</th><th className="num">Spent</th>
-                <th className="num">Tag points</th><th className="num">Spend points</th><th className="num">Total</th>
+                <th className="num">Stops</th><th className="num">Spent</th><th className="num">To PAL</th>
+                <th className="num">Tag points</th><th className="num">Pledge points</th><th className="num">Total</th>
               </tr>
             </thead>
             <tbody>
@@ -183,8 +185,9 @@ export default function Results() {
                     </td>
                     <td className="num">{r.stops}</td>
                     <td className="num">${r.spend}</td>
+                    <td className="num">{Number(r.donation) ? <span style={{ color: 'var(--brass)' }}>${r.donation}</span> : '—'}</td>
                     <td className="num">{r.tags}</td>
-                    <td className="num">{r.money ?? r.spend}</td>
+                    <td className="num">{r.given ?? 0}</td>
                     <td className="num"><span className="rc-big">{r.total}</span></td>
                   </tr>
                 )
@@ -274,7 +277,10 @@ export default function Results() {
                     <Duck body={duck.body} bill={duck.bill} size={24} />
                     <span className="desk-name">
                       <span className="rc-team">{rig.team}</span>
-                      <small>{rig.code ? rig.code + ' · ' : ''}{rig.stops.length} stops · {rig.receipts} receipts uploaded</small>
+                      <small>
+                      {rig.code ? rig.code + ' · ' : ''}{rig.stops.length} stops · {rig.receipts} receipts
+                      {rig.donation > 0 ? <> · <b style={{ color: 'var(--brass)' }}>${rig.donation} pledged to PAL</b></> : null}
+                    </small>
                     </span>
                     <span className="desk-spend">${rig.spend}<small>claimed</small></span>
                   </button>

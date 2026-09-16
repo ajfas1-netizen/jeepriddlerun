@@ -15,6 +15,15 @@ export const EVENT = {
   bonusCode: 'DUCKDROP',
   // Dollar-for-dollar points on money spent at sponsor locations.
   spendPointsPerDollar: 1,
+  // A dollar pledged to PAL is two points, with no ceiling. One rule, one
+  // sentence. An earlier draft made the double conditional on matching
+  // your sponsor spend; it took a paragraph to explain, which is how you
+  // know it was wrong for a flier on a table at a Jeep meet.
+  donatePointsPerDollar: 2,
+  donateUrl: 'https://givebutter.com/martin-county-police-athletic-leagu',
+  // AJ's numbers, used verbatim in the pledge screen.
+  youthServed: 'over 700',
+  costPerChild: '$1,200',
   // Map default view. Pins come from stop lat/lng once you drop them
   // in Admin > Pin Drop. Nothing here is a claim about a business address.
   mapCenter: [27.1965, -80.2533],
