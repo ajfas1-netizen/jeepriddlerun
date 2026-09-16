@@ -206,7 +206,7 @@ export default function StopDetail() {
       <div className="eyebrow" style={{ margin: '22px 0 8px' }}>Money spent here</div>
       <div className="card" style={{ padding: 16 }}>
         <p style={{ color: 'var(--muted)', fontSize: 13.5, margin: '0 0 12px', lineHeight: 1.5 }}>
-          Every dollar you spend at this stop is a point. Snap the receipt so the closing ceremony check takes seconds.
+          Every dollar you spend here is a point, and it stays with this business for backing the run. Snap the receipt so the check at the finish takes seconds.
         </p>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: 8 }}>
           <input className="field" inputMode="decimal" placeholder="0" value={spend}

@@ -66,7 +66,8 @@ export default function Crew() {
           </p>
           <p style={{ margin: '0 0 14px', fontSize: 13, lineHeight: 1.6, color: 'var(--muted)' }}>
             {EVENT.org} will serve {EVENT.youthServed} youth this year, at about {EVENT.costPerChild} a year
-            per child.
+            per child. Pledges come straight to PAL; what you spend at the stops stays with the
+            businesses.
           </p>
           <div className="pledge-row">
             <span className="pledge-dollar">$</span>

@@ -27,6 +27,9 @@ export const EVENT = {
   donatePointsPerDollar: 2,
   donateUrl: 'https://givebutter.com/martin-county-police-athletic-leagu',
   // AJ's numbers, used verbatim in the pledge screen.
+  // Two forms on purpose: the hero wants a numeral it can set 70px tall,
+  // the prose wants a sentence. "over 700" set huge reads as a typo.
+  youthServedHero: '700+',
   youthServed: 'over 700',
   costPerChild: '$1,200',
   // Map default view. Pins come from stop lat/lng once you drop them

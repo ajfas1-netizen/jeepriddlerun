@@ -491,3 +491,24 @@ a{color:inherit}
 .finish-when{margin:14px 0 0;padding-top:13px;border-top:1px solid var(--line);
   font-size:13px;line-height:1.55;color:var(--brass)}
 .sl-when{color:var(--brass);margin-top:6px}
+
+/* A two-line button: the label, and underneath it what will actually
+   happen. Two near-identical buttons stacked are only telling you
+   different things if you read them carefully, and nobody does that at
+   a starting line. */
+.btn-outline{background:rgba(236,234,226,.045);border-color:var(--line-3);color:var(--bone)}
+.btn-outline:active{background:rgba(236,234,226,.09)}
+.sl-actions .btn{flex-direction:column;gap:5px;padding:15px 18px;line-height:1.1}
+.sl-actions .btn small{font-family:var(--ui);font-weight:500;font-size:10.5px;
+  letter-spacing:.06em;text-transform:none;opacity:.72}
+.sl-hint{margin:0 0 4px;font-size:12.5px;color:var(--muted);text-align:center}
+.sl-split b{color:var(--brass);font-weight:600}
+
+/* ------------------------------------------------------------------
+   The Next button stays on screen. On a small phone the duck grid and
+   the colour grid pushed it below the fold with no scroll cue, so it
+   looked like the step had no way forward.
+   ------------------------------------------------------------------ */
+.step-actions{position:sticky;bottom:0;z-index:3;margin-top:18px;
+  padding:18px 0 calc(env(safe-area-inset-bottom,0px) + 18px);
+  background:linear-gradient(to bottom,rgba(11,14,10,0) 0%,var(--ink) 38%,var(--ink) 100%)}

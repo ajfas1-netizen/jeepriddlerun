@@ -36,7 +36,7 @@ export default function Join() {
 
   return (
     <div className="page">
-      <div className="page-body pad" style={{ paddingTop: 'calc(env(safe-area-inset-top,0px) + 26px)', paddingBottom: 26, display: 'flex', flexDirection: 'column' }}>
+      <div className="page-body pad" style={{ paddingTop: 'calc(env(safe-area-inset-top,0px) + 26px)', paddingBottom: 0, display: 'flex', flexDirection: 'column' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div className="eyebrow">{EVENT.org} · {EVENT.year}</div>
           <Grille />
@@ -57,7 +57,9 @@ export default function Join() {
               <p style={{ color: 'var(--muted)', fontSize: 13, margin: '10px 0 18px' }}>
                 This is what shows on the leaderboard and in your posts. Make it good.
               </p>
-              <button className="btn btn-primary" disabled={name.trim().length < 2} onClick={() => setI(1)}>Next</button>
+              <div className="step-actions">
+                <button className="btn btn-primary" disabled={name.trim().length < 2} onClick={() => setI(1)}>Next</button>
+              </div>
               <div style={{ marginTop: 26 }}><InstallCard /></div>
               <div style={{ height: 26 }} />
               <div className="tread" />
@@ -90,7 +92,9 @@ export default function Join() {
               <p style={{ color: 'var(--muted)', fontSize: 13, margin: '12px 0 18px' }}>
                 Your real duck rides in the Jeep. This one rides on the leaderboard.
               </p>
-              <button className="btn btn-primary" onClick={() => setI(2)}>Next</button>
+              <div className="step-actions">
+                <button className="btn btn-primary" onClick={() => setI(2)}>Next</button>
+              </div>
             </motion.div>
           )}
 
@@ -117,17 +121,9 @@ export default function Join() {
                   <div className="crew-sub">{RIG_COLORS.find((c) => c.id === rigId)?.name} · 0 of {STOPS.length} stops</div>
                 </div>
               </div>
-              <div className="card" style={{ padding: 15, marginBottom: 14, borderColor: 'rgba(201,162,39,.32)' }}>
-                <div className="eyebrow" style={{ color: 'var(--brass)', marginBottom: 7 }}>How it works</div>
-                <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: 'rgba(236,234,226,.9)' }}>
-                  Drive to the stop. The riddle tells you where to look. The duck is how you know you found it. Take
-                  the photo, post it, and spend a couple of dollars while you are there.
-                </p>
-                <p style={{ margin: '10px 0 0', fontSize: 13.5, lineHeight: 1.55, color: 'var(--muted)' }}>
-                  Use your normal Camera app so the photo saves to your phone, then add it here.
-                </p>
+              <div className="step-actions">
+                <button className="btn btn-primary" disabled={busy} onClick={go}>{busy ? 'Starting…' : 'Roll out'}</button>
               </div>
-              <button className="btn btn-primary" disabled={busy} onClick={go}>{busy ? 'Starting…' : 'Roll out'}</button>
             </motion.div>
           )}
 
@@ -139,7 +135,7 @@ export default function Join() {
             {EVENT.dateLabel && EVENT.rallyTimeLabel
               ? <>{EVENT.dateLabel} · {EVENT.rallyTimeLabel}<br />{EVENT.finishTimeLabel}<br /></>
               : <>Roll out from {STOPS[0].sponsor}, {STOPS[0].city}<br /></>}
-            Every dollar raised stays with {EVENT.org}.
+            Every dollar pledged goes straight to {EVENT.org}.
           </p>
         </div>
       </div>

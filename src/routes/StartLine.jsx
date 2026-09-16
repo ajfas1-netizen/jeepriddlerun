@@ -44,13 +44,17 @@ export default function StartLine({ onDone }) {
           <Grille />
         </div>
 
-        <div className="sl-num">{EVENT.youthServed}</div>
+        <div className="sl-num">{EVENT.youthServedHero}</div>
         <h1 className="sl-head">kids in Martin County this year</h1>
 
         <p className="sl-lede">
           It costs {EVENT.org} about <b>{EVENT.costPerChild} a year</b> to serve one of them.
-          Every dollar spent across the {STOPS.length} stops today, and every dollar pledged,
-          goes to that.
+        </p>
+        {/* These two are not the same pot of money and it matters that
+            nobody thinks they are. */}
+        <p className="sl-lede sl-split">
+          What you spend at the {STOPS.length} stops today supports the local businesses that
+          backed this run. <b>What you pledge here comes straight to PAL.</b>
         </p>
         <p className="sl-lede sl-mission">
           This is the community backing us in developing healthy, productive leaders of the
@@ -81,13 +85,16 @@ export default function StartLine({ onDone }) {
         )}
 
         <div className="sl-actions">
+          {typed <= 0 && <p className="sl-hint">Pick an amount above to continue.</p>}
           <button className="btn btn-primary" disabled={busy || typed <= 0}
             onClick={() => commit('give')}>
-            {typed > 0 ? `Pledge $${typed} and give now` : 'Pledge and give now'}
+            {typed > 0 ? `Give $${typed} now` : 'Give now'}
+            <small>Opens the PAL giving page</small>
           </button>
-          <button className="btn btn-ghost" disabled={busy || typed <= 0}
+          <button className="btn btn-outline" disabled={busy || typed <= 0}
             onClick={() => commit('later')}>
-            Pledge now, pay at the finish
+            {typed > 0 ? `Pledge $${typed}, pay at the finish` : 'Pledge, pay at the finish'}
+            <small>Points count now, cash or check later</small>
           </button>
           <button className="pledge-skip" disabled={busy} onClick={onDone}>
             Straight to the {STOPS.length} stops
