@@ -69,7 +69,10 @@ $$;
 --   tag_points    three points per ticked flag
 --   spend_points  a dollar spent at a sponsor is a point
 --   give_points   a dollar pledged to PAL is TWO points, no ceiling
-create or replace view public.leaderboard as
+-- Dropped first, not replaced. CREATE OR REPLACE VIEW refuses to move or
+-- rename an existing column, and this adds donation ahead of tag_points.
+drop view if exists public.leaderboard;
+create view public.leaderboard as
 select
   t.id                                            as team_id,
   t.name,

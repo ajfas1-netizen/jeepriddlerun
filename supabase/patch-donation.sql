@@ -9,7 +9,10 @@ alter table public.teams
   check (donation >= 0 and donation <= 1000000);
 
 -- Must agree line for line with src/lib/scoring.js.
-create or replace view public.leaderboard as
+-- Dropped first, not replaced. CREATE OR REPLACE VIEW refuses to move or
+-- rename an existing column, and this adds donation ahead of tag_points.
+drop view if exists public.leaderboard;
+create view public.leaderboard as
 select
   t.id                                            as team_id,
   t.name,
