@@ -109,6 +109,16 @@ const supaProvider = {
     await ensureAuth()
     const t = read(LS.team, null)
     if (!t) return null
+    // A phone that used this app before the database was wired up is holding
+    // a demo id like local-AB12. Postgres rejects that as a uuid with a 400,
+    // which the error branch below treats as "network trouble, keep what you
+    // have", so the phone would carry a phantom rig all day that can never
+    // sync. A malformed id is not a network problem: clear it and let them
+    // name a real rig.
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(String(t.id))) {
+      [LS.team, LS.checkins, LS.bonus].forEach((k) => localStorage.removeItem(k))
+      return null
+    }
     const { data, error } = await sb.from('teams').select('*').eq('id', t.id).maybeSingle()
     // A failed read is not proof the rig is gone. Only a clean answer of
     // "no such row" clears the phone, which is what happens after the
