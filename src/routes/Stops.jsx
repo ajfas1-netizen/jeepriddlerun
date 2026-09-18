@@ -4,12 +4,18 @@ import StopDeck from '../components/StopDeck.jsx'
 import { useStore } from '../lib/store.jsx'
 import { IconCheck, IconLock, IconNav } from '../components/Icons.jsx'
 import { mapsUrl } from '../lib/caption.js'
+import { EVENT } from '../data/event.js'
 
 export default function Stops() {
   const { stops, bonus, nextStop } = useStore()
   const [view, setView] = useState('deck')
   const nav = useNavigate()
   const startAt = useMemo(() => Math.max(0, stops.findIndex((s) => s.id === nextStop?.id)), [stops, nextStop])
+
+  /* Read off the stops themselves so this can never drift from the data.
+     The order in the app already works around these, but people are told
+     they can run any order, so the ones who wander need to know. */
+  const late = useMemo(() => stops.filter((s) => s.opensLabel), [stops])
 
   return (
     <div className="page">
@@ -24,6 +30,18 @@ export default function Stops() {
           </span>
         </button>
       </div>
+
+      {late.length > 0 && (
+        <div className="pad hours-note">
+          <span>Two stops open later than the rest:{' '}
+            {late.map((s, i) => (
+              <React.Fragment key={s.id}>
+                {i > 0 ? ', ' : ''}<b>{s.sponsor.split(' ').slice(0, 2).join(' ')} {s.opensLabel.replace(/^Opens /, 'at ').replace(/ for us.*$/, '')}</b>
+              </React.Fragment>
+            ))}. The order below already works around that.
+          </span>
+        </div>
+      )}
 
       {view === 'deck' ? (
         <div style={{ flex: 1, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
