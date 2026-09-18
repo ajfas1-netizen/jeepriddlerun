@@ -51,6 +51,9 @@ export default function StopDeck({ stops, bonus, initialIndex = 0 }) {
                 {s.sponsor || s.address}
               </div>
               <div style={{ fontSize: 12.5, color: 'var(--muted)', marginTop: 3 }}>{s.address}</div>
+              {/* Two of these open late. Better to read it on the card than
+                  to find out at the door. */}
+              {s.opensLabel && <div className="deck-opens">{s.opensLabel}</div>}
               <div style={{ margin: '14px 0 12px' }}><Grille /></div>
               <p className="riddle" style={{ margin: 0, flex: 1, display: '-webkit-box', WebkitLineClamp: 6, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                 {s.riddle}

@@ -104,6 +104,9 @@ export default function StopDetail() {
         <p className="riddle" style={{ margin: 0 }}>{stop.riddle}</p>
         {/* Said on the finish card, where it is an aim point rather than
             pressure applied at every stop along the way. */}
+        {stop.opensLabel && (
+          <p className="opens-when">{stop.opensLabel}. Come back later if the door is shut.</p>
+        )}
         {stop.isFinish && EVENT.finishTimeLabel && (
           <p className="finish-when">{EVENT.finishTimeLabel}. Nothing scores on speed, it is just
             better when the Jeeps roll in together.</p>

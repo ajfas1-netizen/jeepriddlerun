@@ -6,16 +6,22 @@
    have to appear in the photo.
 
    Wallace is the rally point and Ocean Republic is the finish. The ten
-   in between can be run in any order, and rigs spread out by the second
-   or third stop anyway. The sequence below is the shortest loop that
-   still puts coffee early: 20.4 miles against the 25.6 of the order it
-   replaced, solved across the coordinates here with both ends pinned.
+   in between can be run in any order, but people do follow the order the
+   app shows them, so the order has to be right.
 
-   Nothing in the app calls this a recommended route. It is just the
-   order the stops are listed in, and people follow it or they do not.
+   The sequence below is the shortest route that never lands a rig at a
+   closed door: 21.1 miles, solved with both ends pinned and two hard
+   opening times, Frazier Creek at 10:30 and Conchy Joe's at 11:30.
+   Conchy Joe's and Sunrise are the last two before the finish because
+   Conchy's simply is not open earlier.
+
+   PAL sits at 4 and costs 3.5 miles of detour, which is the cheapest
+   place for it and, usefully, burns exactly the time until Frazier
+   Creek opens.
 
    Straight-line distances, so the causeway runs out to the island are
-   approximations. Re-solve if a stop moves.
+   approximations. Re-solve with scripts/route.py if a stop or an
+   opening time moves.
 
    `id` is a stable key, `order` is the route position. They stopped
    matching when Old Havana and Crafted were added mid-route. Do not
@@ -40,63 +46,16 @@ export const STOPS = [
     lat: 27.171389, lng: -80.232575
   },
   {
-    id: 's10', order: 2,
-    sponsor: 'Old Havana Cafe',
-    address: '2225 SE Ocean Blvd', city: 'Stuart', state: 'FL', zip: '34996',
-    riddle: 'Cuba plays a game with what the old men call bones. They are slapped down, never set down, and the table takes the punishment. Find where the next hand is waiting and he is sitting right on top of it.',
-    hint: 'On the domino board.',
-    igHandle: 'theoldhavanacafe', fbName: 'Old Havana Cafe',
-    lat: 27.197220, lng: -80.222905
+    id: 's2', order: 2,
+    sponsor: '4EverYoung Anti Aging Solutions',
+    address: '2640 SE Federal Hwy', city: 'Stuart', state: 'FL', zip: '34994',
+    riddle: 'They sell the years back to you in this building. Ours is not at the front desk and not in the hall. Look for the room where nobody is in a hurry and everybody is sitting down.',
+    hint: 'The IV lounge. He is waiting in there with the drip chairs.',
+    igHandle: '4everyoung_stuartfl', fbName: '4everyoungstuartfl',
+    lat: 27.172312, lng: -80.232155
   },
   {
-    id: 's11', order: 3,
-    sponsor: 'CRAFTED The Store',
-    address: '3766 SE Ocean Blvd', city: 'Stuart', state: 'FL', zip: '34996',
-    riddle: 'Everything in here was made by somebody\u2019s hands. One sign pays you a compliment before you have done a thing to earn it. Stand where it can see you and look for the tall glass holding a bunch of small things that were never meant to be a bouquet.',
-    hint: 'By the sign that says Come in, we are awesome. He is down in the vase of drink stirrers.',
-    igHandle: 'craftedthestore', fbName: 'craftedthestore',
-    verify: 'City is Stuart per AJ, which is also the postal city for 34996; the storefront itself sits in the Town of Sewall\u2019s Point, and directory listings use that name. OpenStreetMap has no record of 3766, so the pin is the 3700 block rather than the storefront. Drop the exact one in Organizer tools > Pin drop.',
-    lat: 27.202095, lng: -80.201452
-  },
-  {
-    id: 's8', order: 4,
-    sponsor: 'Sunrise Surf Shop',
-    address: '11013 S Ocean Dr', city: 'Jensen Beach', state: 'FL', zip: '34957',
-    riddle: 'A whole wall of them, waxed and standing and waiting for a swell. Only one of them wears the name over the door. He picked that one, and he did not stop at the bottom.',
-    hint: 'Find the board with the Sunrise logo on it. He is riding the top of it.',
-    igHandle: 'sunrisejb', fbName: 'Sunrise Surf Shop',
-    lat: 27.263649, lng: -80.202302
-  },
-  {
-    id: 's7', order: 5,
-    sponsor: "Conchy Joe's Seafood",
-    address: '3945 NE Indian River Dr', city: 'Jensen Beach', state: 'FL', zip: '34957',
-    riddle: 'Old Florida, the river out back, and something overhead that used to bite. Everybody comes here and looks at the water. Look the other way.',
-    hint: 'Up on the ceiling. Look inside the shark’s mouth.',
-    igHandle: 'conchyjoesseafood', fbName: 'ConchyJoes',
-    lat: 27.252690, lng: -80.228490
-  },
-  {
-    id: 's5', order: 6,
-    sponsor: 'Frazier Creek Brewing & Distilling Co',
-    address: '973 SE Federal Hwy', city: 'Stuart', state: 'FL', zip: '34994',
-    riddle: 'Somebody on this wall got caught. Somebody on this wall is green. The two of them have been hanging together a while, and our guy makes three.',
-    hint: 'Find the frog on the wall, the one beside the mugshot photo. He is right there.',
-    igHandle: 'fraziercreekbd', fbName: 'FrazierCreekBD',
-    lat: 27.189486, lng: -80.249971
-  },
-  {
-    id: 's6', order: 7, isHost: true,
-    sponsor: 'Martin County PAL',
-    address: '1284 SW 34th St', city: 'Palm City', state: 'FL', zip: '34990',
-    riddle: 'You are standing in the reason for all of this. Three letters are painted up on one wall, and every fighter who walks in here learns them first. He is waiting right by them.',
-    hint: 'Look for JAB painted on the wall. He is right beside it.',
-    igHandle: 'martincountypal', fbName: 'martincountypal',
-    verify: 'AJ wrote Stuart. The postal city for 1284 SW 34th St is Palm City 34990, which is what maps will match.',
-    lat: 27.163692, lng: -80.270565
-  },
-  {
-    id: 's12', order: 8,
+    id: 's12', order: 3,
     sponsor: 'Stuart Scuba',
     address: '3317 SE Federal Hwy', city: 'Stuart', state: 'FL', zip: '34997',
     riddle: 'Somebody in here is dressed for a dive she is never going to take. Tank on, suit on, every piece of kit exactly where it should be. Look at the one thing she wears so she can see down there.',
@@ -106,16 +65,36 @@ export const STOPS = [
     lat: 27.165731, lng: -80.226184
   },
   {
-    id: 's2', order: 9,
-    sponsor: '4EverYoung Anti Aging Solutions',
-    address: '2640 SE Federal Hwy', city: 'Stuart', state: 'FL', zip: '34994',
-    riddle: 'They sell the years back to you in this building. Ours is not at the front desk and not in the hall. Look for the room where nobody is in a hurry and everybody is sitting down.',
-    hint: 'The IV lounge. He is waiting in there with the drip chairs.',
-    igHandle: '4everyoung_stuartfl', fbName: '4everyoungstuartfl',
-    lat: 27.172312, lng: -80.232155
+    id: 's6', order: 4, isHost: true,
+    sponsor: 'Martin County PAL',
+    address: '1284 SW 34th St', city: 'Palm City', state: 'FL', zip: '34990',
+    riddle: 'You are standing in the reason for all of this. Three letters are painted up on one wall, and every fighter who walks in here learns them first. He is waiting right by them.',
+    hint: 'Look for JAB painted on the wall. He is right beside it.',
+    igHandle: 'martincountypal', fbName: 'martincountypal',
+    verify: 'AJ wrote Stuart. The postal city for 1284 SW 34th St is Palm City 34990, which is what maps will match.',
+    lat: 27.163692, lng: -80.270565
   },
   {
-    id: 's4', order: 10,
+    id: 's5', order: 5,
+    sponsor: 'Frazier Creek Brewing & Distilling Co',
+    address: '973 SE Federal Hwy', city: 'Stuart', state: 'FL', zip: '34994',
+    riddle: 'Somebody on this wall got caught. Somebody on this wall is green. The two of them have been hanging together a while, and our guy makes three.',
+    hint: 'Find the frog on the wall, the one beside the mugshot photo. He is right there.',
+    opensLabel: 'Opens 10:30 for us, normally noon',
+    igHandle: 'fraziercreekbd', fbName: 'FrazierCreekBD',
+    lat: 27.189486, lng: -80.249971
+  },
+  {
+    id: 's3', order: 6,
+    sponsor: 'The Driver’s Seat',
+    address: '1932 SE Federal Hwy', city: 'Stuart', state: 'FL', zip: '34994',
+    riddle: 'Everything in here is for the person behind the wheel. What you want is not up front, so keep walking, all the way to the back. He found something soft to perch on and he is sitting a little above eye level.',
+    hint: 'At the register, which is at the back of the store. He is up on the hat shelf.',
+    igHandle: 'thedriversseatstuart', fbName: 'thedriversseat',
+    lat: 27.181052, lng: -80.240633
+  },
+  {
+    id: 's4', order: 7,
     sponsor: 'Atlantic Tire',
     address: '705 SE Monterey Rd', city: 'Stuart', state: 'FL', zip: '34994',
     riddle: 'This one never asked you in and does not have to now. He has been watching Monterey Road go by all morning. Look before you reach for a door.',
@@ -124,13 +103,42 @@ export const STOPS = [
     lat: 27.180110, lng: -80.236894
   },
   {
-    id: 's3', order: 11,
-    sponsor: 'The Driver’s Seat',
-    address: '1932 SE Federal Hwy', city: 'Stuart', state: 'FL', zip: '34994',
-    riddle: 'Everything in here is for the person behind the wheel. What you want is not up front, so keep walking, all the way to the back. He found something soft to perch on and he is sitting a little above eye level.',
-    hint: 'At the register, which is at the back of the store. He is up on the hat shelf.',
-    igHandle: 'thedriversseatstuart', fbName: 'thedriversseat',
-    lat: 27.181052, lng: -80.240633
+    id: 's10', order: 8,
+    sponsor: 'Old Havana Cafe',
+    address: '2225 SE Ocean Blvd', city: 'Stuart', state: 'FL', zip: '34996',
+    riddle: 'Cuba plays a game with what the old men call bones. They are slapped down, never set down, and the table takes the punishment. Find where the next hand is waiting and he is sitting right on top of it.',
+    hint: 'On the domino board.',
+    igHandle: 'theoldhavanacafe', fbName: 'Old Havana Cafe',
+    lat: 27.197220, lng: -80.222905
+  },
+  {
+    id: 's11', order: 9,
+    sponsor: 'CRAFTED The Store',
+    address: '3766 SE Ocean Blvd', city: 'Stuart', state: 'FL', zip: '34996',
+    riddle: 'Everything in here was made by somebody\u2019s hands. One sign pays you a compliment before you have done a thing to earn it. Stand where it can see you and look for the tall glass holding a bunch of small things that were never meant to be a bouquet.',
+    hint: 'By the sign that says Come in, we are awesome. He is down in the vase of drink stirrers.',
+    igHandle: 'craftedthestore', fbName: 'craftedthestore',
+    verify: 'City is Stuart per AJ, which is also the postal city for 34996; the storefront itself sits in the Town of Sewall\u2019s Point, and directory listings use that name. OpenStreetMap has no record of 3766, so the pin is the 3700 block rather than the storefront. Drop the exact one in Organizer tools > Pin drop.',
+    lat: 27.202095, lng: -80.201452
+  },
+  {
+    id: 's7', order: 10,
+    sponsor: "Conchy Joe's Seafood",
+    address: '3945 NE Indian River Dr', city: 'Jensen Beach', state: 'FL', zip: '34957',
+    riddle: 'Old Florida, the river out back, and something overhead that used to bite. Everybody comes here and looks at the water. Look the other way.',
+    hint: 'Up on the ceiling. Look inside the shark’s mouth.',
+    opensLabel: 'Opens 11:30',
+    igHandle: 'conchyjoesseafood', fbName: 'ConchyJoes',
+    lat: 27.252690, lng: -80.228490
+  },
+  {
+    id: 's8', order: 11,
+    sponsor: 'Sunrise Surf Shop',
+    address: '11013 S Ocean Dr', city: 'Jensen Beach', state: 'FL', zip: '34957',
+    riddle: 'A whole wall of them, waxed and standing and waiting for a swell. Only one of them wears the name over the door. He picked that one, and he did not stop at the bottom.',
+    hint: 'Find the board with the Sunrise logo on it. He is riding the top of it.',
+    igHandle: 'sunrisejb', fbName: 'Sunrise Surf Shop',
+    lat: 27.263649, lng: -80.202302
   },
   {
     id: 's9', order: 12, isFinish: true,

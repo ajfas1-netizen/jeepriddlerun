@@ -13,6 +13,10 @@ export const EVENT = {
   // Ocean Republic together instead of trickling in over two hours.
   finishTimeLabel: 'Finish at Ocean Republic by 1:00',
   finishShort: 'by 1:00',
+  // Twelve stops in three and a half hours is about twelve minutes each.
+  // Doable, but only just, and pretending otherwise is how you end up with
+  // rigs trickling in at two o'clock. Say it out loud instead.
+  paceNote: 'Twelve stops in three and a half hours is tight. Nothing scores on speed, so if you are running behind, pick the ones you want and get to the finish.',
   hashtag: '#jeepriddlerun2026',
   palHandle: '@martincountypal',
   palUrl: 'https://www.martincountypal.com',

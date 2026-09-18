@@ -106,6 +106,7 @@ export default function StartLine({ onDone }) {
           from the Crew tab.
         </p>
         <p className="sl-foot sl-when">{EVENT.finishTimeLabel}</p>
+        <p className="sl-foot">{EVENT.paceNote}</p>
       </div>
     </motion.div>
   )
